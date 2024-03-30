@@ -72,3 +72,8 @@ vcpkg*/
 site/
 
 .DS_Store
+
+# tiles
+valhalla_tiles/
+valhalla_tiles.tar
+new-york-latest.osm.pbf
