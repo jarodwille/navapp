@@ -77,3 +77,8 @@ site/
 valhalla_tiles/
 valhalla_tiles.tar
 new-york-latest.osm.pbf
+timezones-with-oceans.shapefile.zip
+combined-shapefile-with-oceans.dbf
+combined-shapefile-with-oceans.prj
+combined-shapefile-with-oceans.shp
+combined-shapefile-with-oceans.shx
