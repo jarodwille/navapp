@@ -95,23 +95,23 @@ class DirectionsControl extends React.Component {
               <ProfilePicker
                 group={'directions'}
                 profiles={[
-                  'bicycle',
-                  'pedestrian',
+                  // 'bicycle',
+                  // 'pedestrian',
                   'car',
-                  'truck',
-                  'bus',
-                  'motor_scooter',
-                  'motorcycle',
+                  // 'truck',
+                  // 'bus',
+                  // 'motor_scooter',
+                  // 'motorcycle',
                 ]}
                 loading={loading}
                 popupContent={[
-                  'Bicycle',
-                  'Pedestrian',
+                  // 'Bicycle',
+                  // 'Pedestrian',
                   'Car',
-                  'Truck',
-                  'Bus',
-                  'Motor Scooter',
-                  'Motorcycle',
+                  // 'Truck',
+                  // 'Bus',
+                  // 'Motor Scooter',
+                  // 'Motorcycle',
                 ]}
                 activeProfile={profile}
                 handleUpdateProfile={this.handleUpdateProfile}

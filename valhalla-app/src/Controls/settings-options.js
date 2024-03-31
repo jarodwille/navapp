@@ -646,6 +646,47 @@ const useTrails = {
     step: 0.1,
   },
 }
+
+// NEW: CUSTOM OPTIONS
+const takeLeftTurns = {
+  name: 'Take Left Turns',
+  param: 'take_left_turns',
+  description:
+    'This value indicates the willingness to take left turns. This is a range of vaues from 0 to 1, where 0 will avoid left turns, and 1 will allow more left turns in a given route. The default value is 0.5',
+  unit: 'willingness',
+  settings: {
+    min: 0,
+    max: 1,
+    step: 0.1,
+  },
+}
+
+const takeRightTurns = {
+  name: 'Take Right Turns',
+  param: 'take_right_turns',
+  description:
+    'This value indicates the willingness to take right turns. This is a range of vaues from 0 to 1, where 0 will avoid right turns, and 1 will allow more right turns in a given route. The default value is 0.5',
+  unit: 'willingness',
+  settings: {
+    min: 0,
+    max: 1,
+    step: 0.1,
+  },
+}
+
+const takeSharpTurns = {
+  name: 'Take Sharp Turns',
+  param: 'take_sharp_turns',
+  description:
+    'This value indicates the willingness to take sharp turns. This is a range of vaues from 0 to 1, where 0 will avoid sharp turns, and 1 will allow more sharp turns in a given route. The default value is 0.5',
+  unit: 'willingness',
+  settings: {
+    min: 0,
+    max: 1,
+    step: 0.1,
+  },
+}
+
 export const denoise = {
   name: 'Denoise',
   description:
@@ -724,8 +765,11 @@ export const settingsInit = {
   include_hot: false,
   transit_start_end_max_distance: 2145,
   transit_transfer_max_distance: 800,
-  disable_hierarchy_pruning: false,
+  disable_hierarchy_pruning: true,
   use_trails: 0,
+  takeLeftTurns: 0.5,
+  takeRightTurns: 0.5,
+  takeSharpTurns: 0.5,
   denoise: 0.1,
   generalize: 0,
 }
@@ -762,26 +806,29 @@ export const profile_settings = {
   },
   car: {
     numeric: [
-      width,
-      height,
-      topSpeed,
-      fixedSpeed,
-      privateAccessPenalty,
-      closureFactor,
-      servicePenalty,
-      serviceFactor,
+      // width,
+      // height,
+      // topSpeed,
+      // fixedSpeed,
+      // privateAccessPenalty,
+      // closureFactor,
+      // servicePenalty,
+      takeLeftTurns,
+      takeRightTurns,
+      takeSharpTurns,
+      // serviceFactor,
       maneuverPenalty,
-      gateCost,
-      gatePenalty,
-      countryCrossingCost,
-      countryCrossingPenality,
+      // gateCost,
+      // gatePenalty,
+      // countryCrossingCost,
+      // countryCrossingPenality,
     ],
     boolean: [
       shortest,
       includeHOV2,
       includeHOV3,
       includeHot,
-      ignoreHierarchies,
+      // ignoreHierarchies,
     ],
     enum: [],
   },
@@ -910,17 +957,17 @@ export const settings_general = {
   car: {
     numeric: [
       turnPenalityCost,
-      countryCrossingPenality,
-      countryCrossingCost,
+      // countryCrossingPenality,
+      // countryCrossingCost,
       useHighways,
       useTollways,
-      tollBoothCost,
+      // tollBoothCost,
       tollBoothPenalty,
-      useFerry,
-      ferryCost,
+      // useFerry,
+      // ferryCost,
       useLivingStreets,
-      useTracks,
-      excludeUnpaved,
+      // useTracks,
+      // excludeUnpaved,
     ],
     boolean: [ignoreClosures, excludeCashOnlyTolls],
     enum: [],

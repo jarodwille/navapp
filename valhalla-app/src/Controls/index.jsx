@@ -5,7 +5,7 @@ import Drawer from 'react-modern-drawer'
 import 'react-modern-drawer/dist/index.css'
 import { toast } from 'react-toastify'
 import DirectionsControl from './Directions'
-import IsochronesControl from './Isochrones'
+// import IsochronesControl from './Isochrones'
 import DirectionOutputControl from './Directions/OutputControl'
 import IsochronesOutputControl from './Isochrones/OutputControl'
 import { Segment, Tab, Button, Icon } from 'semantic-ui-react'
@@ -199,14 +199,14 @@ class MainControl extends React.Component {
           </Tab.Pane>
         ),
       },
-      {
-        menuItem: 'Isochrones',
-        render: () => (
-          <Tab.Pane style={{ padding: '0 0 0 0' }} attached={false}>
-            <IsochronesControl />
-          </Tab.Pane>
-        ),
-      },
+      // {
+      //   menuItem: 'Isochrones',
+      //   render: () => (
+      //     <Tab.Pane style={{ padding: '0 0 0 0' }} attached={false}>
+      //       <IsochronesControl />
+      //     </Tab.Pane>
+      //   ),
+      // },
     ]
 
     const ServiceTabs = () => (
@@ -261,12 +261,12 @@ class MainControl extends React.Component {
             {(activeTab === 0 && (
               <>
                 <DirectionOutputControl />
-                <IsochronesOutputControl />
+                {/* <IsochronesOutputControl /> */}
               </>
             )) || (
               <>
                 <IsochronesOutputControl />
-                <DirectionOutputControl />
+                {/* <DirectionOutputControl /> */}
               </>
             )}
           </div>

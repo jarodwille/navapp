@@ -35,7 +35,7 @@ constexpr float kDefaultUseTolls = 0.5f;    // Default preference of using toll 
 constexpr float kDefaultUseTracks = 0.f;    // Default preference of using tracks 0-1
 constexpr float kDefaultUseDistance = 0.f;  // Default preference of using distance vs time 0-1
 constexpr uint32_t kDefaultRestrictionProbability = 100; // Default percentage of allowing probable
-                                                         // restrictions 0% means do not include them
+                                                         // restrictions 0% means do not include them                        
 
 // Default turn costs
 constexpr float kTCStraight = 0.5f;
@@ -57,7 +57,7 @@ constexpr float kDefaultAlleyFactor = 1.0f;
 constexpr float kTurnChannelFactor = 0.6f;
 
 // Turn costs based on side of street driving
-constexpr float kRightSideTurnCosts[] = {kTCStraight,       kTCSlight,  kTCFavorable,
+float kRightSideTurnCosts[] = {kTCStraight,       kTCSlight,  kTCFavorable,
                                          kTCFavorableSharp, kTCReverse, kTCUnfavorableSharp,
                                          kTCUnfavorable,    kTCSlight};
 constexpr float kLeftSideTurnCosts[] = {kTCStraight,         kTCSlight,  kTCUnfavorable,
@@ -404,6 +404,20 @@ AutoCost::AutoCost(const Costing& costing, uint32_t access_mask)
   for (uint32_t d = 0; d < 16; d++) {
     density_factor_[d] = 0.85f + (d * 0.025f);
   }
+
+  // NEW: adding take_left_turns, etc. weights
+  const float take_left_turns_factor = 2*(1 - costing_options.take_left_turns()); // Factor to take left turns
+  const float take_right_turns_factor = 2*(1 - costing_options.take_right_turns()); // Factor to take right turns
+  const float take_sharp_turns_factor = 2*(1 - costing_options.take_sharp_turns()); // Factor to take sharp turns
+
+  // NOTE: this implementation assumes rightside driving
+  kRightSideTurnCosts[1] *= take_right_turns_factor; // slight right
+  kRightSideTurnCosts[2] *= take_right_turns_factor; // right
+  kRightSideTurnCosts[3] *= take_right_turns_factor*take_sharp_turns_factor; // sharp right
+  kRightSideTurnCosts[4] *= take_sharp_turns_factor; // reverse
+  kRightSideTurnCosts[5] *= take_left_turns_factor*take_sharp_turns_factor; // sharp left
+  kRightSideTurnCosts[6] *= take_left_turns_factor; // left
+  kRightSideTurnCosts[7] *= take_left_turns_factor; // slight left
 }
 
 // Check if access is allowed on the specified edge.
