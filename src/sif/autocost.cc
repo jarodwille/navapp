@@ -10,6 +10,7 @@
 #include "sif/dynamiccost.h"
 #include "sif/osrm_car_duration.h"
 #include <cassert>
+#include <iostream>
 
 #ifdef INLINE_TEST
 #include "test.h"
@@ -35,7 +36,12 @@ constexpr float kDefaultUseTolls = 0.5f;    // Default preference of using toll 
 constexpr float kDefaultUseTracks = 0.f;    // Default preference of using tracks 0-1
 constexpr float kDefaultUseDistance = 0.f;  // Default preference of using distance vs time 0-1
 constexpr uint32_t kDefaultRestrictionProbability = 100; // Default percentage of allowing probable
-                                                         // restrictions 0% means do not include them                        
+                                                         // restrictions 0% means do not include them  
+
+// NEW DEFAULT
+constexpr float kDefaultTakeLeftTurns = 0.5; // Default preference of taking left turns  
+constexpr float kDefaultTakeRightTurns = 0.5; // Default preference of taking left turns 
+constexpr float kDefaultTakeSharpTurns = 0.5; // Default preference of taking left turns                
 
 // Default turn costs
 constexpr float kTCStraight = 0.5f;
@@ -57,12 +63,11 @@ constexpr float kDefaultAlleyFactor = 1.0f;
 constexpr float kTurnChannelFactor = 0.6f;
 
 // Turn costs based on side of street driving
-float kRightSideTurnCosts[] = {kTCStraight,       kTCSlight,  kTCFavorable,
-                                         kTCFavorableSharp, kTCReverse, kTCUnfavorableSharp,
-                                         kTCUnfavorable,    kTCSlight};
-constexpr float kLeftSideTurnCosts[] = {kTCStraight,         kTCSlight,  kTCUnfavorable,
-                                        kTCUnfavorableSharp, kTCReverse, kTCFavorableSharp,
-                                        kTCFavorable,        kTCSlight};
+// NOTE: DEFINITION MOVED DOWN INTO CONSTRUCTOR
+float kRightSideTurnCosts[8];
+constexpr float kLeftSideTurnCosts[] =  {kTCStraight,         kTCSlight,  kTCUnfavorable,
+                                         kTCUnfavorableSharp, kTCReverse, kTCFavorableSharp,
+                                         kTCFavorable,        kTCSlight};
 
 constexpr float kMinFactor = 0.1f;
 constexpr float kMaxFactor = 100000.0f;
@@ -78,6 +83,9 @@ constexpr ranged_default_t<float> kUseTollsRange{0, kDefaultUseTolls, 1.0f};
 constexpr ranged_default_t<float> kUseDistanceRange{0, kDefaultUseDistance, 1.0f};
 constexpr ranged_default_t<float> kAutoHeightRange{0, kDefaultAutoHeight, 10.0f};
 constexpr ranged_default_t<float> kAutoWidthRange{0, kDefaultAutoWidth, 10.0f};
+constexpr ranged_default_t<float> kTakeLeftTurnsRange{0.0f, kDefaultTakeLeftTurns, 1.0f};
+constexpr ranged_default_t<float> kTakeRightTurnsRange{0.0f, kDefaultTakeRightTurns, 1.0f};
+constexpr ranged_default_t<float> kTakeSharpTurnsRange{0.0f, kDefaultTakeSharpTurns, 1.0f};
 constexpr ranged_default_t<uint32_t> kProbabilityRange{0, kDefaultRestrictionProbability, 100};
 
 constexpr float kHighwayFactor[] = {
@@ -404,20 +412,24 @@ AutoCost::AutoCost(const Costing& costing, uint32_t access_mask)
   for (uint32_t d = 0; d < 16; d++) {
     density_factor_[d] = 0.85f + (d * 0.025f);
   }
+  float epsilon = 10**-9;
+  float left_tf = 2*(1 - costing_options.take_left_turns()) + epsilon;
+  float right_tf = 2*(1 - costing_options.take_right_turns()) + epsilon;
+  float sharp_tf = 2*(1 - costing_options.take_sharp_turns()) + epsilon;
+  std::cout << "take_left_turns_factor_:" << left_tf << std::endl;
+  std::cout << "take_right_turns_factor_:" << right_tf << std::endl;
+  std::cout << "take_sharp_turns_factor_:" << sharp_tf << std::endl;
 
-  // NEW: adding take_left_turns, etc. weights
-  const float take_left_turns_factor = 2*(1 - costing_options.take_left_turns()); // Factor to take left turns
-  const float take_right_turns_factor = 2*(1 - costing_options.take_right_turns()); // Factor to take right turns
-  const float take_sharp_turns_factor = 2*(1 - costing_options.take_sharp_turns()); // Factor to take sharp turns
-
+  // NOTE: CW
   // NOTE: this implementation assumes rightside driving
-  kRightSideTurnCosts[1] *= take_right_turns_factor; // slight right
-  kRightSideTurnCosts[2] *= take_right_turns_factor; // right
-  kRightSideTurnCosts[3] *= take_right_turns_factor*take_sharp_turns_factor; // sharp right
-  kRightSideTurnCosts[4] *= take_sharp_turns_factor; // reverse
-  kRightSideTurnCosts[5] *= take_left_turns_factor*take_sharp_turns_factor; // sharp left
-  kRightSideTurnCosts[6] *= take_left_turns_factor; // left
-  kRightSideTurnCosts[7] *= take_left_turns_factor; // slight left
+  kRightSideTurnCosts[0] = kTCStraight;
+  kRightSideTurnCosts[1] = kTCSlight*right_tf;
+  kRightSideTurnCosts[2] = kTCFavorable*right_tf;
+  kRightSideTurnCosts[3] = kTCFavorableSharp*right_tf*sharp_tf;
+  kRightSideTurnCosts[4] = kTCReverse;
+  kRightSideTurnCosts[5] = kTCUnfavorableSharp*left_tf*sharp_tf;
+  kRightSideTurnCosts[6] = kTCUnfavorable*left_tf;
+  kRightSideTurnCosts[7] = kTCSlight*left_tf;
 }
 
 // Check if access is allowed on the specified edge.
@@ -572,10 +584,11 @@ Cost AutoCost::TransitionCost(const baldr::DirectedEdge* edge,
     if (edge->edge_to_right(idx) && edge->edge_to_left(idx)) {
       turn_cost = kTCCrossing;
     } else {
-      turn_cost = (node->drive_on_right())
-                      ? kRightSideTurnCosts[static_cast<uint32_t>(edge->turntype(idx))]
-                      : kLeftSideTurnCosts[static_cast<uint32_t>(edge->turntype(idx))];
+      turn_cost = kRightSideTurnCosts[static_cast<uint32_t>(edge->turntype(idx))]; // only right. broken rn
     }
+    std::cout << "Drive on right?:" << node->drive_on_right() << std::endl;
+    std::cout << "[NOTE] PRINT RIGHT TURNS FACTOR VIA ARRAY:" << kRightSideTurnCosts[2] << std::endl;
+    std::cout << "[NOTE] PRINT TURN COST:" << turn_cost << std::endl;
 
     if ((edge->use() != Use::kRamp && pred.use() == Use::kRamp) ||
         (edge->use() == Use::kRamp && pred.use() != Use::kRamp)) {
@@ -640,10 +653,12 @@ Cost AutoCost::TransitionCostReverse(const uint32_t idx,
     if (edge->edge_to_right(idx) && edge->edge_to_left(idx)) {
       turn_cost = kTCCrossing;
     } else {
-      turn_cost = (node->drive_on_right())
-                      ? kRightSideTurnCosts[static_cast<uint32_t>(edge->turntype(idx))]
-                      : kLeftSideTurnCosts[static_cast<uint32_t>(edge->turntype(idx))];
+      turn_cost = kRightSideTurnCosts[static_cast<uint32_t>(edge->turntype(idx))]; // only right. broken rn
     }
+
+    std::cout << "Drive on right?:" << node->drive_on_right() << std::endl;
+    std::cout << "[NOTE] PRINT RIGHT TURNS FACTOR VIA ARRAY (reverse):" << kRightSideTurnCosts[2] << std::endl;
+    std::cout << "[NOTE] PRINT TURN COST (reverse):" << turn_cost << std::endl;
 
     if ((edge->use() != Use::kRamp && pred->use() == Use::kRamp) ||
         (edge->use() == Use::kRamp && pred->use() != Use::kRamp)) {
@@ -705,6 +720,9 @@ void ParseAutoCostOptions(const rapidjson::Document& doc,
   JSON_PBF_RANGED_DEFAULT(co, kAutoWidthRange, json, "/width", width);
   JSON_PBF_RANGED_DEFAULT(co, kProbabilityRange, json, "/restriction_probability",
                           restriction_probability);
+  JSON_PBF_RANGED_DEFAULT(co, kTakeLeftTurnsRange, json, "/take_left_turns", take_left_turns);
+  JSON_PBF_RANGED_DEFAULT(co, kTakeRightTurnsRange, json, "/take_right_turns", take_right_turns);
+  JSON_PBF_RANGED_DEFAULT(co, kTakeSharpTurnsRange, json, "/take_sharp_turns", take_sharp_turns);
   JSON_PBF_DEFAULT(co, false, json, "/include_hot", include_hot);
   JSON_PBF_DEFAULT(co, false, json, "/include_hov2", include_hov2);
   JSON_PBF_DEFAULT(co, false, json, "/include_hov3", include_hov3);

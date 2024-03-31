@@ -767,9 +767,9 @@ export const settingsInit = {
   transit_transfer_max_distance: 800,
   disable_hierarchy_pruning: true,
   use_trails: 0,
-  takeLeftTurns: 0.5,
-  takeRightTurns: 0.5,
-  takeSharpTurns: 0.5,
+  takeLeftTurns: 1,
+  takeRightTurns: 1,
+  takeSharpTurns: 1,
   denoise: 0.1,
   generalize: 0,
 }
