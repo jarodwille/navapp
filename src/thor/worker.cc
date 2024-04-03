@@ -43,7 +43,7 @@ const std::unordered_map<std::string, float> kMaxDistances = {
     {"bicycle", 7200.0f},        {"bus", 43200.0f},           {"hov", 43200.0f},
     {"motor_scooter", 14400.0f}, {"motorcycle", 14400.0f},    {"multimodal", 7200.0f},
     {"pedestrian", 7200.0f},     {"transit", 14400.0f},       {"truck", 43200.0f},
-    {"taxi", 43200.0f},          {"bikeshare", 7200.0f},
+    {"taxi", 43200.0f},          {"bikeshare", 7200.0f},     {"auto_modified", 43200.0f},
 };
 // a scale factor to apply to the score so that we bias towards closer results more
 constexpr float kDistanceScale = 10.f;
@@ -253,7 +253,6 @@ void thor_worker_t::adjust_scores(valhalla::Options& options) {
           }
         }
       }
-
       // subtract off the min score and cap at max so that path algorithm doesnt go too far
       auto max_score = kMaxDistances.find(Costing_Enum_Name(options.costing_type()));
       for (auto* candidates : {location.mutable_correlation()->mutable_edges(),

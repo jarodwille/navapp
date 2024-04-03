@@ -107,7 +107,7 @@ const mapParams = {
 
 const routeObjects = {
   [VALHALLA_OSM_URL]: {
-    color: '#cc0000',
+    color: '#000',
     name: 'OSM',
   },
 }
@@ -425,7 +425,7 @@ class Map extends React.Component {
       this.zoomTo(this.props.directions.zoomObj.index)
     }
 
-    this.addRoutes()
+    this.addRoutes() // add routes adds one set of routes. we want to do this twice?
     this.handleHighlightSegment()
 
     const { directions, isochrones } = this.props
@@ -639,7 +639,7 @@ class Map extends React.Component {
       const coords = results[VALHALLA_OSM_URL].data.decodedGeometry
       const summary = results[VALHALLA_OSM_URL].data.trip.summary
       L.polyline(coords, {
-        color: '#FFF',
+        color: '#000',
         weight: 9,
         opacity: 1,
         pmIgnore: true,

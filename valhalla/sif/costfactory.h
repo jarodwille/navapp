@@ -46,6 +46,7 @@ public:
     Register(Costing::multimodal, CreateNoCost); // dummy so it behaves like the rest
     Register(Costing::none_, CreateNoCost);
     Register(Costing::bikeshare, CreateBikeShareCost);
+    Register(Costing::auto_modified, CreateAutoModifiedCost);
   }
 
   /**

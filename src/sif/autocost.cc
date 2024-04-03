@@ -11,6 +11,7 @@
 #include "sif/osrm_car_duration.h"
 #include <cassert>
 #include <iostream>
+#include <cmath>
 
 #ifdef INLINE_TEST
 #include "test.h"
@@ -63,8 +64,9 @@ constexpr float kDefaultAlleyFactor = 1.0f;
 constexpr float kTurnChannelFactor = 0.6f;
 
 // Turn costs based on side of street driving
-// NOTE: DEFINITION MOVED DOWN INTO CONSTRUCTOR
-float kRightSideTurnCosts[8];
+constexpr float kRightSideTurnCosts[] =  {kTCStraight,         kTCSlight,  kTCFavorable,
+                                         kTCFavorableSharp, kTCReverse, kTCUnfavorableSharp,
+                                         kTCUnfavorable,        kTCSlight};
 constexpr float kLeftSideTurnCosts[] =  {kTCStraight,         kTCSlight,  kTCUnfavorable,
                                          kTCUnfavorableSharp, kTCReverse, kTCFavorableSharp,
                                          kTCFavorable,        kTCSlight};
@@ -412,24 +414,6 @@ AutoCost::AutoCost(const Costing& costing, uint32_t access_mask)
   for (uint32_t d = 0; d < 16; d++) {
     density_factor_[d] = 0.85f + (d * 0.025f);
   }
-  float epsilon = 10**-9;
-  float left_tf = 2*(1 - costing_options.take_left_turns()) + epsilon;
-  float right_tf = 2*(1 - costing_options.take_right_turns()) + epsilon;
-  float sharp_tf = 2*(1 - costing_options.take_sharp_turns()) + epsilon;
-  std::cout << "take_left_turns_factor_:" << left_tf << std::endl;
-  std::cout << "take_right_turns_factor_:" << right_tf << std::endl;
-  std::cout << "take_sharp_turns_factor_:" << sharp_tf << std::endl;
-
-  // NOTE: CW
-  // NOTE: this implementation assumes rightside driving
-  kRightSideTurnCosts[0] = kTCStraight;
-  kRightSideTurnCosts[1] = kTCSlight*right_tf;
-  kRightSideTurnCosts[2] = kTCFavorable*right_tf;
-  kRightSideTurnCosts[3] = kTCFavorableSharp*right_tf*sharp_tf;
-  kRightSideTurnCosts[4] = kTCReverse;
-  kRightSideTurnCosts[5] = kTCUnfavorableSharp*left_tf*sharp_tf;
-  kRightSideTurnCosts[6] = kTCUnfavorable*left_tf;
-  kRightSideTurnCosts[7] = kTCSlight*left_tf;
 }
 
 // Check if access is allowed on the specified edge.
@@ -585,11 +569,7 @@ Cost AutoCost::TransitionCost(const baldr::DirectedEdge* edge,
       turn_cost = kTCCrossing;
     } else {
       turn_cost = kRightSideTurnCosts[static_cast<uint32_t>(edge->turntype(idx))]; // only right. broken rn
-    }
-    std::cout << "Drive on right?:" << node->drive_on_right() << std::endl;
-    std::cout << "[NOTE] PRINT RIGHT TURNS FACTOR VIA ARRAY:" << kRightSideTurnCosts[2] << std::endl;
-    std::cout << "[NOTE] PRINT TURN COST:" << turn_cost << std::endl;
-
+    }    
     if ((edge->use() != Use::kRamp && pred.use() == Use::kRamp) ||
         (edge->use() == Use::kRamp && pred.use() != Use::kRamp)) {
       turn_cost += 1.5f;
@@ -656,10 +636,6 @@ Cost AutoCost::TransitionCostReverse(const uint32_t idx,
       turn_cost = kRightSideTurnCosts[static_cast<uint32_t>(edge->turntype(idx))]; // only right. broken rn
     }
 
-    std::cout << "Drive on right?:" << node->drive_on_right() << std::endl;
-    std::cout << "[NOTE] PRINT RIGHT TURNS FACTOR VIA ARRAY (reverse):" << kRightSideTurnCosts[2] << std::endl;
-    std::cout << "[NOTE] PRINT TURN COST (reverse):" << turn_cost << std::endl;
-
     if ((edge->use() != Use::kRamp && pred->use() == Use::kRamp) ||
         (edge->use() == Use::kRamp && pred->use() != Use::kRamp)) {
       turn_cost += 1.5f;
@@ -720,9 +696,6 @@ void ParseAutoCostOptions(const rapidjson::Document& doc,
   JSON_PBF_RANGED_DEFAULT(co, kAutoWidthRange, json, "/width", width);
   JSON_PBF_RANGED_DEFAULT(co, kProbabilityRange, json, "/restriction_probability",
                           restriction_probability);
-  JSON_PBF_RANGED_DEFAULT(co, kTakeLeftTurnsRange, json, "/take_left_turns", take_left_turns);
-  JSON_PBF_RANGED_DEFAULT(co, kTakeRightTurnsRange, json, "/take_right_turns", take_right_turns);
-  JSON_PBF_RANGED_DEFAULT(co, kTakeSharpTurnsRange, json, "/take_sharp_turns", take_sharp_turns);
   JSON_PBF_DEFAULT(co, false, json, "/include_hot", include_hot);
   JSON_PBF_DEFAULT(co, false, json, "/include_hov2", include_hov2);
   JSON_PBF_DEFAULT(co, false, json, "/include_hov3", include_hov3);
@@ -731,6 +704,266 @@ void ParseAutoCostOptions(const rapidjson::Document& doc,
 cost_ptr_t CreateAutoCost(const Costing& costing_options) {
   return std::make_shared<AutoCost>(costing_options);
 }
+
+class AutoModifiedCost : public AutoCost {
+
+public:
+  float kModTurnCosts[8]; // used for modified turning costs w/ user input
+  /**
+   * Construct auto modified costing. Pass in cost type and costing_options using protocol buffer(pbf).
+   * @param  costing_options pbf with request costing_options.
+   */
+  AutoModifiedCost(const Costing& costing) :  AutoCost(costing) {
+    
+    const auto& costing_options = costing.options();
+    // Get the base transition costs
+    float epsilon = std::pow(10, -9);
+    float left_tf = 2*(1 - costing_options.take_left_turns()) + epsilon;
+    float right_tf = 2*(1 - costing_options.take_right_turns()) + epsilon;
+    float sharp_tf = 2*(1 - costing_options.take_sharp_turns()) + epsilon;
+    // std::cout << "take_left_turns_factor_:" << left_tf << std::endl;
+    // std::cout << "take_right_turns_factor_:" << right_tf << std::endl;
+    // std::cout << "take_sharp_turns_factor_:" << sharp_tf << std::endl;
+
+    // NOTE: CW. this implementation assumes rightside driving
+    kModTurnCosts[0] = kTCStraight;
+    kModTurnCosts[1] = kTCSlight*right_tf;
+    kModTurnCosts[2] = kTCFavorable*right_tf;
+    kModTurnCosts[3] = kTCFavorableSharp*right_tf*sharp_tf;
+    kModTurnCosts[4] = kTCReverse;
+    kModTurnCosts[5] = kTCUnfavorableSharp*left_tf*sharp_tf;
+    kModTurnCosts[6] = kTCUnfavorable*left_tf;
+    kModTurnCosts[7] = kTCSlight*left_tf;
+  }
+  
+
+  virtual ~AutoModifiedCost() {
+  }
+
+  virtual Cost EdgeCost(const baldr::DirectedEdge* edge,
+                        const graph_tile_ptr& tile,
+                        const baldr::TimeInfo& time_info,
+                        uint8_t& flow_sources) const override {
+    // either the computed edge speed or optional top_speed
+    auto edge_speed = fixed_speed_ == baldr::kDisableFixedSpeed
+                          ? tile->GetSpeed(edge, flow_mask_, time_info.second_of_week, false,
+                                          &flow_sources, time_info.seconds_from_now)
+                          : fixed_speed_;
+
+    auto final_speed = std::min(edge_speed, top_speed_);
+
+    float sec = edge->length() * speedfactor_[final_speed];
+
+    if (shortest_) {
+      return Cost(edge->length(), sec);
+    }
+
+    // base factor is either ferry, rail ferry or density based
+    float factor = 1;
+    switch (edge->use()) {
+      case Use::kFerry:
+        factor = ferry_factor_;
+        break;
+      case Use::kRailFerry:
+        factor = rail_ferry_factor_;
+        break;
+      default:
+        factor = density_factor_[edge->density()];
+        break;
+    }
+
+    factor += highway_factor_ * kHighwayFactor[static_cast<uint32_t>(edge->classification())] +
+              surface_factor_ * kSurfaceFactor[static_cast<uint32_t>(edge->surface())] +
+              SpeedPenalty(edge, tile, time_info, flow_sources, edge_speed) +
+              edge->toll() * toll_factor_;
+
+    switch (edge->use()) {
+      case Use::kAlley:
+        factor *= alley_factor_;
+        break;
+      case Use::kTrack:
+        factor *= track_factor_;
+        break;
+      case Use::kLivingStreet:
+        factor *= living_street_factor_;
+        break;
+      case Use::kServiceRoad:
+        factor *= service_factor_;
+        break;
+      case Use::kTurnChannel:
+        if (flow_sources & kDefaultFlowMask) {
+          // boost only historic & live speeds
+          factor *= kTurnChannelFactor;
+        }
+        break;
+      default:
+        break;
+    }
+
+    if (IsClosed(edge, tile)) {
+      // Add a penalty for traversing a closed edge
+      factor *= closure_factor_;
+    }
+    // base cost before the factor is a linear combination of time vs distance, depending on which
+    // one the user thinks is more important to them
+    return Cost((sec * inv_distance_factor_ + edge->length() * distance_factor_) * factor, sec);
+  }
+
+  // Returns the time (in seconds) to make the transition from the predecessor
+  virtual Cost TransitionCost(const baldr::DirectedEdge* edge,
+                                const baldr::NodeInfo* node,
+                                const EdgeLabel& pred) const override {
+    // Get the transition cost for country crossing, ferry, gate, toll booth,
+    // destination only, alley, maneuver penalty
+    uint32_t idx = pred.opp_local_idx();
+    Cost c = base_transition_cost(node, edge, &pred, idx);
+    c.secs += OSRMCarTurnDuration(edge, node, pred.opp_local_idx());
+
+    // Transition time = turncost * stopimpact * densityfactor
+    if (edge->stopimpact(idx) > 0 && !shortest_) {
+      float turn_cost;
+      if (edge->edge_to_right(idx) && edge->edge_to_left(idx)) {
+        turn_cost = kTCCrossing;
+      } else {
+        turn_cost = kRightSideTurnCosts[static_cast<uint32_t>(edge->turntype(idx))]; // only right. broken rn
+      }
+      // std::cout << "Drive on right?:" << node->drive_on_right() << std::endl;
+      // std::cout << "[NOTE] PRINT RIGHT TURNS FACTOR VIA ARRAY:" << kRightSideTurnCosts[2] << std::endl;
+      // std::cout << "[NOTE] PRINT TURN COST:" << turn_cost << std::endl;
+
+      if ((edge->use() != Use::kRamp && pred.use() == Use::kRamp) ||
+          (edge->use() == Use::kRamp && pred.use() != Use::kRamp)) {
+        turn_cost += 1.5f;
+        if (edge->roundabout())
+          turn_cost += 0.5f;
+      }
+
+      float seconds = turn_cost;
+      bool is_turn = false;
+      bool has_left = (edge->turntype(idx) == baldr::Turn::Type::kLeft ||
+                      edge->turntype(idx) == baldr::Turn::Type::kSharpLeft);
+      bool has_right = (edge->turntype(idx) == baldr::Turn::Type::kRight ||
+                        edge->turntype(idx) == baldr::Turn::Type::kSharpRight);
+      bool has_reverse = edge->turntype(idx) == baldr::Turn::Type::kReverse;
+
+      // Separate time and penalty when traffic is present. With traffic, edge speeds account for
+      // much of the intersection transition time (TODO - evaluate different elapsed time settings).
+      // Still want to add a penalty so routes avoid high cost intersections.
+      if (has_left || has_right || has_reverse) {
+        seconds *= edge->stopimpact(idx);
+        is_turn = true;
+      }
+
+      AddUturnPenalty(idx, node, edge, has_reverse, has_left, has_right, true, pred.internal_turn(),
+                      seconds);
+
+      // Apply density factor and stop impact penalty if there isn't traffic on this edge or you're not
+      // using traffic
+      if (!pred.has_measured_speed()) {
+        if (!is_turn)
+          seconds *= edge->stopimpact(idx);
+        seconds *= trans_density_factor_[node->density()];
+      }
+      c.cost += seconds;
+    }
+
+    // Account for the user preferring distance
+    c.cost *= inv_distance_factor_;
+
+    return c;
+  }
+
+  // Returns the cost to make the transition from the predecessor edge
+  // when using a reverse search (from destination towards the origin).
+  // pred is the opposing current edge in the reverse tree
+  // edge is the opposing predecessor in the reverse tree
+  virtual Cost TransitionCostReverse(const uint32_t idx,
+                                      const baldr::NodeInfo* node,
+                                      const baldr::DirectedEdge* pred,
+                                      const baldr::DirectedEdge* edge,
+                                      const bool has_measured_speed,
+                                      const InternalTurn internal_turn) const override {
+    // Get the transition cost for country crossing, ferry, gate, toll booth,
+    // destination only, alley, maneuver penalty
+    Cost c = base_transition_cost(node, edge, pred, idx);
+    c.secs += OSRMCarTurnDuration(edge, node, pred->opp_local_idx());
+
+    // Transition time = turncost * stopimpact * densityfactor
+    if (edge->stopimpact(idx) > 0 && !shortest_) {
+      float turn_cost;
+      if (edge->edge_to_right(idx) && edge->edge_to_left(idx)) {
+        turn_cost = kTCCrossing;
+      } else {
+        turn_cost = kRightSideTurnCosts[static_cast<uint32_t>(edge->turntype(idx))]; // only right. broken rn
+      }
+
+      // std::cout << "Drive on right?:" << node->drive_on_right() << std::endl;
+      // std::cout << "[NOTE] PRINT RIGHT TURNS FACTOR VIA ARRAY (reverse):" << kRightSideTurnCosts[2] << std::endl;
+      // std::cout << "[NOTE] PRINT TURN COST (reverse):" << turn_cost << std::endl;
+
+      if ((edge->use() != Use::kRamp && pred->use() == Use::kRamp) ||
+          (edge->use() == Use::kRamp && pred->use() != Use::kRamp)) {
+        turn_cost += 1.5f;
+        if (edge->roundabout())
+          turn_cost += 0.5f;
+      }
+
+      float seconds = turn_cost;
+      bool is_turn = false;
+      bool has_left = (edge->turntype(idx) == baldr::Turn::Type::kLeft ||
+                      edge->turntype(idx) == baldr::Turn::Type::kSharpLeft);
+      bool has_right = (edge->turntype(idx) == baldr::Turn::Type::kRight ||
+                        edge->turntype(idx) == baldr::Turn::Type::kSharpRight);
+      bool has_reverse = edge->turntype(idx) == baldr::Turn::Type::kReverse;
+
+      // Separate time and penalty when traffic is present. With traffic, edge speeds account for
+      // much of the intersection transition time (TODO - evaluate different elapsed time settings).
+      // Still want to add a penalty so routes avoid high cost intersections.
+      if (has_left || has_right || has_reverse) {
+        seconds *= edge->stopimpact(idx);
+        is_turn = true;
+      }
+
+      AddUturnPenalty(idx, node, edge, has_reverse, has_left, has_right, true, internal_turn, seconds);
+
+      // Apply density factor and stop impact penalty if there isn't traffic on this edge or you're not
+      // using traffic
+      if (!has_measured_speed) {
+        if (!is_turn)
+          seconds *= edge->stopimpact(idx);
+        seconds *= trans_density_factor_[node->density()];
+      }
+      c.cost += seconds;
+    }
+
+    // Account for the user preferring distance
+    c.cost *= inv_distance_factor_;
+
+    return c;
+  }
+};
+
+
+void ParseAutoModifiedCostOptions(const rapidjson::Document& doc,
+                          const std::string& costing_options_key,
+                          Costing* c) {
+  ParseAutoCostOptions(doc, costing_options_key, c);
+  c->set_type(Costing::auto_modified);
+  c->set_name(Costing_Enum_Name(c->type()));
+  auto* co = c->mutable_options();
+
+  rapidjson::Value dummy;
+  const auto& json = rapidjson::get_child(doc, costing_options_key.c_str(), dummy);
+
+  JSON_PBF_RANGED_DEFAULT(co, kTakeLeftTurnsRange, json, "/take_left_turns", take_left_turns);
+  JSON_PBF_RANGED_DEFAULT(co, kTakeRightTurnsRange, json, "/take_right_turns", take_right_turns);
+  JSON_PBF_RANGED_DEFAULT(co, kTakeSharpTurnsRange, json, "/take_sharp_turns", take_sharp_turns);
+}
+
+cost_ptr_t CreateAutoModifiedCost(const Costing& costing) {
+  return std::make_shared<AutoModifiedCost>(costing);
+}
+
 
 /**
  * Derived class providing bus costing for driving.

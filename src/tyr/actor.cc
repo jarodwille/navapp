@@ -97,11 +97,15 @@ actor_t::route(const std::string& request_str, const std::function<void()>* inte
   // parse the request
   ParseApi(request_str, Options::route, *api);
   // check the request and locate the locations in the graph
+  std::cout << "BEFORE LOKI" << std::endl;
   pimpl->loki_worker.route(*api);
+  std::cout << "AFTER LOKI" << std::endl;
   // route between the locations in the graph to find the best path
   pimpl->thor_worker.route(*api);
+  std::cout << "MAKING IT PAST THOR" << std::endl;
   // get some directions back from them and serialize
   auto bytes = pimpl->odin_worker.narrate(*api);
+  std::cout << "MAKING IT PAST ODIN" << std::endl;
   // if they want you do to do the cleanup automatically
   if (auto_cleanup) {
     cleanup();

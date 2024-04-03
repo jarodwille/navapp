@@ -20,7 +20,7 @@ const reorder = (list, startIndex, endIndex) => {
 
 const getItemStyle = (isDragging, draggableStyle) => ({
   userSelect: 'none',
-  paddingLeft: 16,
+  paddingLeft: 516,
   paddingRight: 16,
   //background: isDragging ? 'lightgreen' : 'transparent',
   // styles we need to apply on draggables

@@ -43,25 +43,38 @@ const serverMapping = {
 export const makeRequest = () => (dispatch, getState) => {
   dispatch(updatePermalink())
   const { waypoints } = getState().directions
-  const { profile, dateTime } = getState().common
-  let { settings } = getState().common
+  const { dateTime } = getState().common
+  let { profile, settings } = getState().common
   // if 2 results are selected
   const activeWaypoints = getActiveWaypoints(waypoints)
   if (activeWaypoints.length >= 2) {
     settings = filterProfileSettings(profile, settings)
-    const valhallaRequest = buildDirectionsRequest({
+
+    const valhallaOriginalRequest = buildDirectionsRequest({
       profile,
       activeWaypoints,
       settings,
       dateTime,
     })
-    dispatch(fetchValhallaDirections(valhallaRequest))
+
+    profile = 'auto_modified'
+    settings = filterProfileSettings(profile, settings)
+    const valhallaModifiedRequest = buildDirectionsRequest({
+      profile,
+      activeWaypoints,
+      settings,
+      dateTime,
+    })
+
+    dispatch(fetchValhallaDirections(valhallaOriginalRequest))
+    dispatch(fetchValhallaDirections(valhallaModifiedRequest))
   }
 }
 
 const getActiveWaypoints = (waypoints) => {
   const activeWaypoints = []
   for (const waypoint of waypoints) {
+    // console.log('HERE IS WAYPOINT' + waypoint) //eslint-disable-line
     if (waypoint.geocodeResults.length > 0) {
       for (const result of waypoint.geocodeResults) {
         if (result.selected) {

@@ -82,6 +82,7 @@ message Costing {
     taxi = 9;
     auto_ = 10;
     bikeshare = 11;    // turns into pedestrian + bike
+    auto_modified = 12; // NOTE: NEW
   }
 
   message Options {
@@ -313,13 +314,13 @@ message Costing {
     float use_lit = 82;
     bool disable_hierarchy_pruning = 83;
     bool ignore_non_vehicular_restrictions = 84;
-    oneof has_take_left_turns {
+    oneof has_take_left_turns { // NOTE: NEW
       float take_left_turns = 85;
     }
-    oneof has_take_right_turns {
+    oneof has_take_right_turns { // NOTE: NEW
       float take_right_turns = 86;
     }
-    oneof has_take_sharp_turns {
+    oneof has_take_sharp_turns { // NOTE: NEW
       float take_sharp_turns = 87;
     }
   }
