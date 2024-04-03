@@ -415,17 +415,18 @@ class Map extends React.Component {
     this.addIsoCenter()
     this.addIsochrones()
 
-    if (!R.equals(this.props.coordinates, prevProps.coordinates)) {
-      this.zoomToCoordinates()
-    }
-    if (
-      prevProps.directions.zoomObj.timeNow <
-      this.props.directions.zoomObj.timeNow
-    ) {
-      this.zoomTo(this.props.directions.zoomObj.index)
-    }
+    // if (!R.equals(this.props.coordinates, prevProps.coordinates)) {
+    //   this.zoomToCoordinates()
+    // } // try not doing zoom for now
+    // if (
+    //   prevProps.directions.zoomObj.timeNow <
+    //   this.props.directions.zoomObj.timeNow
+    // ) {
+    //   this.zoomTo(this.props.directions.zoomObj.index)
+    // }
 
     this.addRoutes() // add routes adds one set of routes. we want to do this twice?
+
     this.handleHighlightSegment()
 
     const { directions, isochrones } = this.props

@@ -825,10 +825,10 @@ public:
       if (edge->edge_to_right(idx) && edge->edge_to_left(idx)) {
         turn_cost = kTCCrossing;
       } else {
-        turn_cost = kRightSideTurnCosts[static_cast<uint32_t>(edge->turntype(idx))]; // only right. broken rn
+        turn_cost = kModTurnCosts[static_cast<uint32_t>(edge->turntype(idx))]; // only right. broken rn
       }
       // std::cout << "Drive on right?:" << node->drive_on_right() << std::endl;
-      // std::cout << "[NOTE] PRINT RIGHT TURNS FACTOR VIA ARRAY:" << kRightSideTurnCosts[2] << std::endl;
+      // std::cout << "[NOTE] PRINT RIGHT TURNS FACTOR VIA ARRAY:" << kModTurnCosts[2] << std::endl;
       // std::cout << "[NOTE] PRINT TURN COST:" << turn_cost << std::endl;
 
       if ((edge->use() != Use::kRamp && pred.use() == Use::kRamp) ||
@@ -894,11 +894,11 @@ public:
       if (edge->edge_to_right(idx) && edge->edge_to_left(idx)) {
         turn_cost = kTCCrossing;
       } else {
-        turn_cost = kRightSideTurnCosts[static_cast<uint32_t>(edge->turntype(idx))]; // only right. broken rn
+        turn_cost = kModTurnCosts[static_cast<uint32_t>(edge->turntype(idx))]; // only right. broken rn
       }
 
       // std::cout << "Drive on right?:" << node->drive_on_right() << std::endl;
-      // std::cout << "[NOTE] PRINT RIGHT TURNS FACTOR VIA ARRAY (reverse):" << kRightSideTurnCosts[2] << std::endl;
+      // std::cout << "[NOTE] PRINT RIGHT TURNS FACTOR VIA ARRAY (reverse):" << kModTurnCosts[2]  << std::endl;
       // std::cout << "[NOTE] PRINT TURN COST (reverse):" << turn_cost << std::endl;
 
       if ((edge->use() != Use::kRamp && pred->use() == Use::kRamp) ||
