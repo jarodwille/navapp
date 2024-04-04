@@ -40,9 +40,11 @@ constexpr uint32_t kDefaultRestrictionProbability = 100; // Default percentage o
                                                          // restrictions 0% means do not include them  
 
 // NEW DEFAULT
-constexpr float kDefaultTakeLeftTurns = 0.5; // Default preference of taking left turns  
-constexpr float kDefaultTakeRightTurns = 0.5; // Default preference of taking left turns 
-constexpr float kDefaultTakeSharpTurns = 0.5; // Default preference of taking left turns                
+constexpr float kDefaultUseNewDistance = 0.0f; // Default preference of using distance (used in modified)
+constexpr float kDefaultUseTime = 1.0f; // Default preference of using time (used in modified)
+constexpr float kDefaultTakeLeftTurns = 0.5f; // Default preference of taking left turns  
+constexpr float kDefaultTakeRightTurns = 0.5f; // Default preference of taking left turns 
+constexpr float kDefaultTakeSharpTurns = 0.5f; // Default preference of taking left turns                
 
 // Default turn costs
 constexpr float kTCStraight = 0.5f;
@@ -82,7 +84,8 @@ constexpr float kDefaultAutoWidth = 1.9f;  // Meters (74.8031 inches)
 constexpr ranged_default_t<float> kAlleyFactorRange{kMinFactor, kDefaultAlleyFactor, kMaxFactor};
 constexpr ranged_default_t<float> kUseHighwaysRange{0, kDefaultUseHighways, 1.0f};
 constexpr ranged_default_t<float> kUseTollsRange{0, kDefaultUseTolls, 1.0f};
-constexpr ranged_default_t<float> kUseDistanceRange{0, kDefaultUseDistance, 1.0f};
+constexpr ranged_default_t<float> kUseNewDistanceRange{0, kDefaultUseNewDistance, 1.0f};
+constexpr ranged_default_t<float> kUseTimeRange{0, kDefaultUseTime, 1.0f};
 constexpr ranged_default_t<float> kAutoHeightRange{0, kDefaultAutoHeight, 10.0f};
 constexpr ranged_default_t<float> kAutoWidthRange{0, kDefaultAutoWidth, 10.0f};
 constexpr ranged_default_t<float> kTakeLeftTurnsRange{0.0f, kDefaultTakeLeftTurns, 1.0f};
@@ -691,7 +694,7 @@ void ParseAutoCostOptions(const rapidjson::Document& doc,
   JSON_PBF_RANGED_DEFAULT(co, kAlleyFactorRange, json, "/alley_factor", alley_factor);
   JSON_PBF_RANGED_DEFAULT(co, kUseHighwaysRange, json, "/use_highways", use_highways);
   JSON_PBF_RANGED_DEFAULT(co, kUseTollsRange, json, "/use_tolls", use_tolls);
-  JSON_PBF_RANGED_DEFAULT(co, kUseDistanceRange, json, "/use_distance", use_distance);
+  JSON_PBF_RANGED_DEFAULT(co, kUseNewDistanceRange, json, "/use_new_distance", use_new_distance);
   JSON_PBF_RANGED_DEFAULT(co, kAutoHeightRange, json, "/height", height);
   JSON_PBF_RANGED_DEFAULT(co, kAutoWidthRange, json, "/width", width);
   JSON_PBF_RANGED_DEFAULT(co, kProbabilityRange, json, "/restriction_probability",
@@ -716,8 +719,20 @@ public:
   AutoModifiedCost(const Costing& costing) :  AutoCost(costing) {
     
     const auto& costing_options = costing.options();
-    // Get the base transition costs
+
     float epsilon = std::pow(10, -9);
+
+    // new calculations / factors
+    float use_distance = costing_options.use_new_distance() + epsilon;
+    float use_time = costing_options.use_time() + epsilon;
+    float sum = use_distance + use_time ;
+    distance_factor_ = use_distance / sum * kInvMedianSpeed;
+    inv_distance_factor_ = use_time / sum;
+
+    std::cout << "distance_factor_:" << distance_factor_ << std::endl;
+    std::cout << "inv_factor_:" << inv_distance_factor_ << std::endl;
+    
+    
     float left_tf = 2*(1 - costing_options.take_left_turns()) + epsilon;
     float right_tf = 2*(1 - costing_options.take_right_turns()) + epsilon;
     float sharp_tf = 2*(1 - costing_options.take_sharp_turns()) + epsilon;
@@ -958,6 +973,7 @@ void ParseAutoModifiedCostOptions(const rapidjson::Document& doc,
   JSON_PBF_RANGED_DEFAULT(co, kTakeLeftTurnsRange, json, "/take_left_turns", take_left_turns);
   JSON_PBF_RANGED_DEFAULT(co, kTakeRightTurnsRange, json, "/take_right_turns", take_right_turns);
   JSON_PBF_RANGED_DEFAULT(co, kTakeSharpTurnsRange, json, "/take_sharp_turns", take_sharp_turns);
+  JSON_PBF_RANGED_DEFAULT(co, kUseTimeRange, json, "/use_time", use_time);
 }
 
 cost_ptr_t CreateAutoModifiedCost(const Costing& costing) {

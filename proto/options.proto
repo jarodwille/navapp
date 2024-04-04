@@ -323,6 +323,12 @@ message Costing {
     oneof has_take_sharp_turns { // NOTE: NEW
       float take_sharp_turns = 87;
     }
+    oneof has_use_time { // NOTE: NEW
+      float use_time = 88;
+    }
+    oneof has_use_new_distance { // NOTE: NEW
+      float use_new_distance = 89;
+    }
   }
 
   oneof has_options {
