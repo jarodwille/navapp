@@ -7,7 +7,7 @@ import { toast } from 'react-toastify'
 import DirectionsControl from './Directions'
 // import IsochronesControl from './Isochrones'
 import DirectionOutputControl from './Directions/OutputControl'
-import IsochronesOutputControl from './Isochrones/OutputControl'
+// import IsochronesOutputControl from './Isochrones/OutputControl'
 import { Segment, Tab, Button, Icon } from 'semantic-ui-react'
 import {
   updateTab,
@@ -189,7 +189,8 @@ class MainControl extends React.Component {
   }
 
   render() {
-    const { activeTab } = this.props
+    const { activeTab, showDirectionsPanel } = this.props
+    const drawerWidth = showDirectionsPanel ? 400 : 200 // Adjust the width based on the open state of the Drawer
     const appPanes = [
       {
         menuItem: 'Directions',
@@ -199,21 +200,17 @@ class MainControl extends React.Component {
           </Tab.Pane>
         ),
       },
-      // {
-      //   menuItem: 'Isochrones',
-      //   render: () => (
-      //     <Tab.Pane style={{ padding: '0 0 0 0' }} attached={false}>
-      //       <IsochronesControl />
-      //     </Tab.Pane>
-      //   ),
-      // },
     ]
-
     const ServiceTabs = () => (
       <>
         <Button
           icon
-          style={{ float: 'right', marginLeft: '5px' }}
+          style={{
+            position: 'absolute',
+            top: '10px',
+            left: '10px',
+            zIndex: 998,
+          }}
           onClick={this.handleDirectionsToggle}
         >
           <Icon name="close" />
@@ -223,10 +220,10 @@ class MainControl extends React.Component {
           onTabChange={this.handleTabChange}
           menu={{ pointing: true }}
           panes={appPanes}
+          style={{ marginTop: '40px' }} // Adjust margin-top to avoid overlapping with the close button
         />
       </>
     )
-
     return (
       <>
         <Button
@@ -243,9 +240,9 @@ class MainControl extends React.Component {
         </Button>
         <Drawer
           enableOverlay={false}
-          open={this.props.showDirectionsPanel}
+          open={showDirectionsPanel}
           direction="left"
-          size="400"
+          size={drawerWidth} // Set the width dynamically based on the open state
           style={{
             zIndex: 1000,
             overflow: 'auto',
@@ -257,34 +254,23 @@ class MainControl extends React.Component {
                 <ServiceTabs />
               </div>
             </Segment>
-            {/* because apparently on small screens it's not showing both, so we switch the order on tab switch */}
-            {(activeTab === 0 && (
-              <>
-                <DirectionOutputControl />
-                {/* <IsochronesOutputControl /> */}
-              </>
-            )) || (
-              <>
-                <IsochronesOutputControl />
-                {/* <DirectionOutputControl /> */}
-              </>
-            )}
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'flex-start',
-              margin: '1rem',
-            }}
-          >
-            Last Data Update:{' '}
-            {this.state
-              ? `${this.state.lastUpdate
-                  .toISOString()
-                  .slice(0, 10)}, ${this.state.lastUpdate
-                  .toISOString()
-                  .slice(11, 16)}`
-              : '0000-00-00, 00:00'}
+            {activeTab === 0 && <DirectionOutputControl />}
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'flex-start',
+                margin: '1rem',
+              }}
+            >
+              Last Data Update:{' '}
+              {this.state
+                ? `${this.state.lastUpdate
+                    .toISOString()
+                    .slice(0, 10)}, ${this.state.lastUpdate
+                    .toISOString()
+                    .slice(11, 16)}`
+                : '0000-00-00, 00:00'}
+            </div>
           </div>
         </Drawer>
       </>

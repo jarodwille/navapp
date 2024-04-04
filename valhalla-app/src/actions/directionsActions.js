@@ -58,7 +58,6 @@ export const makeRequest = () => (dispatch, getState) => {
     })
 
     profile = 'auto_modified'
-    settings = filterProfileSettings(profile, settings)
     const valhallaModifiedRequest = buildDirectionsRequest({
       profile,
       activeWaypoints,
@@ -100,6 +99,7 @@ const fetchValhallaDirections = (valhallaRequest) => (dispatch) => {
     .get(VALHALLA_OSM_URL + '/route', config)
     .then(({ data }) => {
       data.decodedGeometry = parseDirectionsGeometry(data)
+      data.profile = valhallaRequest.json.costing // NEW
       dispatch(registerRouteResponse(VALHALLA_OSM_URL, data))
       dispatch(zoomTo(data.decodedGeometry))
     })
@@ -125,7 +125,7 @@ const fetchValhallaDirections = (valhallaRequest) => (dispatch) => {
     })
 }
 
-export const registerRouteResponse = (provider, data) => ({
+export const registerRouteResponse = (provider, data, profile) => ({
   type: RECEIVE_ROUTE_RESULTS,
   payload: {
     provider,

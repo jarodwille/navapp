@@ -20,7 +20,8 @@ const reorder = (list, startIndex, endIndex) => {
 
 const getItemStyle = (isDragging, draggableStyle) => ({
   userSelect: 'none',
-  paddingLeft: 516,
+  paddingTop: 10,
+  paddingLeft: 36,
   paddingRight: 16,
   //background: isDragging ? 'lightgreen' : 'transparent',
   // styles we need to apply on draggables
@@ -82,7 +83,7 @@ class Waypoints extends Component {
                 className="flex flex-column"
                 {...provided.droppableProps}
                 ref={provided.innerRef}
-                style={{ minHeight: '22rem' }}
+                style={{ minHeight: '10rem' }}
               >
                 {waypoints.map((wp, index) => (
                   <Draggable key={wp.id} draggableId={wp.id} index={index}>

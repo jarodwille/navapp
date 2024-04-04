@@ -58,6 +58,7 @@ const isoPolygonLayer = L.featureGroup()
 const isoLocationsLayer = L.featureGroup()
 const routeMarkersLayer = L.featureGroup()
 const routeLineStringLayer = L.featureGroup()
+const routeModLineStringLayer = L.featureGroup()
 const highlightRouteSegmentlayer = L.featureGroup()
 const highlightRouteIndexLayer = L.featureGroup()
 const excludePolygonsLayer = L.featureGroup()
@@ -98,6 +99,7 @@ const mapParams = {
     isoPolygonLayer,
     isoLocationsLayer,
     routeLineStringLayer,
+    routeModLineStringLayer,
     highlightRouteSegmentlayer,
     highlightRouteIndexLayer,
     excludePolygonsLayer,
@@ -158,6 +160,7 @@ class Map extends React.Component {
       Waypoints: routeMarkersLayer,
       'Isochrone Center': isoCenterLayer,
       Routes: routeLineStringLayer,
+      ModRoutes: routeModLineStringLayer,
       Isochrones: isoPolygonLayer,
       'Isochrones (locations)': isoLocationsLayer,
     }
@@ -433,6 +436,7 @@ class Map extends React.Component {
 
     if (!directions.successful) {
       routeLineStringLayer.clearLayers()
+      routeModLineStringLayer.clearLayers()
     }
     if (!isochrones.successful) {
       isoPolygonLayer.clearLayers()
@@ -631,34 +635,62 @@ class Map extends React.Component {
 
   addRoutes = () => {
     const { results } = this.props.directions
-    routeLineStringLayer.clearLayers()
 
     if (
       Object.keys(results[VALHALLA_OSM_URL].data).length > 0 &&
-      results[VALHALLA_OSM_URL].show
+      results[VALHALLA_OSM_URL].show // guessing this means new route?
     ) {
       const coords = results[VALHALLA_OSM_URL].data.decodedGeometry
       const summary = results[VALHALLA_OSM_URL].data.trip.summary
-      L.polyline(coords, {
-        color: '#000',
-        weight: 9,
-        opacity: 1,
-        pmIgnore: true,
-      }).addTo(routeLineStringLayer)
-      L.polyline(coords, {
-        color: routeObjects[VALHALLA_OSM_URL].color,
-        weight: 5,
-        opacity: 1,
-        pmIgnore: true,
-      })
-        .addTo(routeLineStringLayer)
-        .bindTooltip(this.getRouteToolTip(summary, VALHALLA_OSM_URL), {
-          permanent: false,
-          sticky: true,
+      const profile = results[VALHALLA_OSM_URL].data.profile
+      if (profile === 'auto_modified') {
+        routeModLineStringLayer.clearLayers()
+        L.polyline(coords, {
+          color: 'red',
+          weight: 9,
+          opacity: 1,
+          pmIgnore: true,
+        }).addTo(routeModLineStringLayer)
+        L.polyline(coords, {
+          color: 'red',
+          weight: 5,
+          opacity: 1,
+          pmIgnore: true,
         })
-      if (this.hg._showState === true) {
-        this.hg._expand()
+          .addTo(routeModLineStringLayer)
+          .bindTooltip(this.getRouteToolTip(summary, VALHALLA_OSM_URL), {
+            permanent: false,
+            sticky: true,
+          })
+        if (this.hg._showState === true) {
+          this.hg._expand()
+        }
+      } else {
+        routeLineStringLayer.clearLayers()
+        L.polyline(coords, {
+          color: 'black',
+          weight: 9,
+          opacity: 1,
+          pmIgnore: true,
+        }).addTo(routeLineStringLayer)
+        L.polyline(coords, {
+          color: routeObjects[VALHALLA_OSM_URL].color,
+          weight: 5,
+          opacity: 1,
+          pmIgnore: true,
+        })
+          .addTo(routeLineStringLayer)
+          .bindTooltip(this.getRouteToolTip(summary, VALHALLA_OSM_URL), {
+            permanent: false,
+            sticky: true,
+          })
+        if (this.hg._showState === true) {
+          this.hg._expand()
+        }
       }
+    } else {
+      routeLineStringLayer.clearLayers()
+      routeModLineStringLayer.clearLayers()
     }
   }
 

@@ -415,12 +415,12 @@ const excludeCashOnlyTolls = {
   param: 'exclude_cash_only_tolls',
 }
 
-const useGeocoding = {
-  name: 'Geocoding',
-  description:
-    'Decides whether you want to use geocoding or work with plain coordinates.',
-  param: 'use_geocoding',
-}
+// const useGeocoding = {
+//   name: 'Geocoding',
+//   description:
+//     'Decides whether you want to use geocoding or work with plain coordinates.',
+//   param: 'use_geocoding',
+// }
 
 const ignoreHierarchies = {
   name: 'Disable Hierarchies',
@@ -648,6 +648,32 @@ const useTrails = {
 }
 
 // NEW: CUSTOM OPTIONS
+const useTime = {
+  name: 'Prioritize Time',
+  param: 'use_time',
+  description:
+    'This value indicates how much you want to prioritize optimizing time (vs distance) in generating a route. This is a range of vaues from 0 to 1, where 0 give no priority to time minimization, and 1 will give maximal priority to time minimization. The default value is 1',
+  unit: 'willingness',
+  settings: {
+    min: 0,
+    max: 1,
+    step: 0.1,
+  },
+}
+
+const useNewDistance = {
+  name: 'Prioritize Distance',
+  param: 'use_new_distance',
+  description:
+    'This value indicates how much you want to prioritize optimizing distance (vs time) in generating a route. This is a range of vaues from 0 to 1, where 0 give no priority to distance minimization, and 1 will give maximal priority to distance minimization. The default value is 0',
+  unit: 'willingness',
+  settings: {
+    min: 0,
+    max: 1,
+    step: 0.1,
+  },
+}
+
 const takeLeftTurns = {
   name: 'Take Left Turns',
   param: 'take_left_turns',
@@ -767,9 +793,11 @@ export const settingsInit = {
   transit_transfer_max_distance: 800,
   disable_hierarchy_pruning: true,
   use_trails: 0,
-  takeLeftTurns: 1,
-  takeRightTurns: 1,
-  takeSharpTurns: 1,
+  use_time: 1,
+  use_new_distance: 0,
+  take_left_turns: 0.5,
+  take_right_turns: 0.5,
+  take_sharp_turns: 0.5,
   denoise: 0.1,
   generalize: 0,
 }
@@ -806,58 +834,24 @@ export const profile_settings = {
   },
   car: {
     numeric: [
-      // width,
-      // height,
-      // topSpeed,
-      // fixedSpeed,
-      // privateAccessPenalty,
-      // closureFactor,
-      // servicePenalty,
+      useTime,
+      useNewDistance,
       takeLeftTurns,
       takeRightTurns,
       takeSharpTurns,
-      // serviceFactor,
-      maneuverPenalty,
-      // gateCost,
-      // gatePenalty,
-      // countryCrossingCost,
-      // countryCrossingPenality,
     ],
-    boolean: [
-      shortest,
-      includeHOV2,
-      includeHOV3,
-      includeHot,
-      // ignoreHierarchies,
-    ],
+    boolean: [includeHOV3, includeHOV2, includeHot],
     enum: [],
   },
   auto_modified: {
     numeric: [
-      // width,
-      // height,
-      // topSpeed,
-      // fixedSpeed,
-      // privateAccessPenalty,
-      // closureFactor,
-      // servicePenalty,
+      useTime,
+      useNewDistance,
       takeLeftTurns,
       takeRightTurns,
       takeSharpTurns,
-      // serviceFactor,
-      maneuverPenalty,
-      // gateCost,
-      // gatePenalty,
-      // countryCrossingCost,
-      // countryCrossingPenality,
     ],
-    boolean: [
-      shortest,
-      includeHOV2,
-      includeHOV3,
-      includeHot,
-      // ignoreHierarchies,
-    ],
+    boolean: [],
     enum: [],
   },
   bus: {
@@ -982,40 +976,44 @@ export const settings_general = {
     ],
     enum: [],
   },
+
   car: {
     numeric: [
       turnPenalityCost,
-      // countryCrossingPenality,
-      // countryCrossingCost,
+      tollBoothPenalty,
+      maneuverPenalty,
       useHighways,
       useTollways,
+      useLivingStreets,
+      // width,
+      // height,
+      // topSpeed,
+      // fixedSpeed,
+      // privateAccessPenalty,
+      // closureFactor,
+      // servicePenalty,
+      // serviceFactor,
+      // gateCost,
+      // gatePenalty,
+      // countryCrossingCost,
+      // countryCrossingPenality,
+      // countryCrossingPenality,
+      // countryCrossingCost,
       // tollBoothCost,
-      tollBoothPenalty,
       // useFerry,
       // ferryCost,
-      useLivingStreets,
       // useTracks,
       // excludeUnpaved,
     ],
-    boolean: [ignoreClosures, excludeCashOnlyTolls],
+    boolean: [
+      // ignoreClosures,
+      excludeCashOnlyTolls,
+    ],
     enum: [],
   },
   auto_modified: {
-    numeric: [
-      turnPenalityCost,
-      // countryCrossingPenality,
-      // countryCrossingCost,
-      useHighways,
-      useTollways,
-      // tollBoothCost,
-      tollBoothPenalty,
-      // useFerry,
-      // ferryCost,
-      useLivingStreets,
-      // useTracks,
-      // excludeUnpaved,
-    ],
-    boolean: [ignoreClosures, excludeCashOnlyTolls],
+    numeric: [],
+    boolean: [],
     enum: [],
   },
   bus: {
@@ -1087,7 +1085,8 @@ export const settings_general = {
     enum: [],
   },
   all: {
-    boolean: [useGeocoding],
+    // useGeocoding
+    boolean: [],
   },
 }
 

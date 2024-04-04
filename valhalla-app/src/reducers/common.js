@@ -17,9 +17,9 @@ import {
 
 const initialState = {
   activeTab: 0,
-  showSettings: false,
+  showSettings: true,
   showDirectionsPanel: true,
-  coordinates: [],
+  coordinates: [-73.999158325197, 40.7304783951045],
   loading: false,
   message: {
     receivedAt: 0,
@@ -28,7 +28,7 @@ const initialState = {
     topic: null,
     description: null,
   },
-  profile: 'bicycle',
+  profile: 'car',
   settings: { ...settingsInit },
   dateTime: {
     type: -1,
