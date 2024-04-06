@@ -215,10 +215,12 @@ void thor_worker_t::centroid(Api& request) {
 void thor_worker_t::route(Api& request) {
   // time this whole method and save that statistic
   auto _ = measure_scope_time(request);
+
   auto& options = *request.mutable_options();
   adjust_scores(options);
   controller = AttributesController(options);
   auto costing = parse_costing(request);
+  
   // get all the legs
   if (options.date_time_type() == Options::arrive_by) {
     path_arrive_by(request, costing);

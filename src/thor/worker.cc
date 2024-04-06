@@ -253,6 +253,7 @@ void thor_worker_t::adjust_scores(valhalla::Options& options) {
           }
         }
       }
+      
       // subtract off the min score and cap at max so that path algorithm doesnt go too far
       auto max_score = kMaxDistances.find(Costing_Enum_Name(options.costing_type()));
       for (auto* candidates : {location.mutable_correlation()->mutable_edges(),

@@ -332,10 +332,6 @@ actor_t::centroid(const std::string& request_str, const std::function<void()>* i
   pimpl->thor_worker.centroid(*api);
   // get some directions back from them and serialize
   auto bytes = pimpl->odin_worker.narrate(*api);
-  std::cout<<"HELLO WORLD"<<std::endl;
-  std::cout<<bytes<<std::endl;
-  std::cout<<request_str<<std::endl;
-  // bytes += request_str;
   // if they want you do to do the cleanup automatically
   if (auto_cleanup) {
     cleanup();

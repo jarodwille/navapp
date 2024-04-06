@@ -32,6 +32,4 @@ valhalla_module(NAME sif
     valhalla::baldr
     valhalla::proto
     ${valhalla_protobuf_targets}
-    Boost::boost
-  LINK_LIBRARIES
-    pybind11::module) # NOTE: NEW
+    Boost::boost)

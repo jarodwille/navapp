@@ -12,27 +12,6 @@ project(valhalla LANGUAGES CXX C)
 
 include(FindPkgConfig)
 include(GNUInstallDirs)
-include(FetchContent)
-
-# Fetch PyBind11
-FetchContent_Declare(
-  pybind11
-  GIT_REPOSITORY https://github.com/pybind/pybind11.git
-  GIT_TAG        v2.6.2  # You can adjust the version as needed
-)
-FetchContent_GetProperties(pybind11)
-if(NOT pybind11_POPULATED)
-  FetchContent_Populate(pybind11)
-  add_subdirectory(${pybind11_SOURCE_DIR} ${pybind11_BINARY_DIR})
-endif()
-
-set(VALHALLA_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-set(VALHALLA_BUILD_DIR ${CMAKE_CURRENT_BINARY_DIR})
-list(INSERT CMAKE_MODULE_PATH 0 ${VALHALLA_SOURCE_DIR}/cmake)
-
-set(VALHALLA_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-set(VALHALLA_BUILD_DIR ${CMAKE_CURRENT_BINARY_DIR})
-list(INSERT CMAKE_MODULE_PATH 0 ${VALHALLA_SOURCE_DIR}/cmake)
 
 set(CMAKE_CXX_STANDARD 17 CACHE STRING "C++ language version to use (default is 17)")
 option(ENABLE_TOOLS "Enable Valhalla tools" ON)

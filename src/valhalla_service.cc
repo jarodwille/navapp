@@ -26,7 +26,6 @@ using namespace prime_server;
 #include "tyr/actor.h"
 
 int main(int argc, char** argv) {
-std::cout << "Hello WORLD" << std::endl;
 #ifdef ENABLE_SERVICES
   if (argc < 2 || argc > 4) {
     LOG_ERROR("Usage: " + std::string(argv[0]) + " config/file.json [concurrency]");
