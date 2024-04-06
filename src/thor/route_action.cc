@@ -220,7 +220,7 @@ void thor_worker_t::route(Api& request) {
   adjust_scores(options);
   controller = AttributesController(options);
   auto costing = parse_costing(request);
-  
+
   // get all the legs
   if (options.date_time_type() == Options::arrive_by) {
     path_arrive_by(request, costing);
