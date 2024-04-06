@@ -10,6 +10,7 @@
 #include "sif/dynamiccost.h"
 #include "sif/osrm_car_duration.h"
 #include <cassert>
+#include <pybind11/pybind11.h>
 #include <iostream>
 #include <cmath>
 

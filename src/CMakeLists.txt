@@ -24,7 +24,7 @@ set(libvalhalla_link_libraries "" CACHE INTERNAL  "")
 
 function(valhalla_module)
   set(oneValueArgs NAME)
-  set(multiValueArgs SOURCES SOURCES_WITH_WARNINGS HEADERS DEPENDS INCLUDE_DIRECTORIES SYSTEM_INCLUDE_DIRECTORIES)
+  set(multiValueArgs SOURCES SOURCES_WITH_WARNINGS HEADERS DEPENDS INCLUDE_DIRECTORIES SYSTEM_INCLUDE_DIRECTORIES LINK_LIBRARIES)  # Added LINK_LIBRARIES here
   cmake_parse_arguments(MODULE "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
   if (UNIX AND ENABLE_SINGLE_FILES_WERROR)
@@ -113,6 +113,10 @@ function(valhalla_module)
   else()
     set(libvalhalla_link_objects "${libvalhalla_link_objects};$<TARGET_OBJECTS:${library}>" CACHE INTERNAL "")
     set(libvalhalla_link_libraries "${libvalhalla_link_libraries};${external_module_depends}" CACHE INTERNAL "")
+  endif()
+  # Link against additional libraries if specified
+  if(MODULE_LINK_LIBRARIES) # NOTE: NEW
+    target_link_libraries(${library} ${MODULE_LINK_LIBRARIES})
   endif()
 endfunction()
 
