@@ -118,6 +118,9 @@ function(valhalla_module)
   if(MODULE_LINK_LIBRARIES) # NOTE: NEW
     target_link_libraries(${library} ${MODULE_LINK_LIBRARIES})
   endif()
+  if(MODULE_COMPILE_DEFINITIONS) # NOTE: NEW
+    target_compile_definitions(${library} ${MODULE_COMPILE_DEFINITIONS})
+  endif()
 endfunction()
 
 add_subdirectory(../proto ${CMAKE_CURRENT_BINARY_DIR}/valhalla/proto)
