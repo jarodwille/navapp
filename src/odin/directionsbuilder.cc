@@ -67,6 +67,9 @@ void DirectionsBuilder::Build(Api& api, const MarkupFormatter& markup_formatter)
 // Update the heading of ~0 length edges.
 void DirectionsBuilder::UpdateHeading(EnhancedTripLeg* etp) {
 
+  // print number of nodes NOTE: NEW
+  std::cout << "Number of nodes: " << etp->node_size() << std::endl;
+  
   for (size_t x = 0; x < etp->node_size(); ++x) {
     auto prev_edge = etp->GetPrevEdge(x);
     auto curr_edge = etp->GetCurrEdge(x);

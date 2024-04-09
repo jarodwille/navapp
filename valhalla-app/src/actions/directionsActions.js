@@ -14,6 +14,7 @@ import {
   HIGHLIGHT_MNV,
   ZOOM_TO_MNV,
   UPDATE_INCLINE_DECLINE,
+  SUBMIT_RANKINGS,
 } from './types'
 
 import {
@@ -411,4 +412,11 @@ export const showProvider = (provider, show) => ({
     provider,
     show,
   },
+})
+
+// NOTE: NEW
+// Action Creator
+export const submitRankings = (rankings) => ({
+  type: SUBMIT_RANKINGS,
+  payload: rankings,
 })

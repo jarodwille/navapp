@@ -7,6 +7,7 @@ import { toast } from 'react-toastify'
 import DirectionsControl from './Directions'
 // import IsochronesControl from './Isochrones'
 import DirectionOutputControl from './Directions/OutputControl'
+import RouteRanking from './Directions/RouteRanking'
 // import IsochronesOutputControl from './Isochrones/OutputControl'
 import { Segment, Tab, Button, Icon } from 'semantic-ui-react'
 import {
@@ -262,14 +263,15 @@ class MainControl extends React.Component {
                 margin: '1rem',
               }}
             >
-              Last Data Update:{' '}
+              <RouteRanking />
+              {/* Last Data Update:{' '}
               {this.state
                 ? `${this.state.lastUpdate
                     .toISOString()
                     .slice(0, 10)}, ${this.state.lastUpdate
                     .toISOString()
                     .slice(11, 16)}`
-                : '0000-00-00, 00:00'}
+                : '0000-00-00, 00:00'} */}
             </div>
           </div>
         </Drawer>

@@ -13,6 +13,7 @@ import {
   HIGHLIGHT_MNV,
   ZOOM_TO_MNV,
   UPDATE_INCLINE_DECLINE,
+  SUBMIT_RANKINGS,
 } from 'actions/types'
 
 import { VALHALLA_OSM_URL } from '../utils/valhalla'
@@ -35,6 +36,7 @@ const initialState = {
       show: true,
     },
   },
+  rankings: {},
 }
 
 export const directions = (state = initialState, action) => {
@@ -202,6 +204,12 @@ export const directions = (state = initialState, action) => {
       }
     }
 
+    case SUBMIT_RANKINGS: {
+      return {
+        ...state,
+        rankings: action.payload,
+      }
+    }
     default: {
       return state
     }
