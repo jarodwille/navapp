@@ -30,17 +30,34 @@ export const buildDirectionsRequest = ({
   activeWaypoints,
   settings,
   dateTime,
+  hf_data,
+  rankings,
 }) => {
   let valhalla_profile = profile
   if (profile === 'car') {
     valhalla_profile = 'auto'
   }
 
+  let a_c = 0
+  let b_c = 0
+  let a_b = 0
+
+  if (hf_data == true) {
+    a_c = rankings['Route A vs Standard']
+    b_c = rankings['Route B vs Standard']
+    a_b = rankings['Route A vs Route B']
+  }
   const req = {
     json: {
       costing: valhalla_profile,
       costing_options: {
-        [valhalla_profile]: { ...settings },
+        [valhalla_profile]: {
+          ...settings,
+          hf_data: hf_data,
+          a_c: a_c,
+          b_c: b_c,
+          a_b: a_b,
+        },
       },
       exclude_polygons: settings.exclude_polygons,
       locations: makeLocations(activeWaypoints),

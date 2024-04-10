@@ -8,7 +8,7 @@ class RouteRanking extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      rankings: { 'A vs B': '', 'A vs C': '', 'B vs C': '' },
+      rankings: {},
     }
   }
 
@@ -29,7 +29,11 @@ class RouteRanking extends React.Component {
     return (
       <div>
         <p>Please compare routes A, B, and C:</p>
-        {['A vs B', 'A vs C', 'B vs C'].map((comparison) => {
+        {[
+          'Route A vs Standard',
+          'Route B vs Standard',
+          'Route A vs Route B',
+        ].map((comparison) => {
           // Split the comparison string to dynamically generate options
           const [entity1, entity2] = comparison.split(' vs ')
           const options = [
@@ -42,7 +46,7 @@ class RouteRanking extends React.Component {
             <div key={comparison}>
               <label>{comparison}</label>
               <Dropdown
-                placeholder="Select Rank"
+                placeholder="Enter Comparison"
                 fluid
                 selection
                 options={options}

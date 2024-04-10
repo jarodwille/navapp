@@ -329,7 +329,20 @@ message Costing {
     oneof has_use_new_distance { // NOTE: NEW
       float use_new_distance = 89;
     }
+    oneof has_hf_data { // NOTE: NEW
+      bool hf_data = 90;
+    }
+    oneof has_a_c { // NOTE: NEW
+      uint32 a_c = 91;
+    }
+    oneof has_b_c { // NOTE: NEW
+      uint32 b_c = 92;
+    }
+    oneof has_a_b { // NOTE: NEW
+      uint32 a_b = 93;
+    }
   }
+  
 
   oneof has_options {
     Options options = 1;

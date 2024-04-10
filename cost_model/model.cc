@@ -1,4 +1,7 @@
+#include "model.h"
 #include <torch/torch.h>
+
+bool network_instantiated = false; // Define the global variable
 
 // Define your neural network class
 class MyNetwork : public torch::nn::Module {
@@ -45,4 +48,25 @@ int main() {
     std::cout << "Output tensor: " << output << std::endl;
 
     return 0;
+}
+
+
+void train_model(const uint32_t a_c, const uint32_t b_c, const uint32_t a_b) {
+    // Create an instance of your neural network
+    // MyNetwork net(costing_options.a_b(), costing_options.a_c(), costing_options.b_c());
+
+    if (!network_instantiated) {
+        // Create an instance of your neural network
+        auto net = std::make_shared<MyNetwork>();
+
+        // Set the flag to indicate that the network has been instantiated
+        network_instantiated = true;
+
+        std::cout << "Instantiated model..." << std::endl;
+    }
+    // // Set your neural network to training mode
+    // net.train();
+    std::cout << "Training model..." << std::endl;
+
+    // Your training logic here...
 }

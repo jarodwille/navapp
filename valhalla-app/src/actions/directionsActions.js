@@ -14,7 +14,6 @@ import {
   HIGHLIGHT_MNV,
   ZOOM_TO_MNV,
   UPDATE_INCLINE_DECLINE,
-  SUBMIT_RANKINGS,
 } from './types'
 
 import {
@@ -56,6 +55,7 @@ export const makeRequest = () => (dispatch, getState) => {
       activeWaypoints,
       settings,
       dateTime,
+      hf_data: false,
     })
 
     profile = 'auto_modified'
@@ -64,6 +64,7 @@ export const makeRequest = () => (dispatch, getState) => {
       activeWaypoints,
       settings,
       dateTime,
+      hf_data: false,
     })
 
     dispatch(fetchValhallaDirections(valhallaOriginalRequest))
@@ -415,8 +416,37 @@ export const showProvider = (provider, show) => ({
 })
 
 // NOTE: NEW
-// Action Creator
-export const submitRankings = (rankings) => ({
-  type: SUBMIT_RANKINGS,
-  payload: rankings,
-})
+// Assuming this is URL to backend endpoint for submitting rankings
+
+export const submitRankings = (rankings) => (dispatch, getState) => {
+  dispatch(updatePermalink())
+  const { waypoints } = getState().directions
+  const { dateTime } = getState().common
+  let { profile, settings } = getState().common
+  // if 2 results are selected
+  const activeWaypoints = getActiveWaypoints(waypoints)
+  if (activeWaypoints.length >= 2) {
+    settings = filterProfileSettings(profile, settings)
+
+    const valhallaPostHFRequest = buildDirectionsRequest({
+      profile,
+      activeWaypoints,
+      settings,
+      dateTime,
+      hf_data: true,
+      rankings: rankings,
+    })
+
+    profile = 'auto_modified'
+    const valhallaModifiedRequest = buildDirectionsRequest({
+      profile,
+      activeWaypoints,
+      settings,
+      dateTime,
+      hf_data: false,
+    })
+
+    dispatch(fetchValhallaDirections(valhallaPostHFRequest)) // injecting POST into here
+    dispatch(fetchValhallaDirections(valhallaModifiedRequest))
+  }
+}

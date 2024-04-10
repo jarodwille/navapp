@@ -13,6 +13,7 @@
 #include <iostream>
 #include <cmath>
 #include <torch/torch.h>
+#include "cost_model/model.h"
 
 #ifdef INLINE_TEST
 #include "test.h"
@@ -418,6 +419,16 @@ AutoCost::AutoCost(const Costing& costing, uint32_t access_mask)
   for (uint32_t d = 0; d < 16; d++) {
     density_factor_[d] = 0.85f + (d * 0.025f);
   }
+
+  // NOTE: NEW 
+  // Submit user rankings to model for learning
+  if (costing_options.hf_data() && costing_options.a_c() && costing_options.b_c() && costing_options.a_b()) {
+    uint32_t a_c = static_cast<uint32_t>(costing_options.a_c());
+    uint32_t b_c = static_cast<uint32_t>(costing_options.b_c());
+    uint32_t a_b = static_cast<uint32_t>(costing_options.a_b());
+
+    train_model(a_c, b_c, a_b); // train model 
+  }
 }
 
 // Check if access is allowed on the specified edge.
@@ -703,6 +714,10 @@ void ParseAutoCostOptions(const rapidjson::Document& doc,
   JSON_PBF_DEFAULT(co, false, json, "/include_hot", include_hot);
   JSON_PBF_DEFAULT(co, false, json, "/include_hov2", include_hov2);
   JSON_PBF_DEFAULT(co, false, json, "/include_hov3", include_hov3);
+  JSON_PBF_DEFAULT(co, false, json, "/hf_data", hf_data);
+  JSON_PBF_DEFAULT(co, 0, json, "/a_c", a_c);
+  JSON_PBF_DEFAULT(co, 0, json, "/b_c", b_c);
+  JSON_PBF_DEFAULT(co, 0, json, "/a_b", a_b);
 }
 
 cost_ptr_t CreateAutoCost(const Costing& costing_options) {
