@@ -57,10 +57,10 @@ RM = /snap/cmake/1379/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/jj/thesis/valhalla/cost_model
+CMAKE_SOURCE_DIR = /home/jj/thesis/valhalla/src/model
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/jj/thesis/valhalla/cost_model
+CMAKE_BINARY_DIR = /home/jj/thesis/valhalla/src/model/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/jj/thesis/valhalla/cost_model/CMakeFiles /home/jj/thesis/valhalla/cost_model//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/jj/thesis/valhalla/src/model/build/CMakeFiles /home/jj/thesis/valhalla/src/model/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/jj/thesis/valhalla/cost_model/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/jj/thesis/valhalla/src/model/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -117,41 +117,41 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named train_model
+# Target rules for targets named model_lib
 
 # Build rule for target.
-train_model: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 train_model
-.PHONY : train_model
+model_lib: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 model_lib
+.PHONY : model_lib
 
 # fast build rule for target.
-train_model/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/train_model.dir/build.make CMakeFiles/train_model.dir/build
-.PHONY : train_model/fast
+model_lib/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/model_lib.dir/build.make CMakeFiles/model_lib.dir/build
+.PHONY : model_lib/fast
 
-train_model.o: train_model.cc.o
-.PHONY : train_model.o
+model.o: model.cc.o
+.PHONY : model.o
 
 # target to build an object file
-train_model.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/train_model.dir/build.make CMakeFiles/train_model.dir/train_model.cc.o
-.PHONY : train_model.cc.o
+model.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/model_lib.dir/build.make CMakeFiles/model_lib.dir/model.cc.o
+.PHONY : model.cc.o
 
-train_model.i: train_model.cc.i
-.PHONY : train_model.i
+model.i: model.cc.i
+.PHONY : model.i
 
 # target to preprocess a source file
-train_model.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/train_model.dir/build.make CMakeFiles/train_model.dir/train_model.cc.i
-.PHONY : train_model.cc.i
+model.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/model_lib.dir/build.make CMakeFiles/model_lib.dir/model.cc.i
+.PHONY : model.cc.i
 
-train_model.s: train_model.cc.s
-.PHONY : train_model.s
+model.s: model.cc.s
+.PHONY : model.s
 
 # target to generate assembly for a file
-train_model.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/train_model.dir/build.make CMakeFiles/train_model.dir/train_model.cc.s
-.PHONY : train_model.cc.s
+model.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/model_lib.dir/build.make CMakeFiles/model_lib.dir/model.cc.s
+.PHONY : model.cc.s
 
 # Help Target
 help:
@@ -161,10 +161,10 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... train_model"
-	@echo "... train_model.o"
-	@echo "... train_model.i"
-	@echo "... train_model.s"
+	@echo "... model_lib"
+	@echo "... model.o"
+	@echo "... model.i"
+	@echo "... model.s"
 .PHONY : help
 
 

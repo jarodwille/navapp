@@ -117,6 +117,7 @@ function(valhalla_module)
   # Link against additional libraries if specified
   if(MODULE_LINK_LIBRARIES) # NOTE: NEW
     message ("TORCH_LIBRARIES: ${TORCH_LIBRARIES}")
+    message ("MODULE_LINK_LIBRARIES: ${MODULE_LINK_LIBRARIES}")
     target_link_libraries(${library} ${MODULE_LINK_LIBRARIES})
   endif()
 endfunction()

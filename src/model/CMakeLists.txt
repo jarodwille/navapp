@@ -13,9 +13,18 @@ set(CUDA_NVCC_EXECUTABLE "/usr/local/cuda-12.4/bin/nvcc")
 find_package(Torch REQUIRED)
 
 # Compile model.cc into a library (compiled during compilation time)
-add_library(model_lib OBJECT model.cc)
+add_library(model_lib SHARED model.cc)
+target_include_directories(model_lib PUBLIC .)
 # target_compile_definitions(model_lib PUBLIC MODEL_LIB)
 
 message (STATUS "TORCH_LIBRARIES: ${TORCH_LIBRARIES}")
 # Link against libtorch 
 target_link_libraries(model_lib ${TORCH_LIBRARIES})
+
+install(TARGETS model_lib
+  LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}" COMPONENT shared NAMELINK_SKIP
+  ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}" COMPONENT development)
+
+install(FILES model.h
+  DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/valhalla"
+  COMPONENT development)

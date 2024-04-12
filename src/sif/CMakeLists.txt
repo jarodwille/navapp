@@ -34,5 +34,4 @@ valhalla_module(NAME sif
     valhalla::proto
     ${valhalla_protobuf_targets}
     Boost::boost
-  LINK_LIBRARIES
     model_lib)
