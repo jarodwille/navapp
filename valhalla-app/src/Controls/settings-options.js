@@ -854,6 +854,11 @@ export const profile_settings = {
     boolean: [],
     enum: [],
   },
+  auto_modified_b: {
+    numeric: [],
+    boolean: [],
+    enum: [],
+  },
   bus: {
     numeric: [
       length,
@@ -1012,6 +1017,11 @@ export const settings_general = {
     enum: [],
   },
   auto_modified: {
+    numeric: [],
+    boolean: [],
+    enum: [],
+  },
+  auto_modified_b: {
     numeric: [],
     boolean: [],
     enum: [],

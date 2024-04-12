@@ -996,6 +996,54 @@ cost_ptr_t CreateAutoModifiedCost(const Costing& costing) {
 }
 
 
+class AutoModifiedBCost : public AutoCost {
+
+public:
+  /**
+   * Construct auto modified costing. Pass in cost type and costing_options using protocol buffer(pbf).
+   * @param  costing_options pbf with request costing_options.
+   */
+  AutoModifiedBCost(const Costing& costing) :  AutoCost(costing) {}
+  
+
+  virtual ~AutoModifiedBCost() {}
+
+  // virtual Cost EdgeCost(const baldr::DirectedEdge* edge,
+  //                       const graph_tile_ptr& tile,
+  //                       const baldr::TimeInfo& time_info,
+  //                       uint8_t& flow_sources) const override {}
+
+  // // Returns the time (in seconds) to make the transition from the predecessor
+  // virtual Cost TransitionCost(const baldr::DirectedEdge* edge,
+  //                               const baldr::NodeInfo* node,
+  //                               const EdgeLabel& pred) const override {}
+
+  // // Returns the cost to make the transition from the predecessor edge
+  // // when using a reverse search (from destination towards the origin).
+  // // pred is the opposing current edge in the reverse tree
+  // // edge is the opposing predecessor in the reverse tree
+  // virtual Cost TransitionCostReverse(const uint32_t idx,
+  //                                     const baldr::NodeInfo* node,
+  //                                     const baldr::DirectedEdge* pred,
+  //                                     const baldr::DirectedEdge* edge,
+  //                                     const bool has_measured_speed,
+  //                                     const InternalTurn internal_turn) const override {}
+};
+
+
+void ParseAutoModifiedBCostOptions(const rapidjson::Document& doc,
+                          const std::string& costing_options_key,
+                          Costing* c) {
+  ParseAutoCostOptions(doc, costing_options_key, c);
+  c->set_type(Costing::auto_modified_b);
+  c->set_name(Costing_Enum_Name(c->type()));
+}
+
+cost_ptr_t CreateAutoModifiedBCost(const Costing& costing) {
+  return std::make_shared<AutoModifiedBCost>(costing);
+}
+
+
 /**
  * Derived class providing bus costing for driving.
  */

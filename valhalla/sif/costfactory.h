@@ -47,6 +47,7 @@ public:
     Register(Costing::none_, CreateNoCost);
     Register(Costing::bikeshare, CreateBikeShareCost);
     Register(Costing::auto_modified, CreateAutoModifiedCost);
+    Register(Costing::auto_modified_b, CreateAutoModifiedBCost);
   }
 
   /**

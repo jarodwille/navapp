@@ -581,6 +581,10 @@ void ParseCosting(const rapidjson::Document& doc,
       sif::ParseAutoModifiedCostOptions(doc, key, costing);
       break;
     }
+    case Costing::auto_modified_b: {
+      sif::ParseAutoModifiedBCostOptions(doc, key, costing);
+      break;
+    }
     default: {
       throw std::logic_error("Unknown costing");
     }

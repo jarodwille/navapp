@@ -67,8 +67,18 @@ export const makeRequest = () => (dispatch, getState) => {
       hf_data: false,
     })
 
+    profile = 'auto_modified_b'
+    const valhallaModifiedBRequest = buildDirectionsRequest({
+      profile,
+      activeWaypoints,
+      settings,
+      dateTime,
+      hf_data: false,
+    })
+
     dispatch(fetchValhallaDirections(valhallaOriginalRequest))
     dispatch(fetchValhallaDirections(valhallaModifiedRequest))
+    dispatch(fetchValhallaDirections(valhallaModifiedBRequest))
   }
 }
 
@@ -446,7 +456,17 @@ export const submitRankings = (rankings) => (dispatch, getState) => {
       hf_data: false,
     })
 
+    profile = 'auto_modified_b'
+    const valhallaModifiedBRequest = buildDirectionsRequest({
+      profile,
+      activeWaypoints,
+      settings,
+      dateTime,
+      hf_data: false,
+    })
+
     dispatch(fetchValhallaDirections(valhallaPostHFRequest)) // injecting POST into here
     dispatch(fetchValhallaDirections(valhallaModifiedRequest))
+    dispatch(fetchValhallaDirections(valhallaModifiedBRequest))
   }
 }

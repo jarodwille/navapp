@@ -83,6 +83,7 @@ message Costing {
     auto_ = 10;
     bikeshare = 11;    // turns into pedestrian + bike
     auto_modified = 12; // NOTE: NEW
+    auto_modified_b = 13; // NOTE: NEW
   }
 
   message Options {

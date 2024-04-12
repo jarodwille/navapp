@@ -59,6 +59,7 @@ const isoLocationsLayer = L.featureGroup()
 const routeMarkersLayer = L.featureGroup()
 const routeLineStringLayer = L.featureGroup()
 const routeModLineStringLayer = L.featureGroup()
+const routeModBLineStringLayer = L.featureGroup()
 const highlightRouteSegmentlayer = L.featureGroup()
 const highlightRouteIndexLayer = L.featureGroup()
 const excludePolygonsLayer = L.featureGroup()
@@ -100,6 +101,7 @@ const mapParams = {
     isoLocationsLayer,
     routeLineStringLayer,
     routeModLineStringLayer,
+    routeModBLineStringLayer,
     highlightRouteSegmentlayer,
     highlightRouteIndexLayer,
     excludePolygonsLayer,
@@ -161,6 +163,7 @@ class Map extends React.Component {
       'Isochrone Center': isoCenterLayer,
       Routes: routeLineStringLayer,
       ModRoutes: routeModLineStringLayer,
+      ModBRoutes: routeModBLineStringLayer,
       Isochrones: isoPolygonLayer,
       'Isochrones (locations)': isoLocationsLayer,
     }
@@ -437,6 +440,7 @@ class Map extends React.Component {
     if (!directions.successful) {
       routeLineStringLayer.clearLayers()
       routeModLineStringLayer.clearLayers()
+      routeModBLineStringLayer.clearLayers()
     }
     if (!isochrones.successful) {
       isoPolygonLayer.clearLayers()
@@ -665,6 +669,28 @@ class Map extends React.Component {
         if (this.hg._showState === true) {
           this.hg._expand()
         }
+      } else if (profile === 'auto_modified_b') {
+        routeModBLineStringLayer.clearLayers()
+        L.polyline(coords, {
+          color: 'blue',
+          weight: 9,
+          opacity: 1,
+          pmIgnore: true,
+        }).addTo(routeModBLineStringLayer)
+        L.polyline(coords, {
+          color: 'blue',
+          weight: 5,
+          opacity: 1,
+          pmIgnore: true,
+        })
+          .addTo(routeModBLineStringLayer)
+          .bindTooltip(this.getRouteToolTip(summary, VALHALLA_OSM_URL), {
+            permanent: false,
+            sticky: true,
+          })
+        if (this.hg._showState === true) {
+          this.hg._expand()
+        }
       } else {
         routeLineStringLayer.clearLayers()
         L.polyline(coords, {
@@ -691,6 +717,7 @@ class Map extends React.Component {
     } else {
       routeLineStringLayer.clearLayers()
       routeModLineStringLayer.clearLayers()
+      routeModBLineStringLayer.clearLayers()
     }
   }
 
