@@ -21,6 +21,31 @@ constexpr auto kMinEdgeLength = 0.001f;
 namespace valhalla {
 namespace odin {
 
+const std::string empty_str;
+
+const std::string& Costing_Enum_Name(const Costing::Type costing) {
+  static const std::unordered_map<int, std::string> costings{
+      {Costing::auto_, "auto"},
+      // auto_shorter is deprecated
+      {Costing::bicycle, "bicycle"},
+      {Costing::bus, "bus"},
+      {Costing::taxi, "taxi"},
+      {Costing::motor_scooter, "motor_scooter"},
+      {Costing::multimodal, "multimodal"},
+      {Costing::pedestrian, "pedestrian"},
+      {Costing::transit, "transit"},
+      {Costing::truck, "truck"},
+      {Costing::motorcycle, "motorcycle"},
+      // auto_data_fix is deprecated
+      {Costing::none_, "none"},
+      {Costing::bikeshare, "bikeshare"},
+      {Costing::auto_modified, "auto_modified"},
+      {Costing::auto_modified_b, "auto_modified_b"},
+  };
+  auto i = costings.find(costing);
+  return i == costings.cend() ? empty_str : i->second;
+}
+
 // Returns the trip directions based on the specified directions options
 // and trip path. This method calls ManeuversBuilder::Build and
 // NarrativeBuilder::Build to form the maneuver list. This method
@@ -28,6 +53,9 @@ namespace odin {
 // trip directions.
 void DirectionsBuilder::Build(Api& api, const MarkupFormatter& markup_formatter) {
   const auto& options = api.options();
+  auto costing = options.costing_type();
+  auto costing_str = Costing_Enum_Name(costing);
+
   for (auto& trip_route : *api.mutable_trip()->mutable_routes()) {
     auto& directions_route = *api.mutable_directions()->mutable_routes()->Add();
     for (auto& trip_path : *trip_route.mutable_legs()) {
@@ -45,7 +73,7 @@ void DirectionsBuilder::Build(Api& api, const MarkupFormatter& markup_formatter)
       std::list<Maneuver> maneuvers;
       if (options.directions_type() != DirectionsType::none) {
         // Update the heading of ~0 length edges
-        UpdateHeading(&etp);
+        UpdateHeading(&etp, costing_str);
 
         ManeuversBuilder maneuversBuilder(options, &etp);
         maneuvers = maneuversBuilder.Build();
@@ -64,12 +92,75 @@ void DirectionsBuilder::Build(Api& api, const MarkupFormatter& markup_formatter)
   }
 }
 
-// Update the heading of ~0 length edges.
-void DirectionsBuilder::UpdateHeading(EnhancedTripLeg* etp) {
+// Helper function to split strings by delimiter
+std::vector<std::string> split(const std::string &s, char delimiter) {
+    std::cout << "test11" << std::endl;
+    std::vector<std::string> tokens;
+    std::string token;
+    std::istringstream tokenStream(s);
+    while (getline(tokenStream, token, delimiter)) {
+        tokens.push_back(token);
+    }
+    std::cout << "test12" << std::endl;
+    return tokens;
+}
 
-  // print number of nodes NOTE: NEW
-  std::cout << "Number of nodes: " << etp->node_size() << std::endl;
-  
+void write_to_file(EnhancedTripLeg* etp, std::string costing_str) {
+  std::cout << "test1" << std::endl;
+  std::string filepath = "edges_data.txt";
+
+  // Open the file in read mode to extract existing content
+  std::ifstream fin(filepath);
+  std::string contents, line;
+  while (getline(fin, line)) {
+      contents += line + "\n";
+  }
+  fin.close();
+  std::cout << "test2" << std::endl;
+  // Prepare to write new content
+  std::ofstream fout(filepath, std::ios::trunc); // Open in trunc mode to overwrite
+  if (!fout) {
+        std::cout << "Error opening file for writing." << std::endl;
+        return;
+  }
+
+  bool in_section = false;
+  for (const auto& line : split(contents, '\n')) { //TODO: FAILS HERE. OPENS SPLIT, NEVER DOES TEST3
+    std::cout << "test3" << std::endl;
+      if (line == costing_str + ":") {
+        std::cout << "test4" << std::endl;
+          in_section = true;
+          fout << line << std::endl; // Write the section header
+          // Assuming `edges()` returns a list of edges and each edge has `id()`, `length()`, `name()`
+          for (size_t x = 0; x < etp->node_size(); ++x) {
+              auto prev_edge = etp->GetPrevEdge(x);
+              auto curr_edge = etp->GetCurrEdge(x);
+              auto next_edge = etp->GetNextEdge(x);
+              fout << "  - length_km: " << curr_edge->length_km() << std::endl;
+              fout << "    speed: " << curr_edge->speed() << std::endl;
+              fout << "    begin_heading: " << curr_edge->begin_heading() << std::endl;
+              std::cout << "test5" << std::endl;
+          }
+          continue;
+      }
+      if (in_section && line.find('-') == 0) { // Skip writing old edges under the active section
+        std::cout << "test6" << std::endl;
+        continue;
+      }
+      if (line.find(':') != std::string::npos) { // Reset on new section
+        std::cout << "test7" << std::endl;
+        in_section = false;
+      }
+      fout << line << std::endl; // Write other lines normally
+  }
+  std::cout << "test8" << std::endl;
+  fout.close();
+  std::cout << "test9" << std::endl;
+}
+
+// Update the heading of ~0 length edges.
+// NOTE: NEW - ALSO OUTPUTS EDGES TO .TXT FILE
+void DirectionsBuilder::UpdateHeading(EnhancedTripLeg* etp, std::string costing_str) {
   for (size_t x = 0; x < etp->node_size(); ++x) {
     auto prev_edge = etp->GetPrevEdge(x);
     auto curr_edge = etp->GetCurrEdge(x);
@@ -90,6 +181,11 @@ void DirectionsBuilder::UpdateHeading(EnhancedTripLeg* etp) {
       }
     }
   }
+
+  // Write to file
+  write_to_file(etp, costing_str);
+  // print number of nodes NOTE: NEW
+  std::cout << "Wrote to file. costing was: " << costing_str << "Number of nodes: " << etp->node_size() << std::endl;
 }
 
 // Returns the trip directions based on the specified directions options,

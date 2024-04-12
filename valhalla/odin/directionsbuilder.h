@@ -35,7 +35,7 @@ protected:
    *
    * @param etp The enhanced trip path contains the edges to process.
    */
-  static void UpdateHeading(EnhancedTripLeg* etp);
+  static void UpdateHeading(EnhancedTripLeg* etp, std::string costing_str);
 
   /**
    * Returns the trip directions based on the specified directions options,
