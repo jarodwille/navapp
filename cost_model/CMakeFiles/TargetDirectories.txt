@@ -1,3 +1,0 @@
-/home/jj/thesis/valhalla/cost_model/CMakeFiles/train_model.dir
-/home/jj/thesis/valhalla/cost_model/CMakeFiles/edit_cache.dir
-/home/jj/thesis/valhalla/cost_model/CMakeFiles/rebuild_cache.dir

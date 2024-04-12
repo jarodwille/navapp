@@ -1,0 +1,628 @@
+-- Caffe2: CUDA detected: 12.4
+-- Caffe2: CUDA nvcc is: /usr/local/cuda-12.4/bin/nvcc
+-- Caffe2: CUDA toolkit directory: /usr/local/cuda-12.4
+-- Caffe2: Header version is: 12.4
+-- /usr/local/cuda-12.4/lib64/libnvrtc.so shorthash is 6d168ef8
+-- USE_CUDNN is set to 0. Compiling without cuDNN support
+-- USE_CUSPARSELT is set to 0. Compiling without cuSPARSELt support
+-- Autodetected CUDA architecture(s):  7.5
+-- Added CUDA NVCC flags for: -gencode;arch=compute_75,code=sm_75
+-- Configuring in release mode
+-- Using ccache to speed up incremental builds
+-- Using protoc from /usr/bin/protoc
+-- Using pbf headers from /usr/include
+-- Using pbf libs from /usr/lib/x86_64-linux-gnu/libprotobuf.so;-pthread
+-- Using pbf-lite
+-- Gdal support is enabled
+-- Found SQLite3: /usr/lib/x86_64-linux-gnu/libsqlite3.so
+-- Found Python: /home/jj/miniconda3/bin/python3.11 (found version "3.11.5") found components: Development Interpreter Development.Module Development.Embed
+-- pybind11 v2.11.1 
+-- Installing python modules to /home/jj/miniconda3/lib/python3.11/site-packages
+-- Found Python: /home/jj/miniconda3/bin/python3.11 (found version "3.11.5") found components: Interpreter
+-- Configuring done (2.8s)
+-- Generating done (0.7s)
+-- Build files have been written to: /home/jj/thesis/valhalla/build
+make: Entering directory '/home/jj/thesis/valhalla/build'
+/snap/cmake/1379/bin/cmake -S/home/jj/thesis/valhalla -B/home/jj/thesis/valhalla/build --check-build-system CMakeFiles/Makefile.cmake 0
+/snap/cmake/1379/bin/cmake -E cmake_progress_start /home/jj/thesis/valhalla/build/CMakeFiles /home/jj/thesis/valhalla/build//CMakeFiles/progress.marks
+make  -f CMakeFiles/Makefile2 all
+make[1]: Entering directory '/home/jj/thesis/valhalla/build'
+make  -f src/midgard/CMakeFiles/valhalla-midgard.dir/build.make src/midgard/CMakeFiles/valhalla-midgard.dir/depend
+make  -f src/valhalla/proto/CMakeFiles/valhalla-proto.dir/build.make src/valhalla/proto/CMakeFiles/valhalla-proto.dir/depend
+make  -f src/model/CMakeFiles/model_lib.dir/build.make src/model/CMakeFiles/model_lib.dir/depend
+make  -f googletest/googletest/CMakeFiles/gtest.dir/build.make googletest/googletest/CMakeFiles/gtest.dir/depend
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+cd /home/jj/thesis/valhalla/build && /snap/cmake/1379/bin/cmake -E cmake_depends "Unix Makefiles" /home/jj/thesis/valhalla /home/jj/thesis/valhalla/src/midgard /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build/src/midgard /home/jj/thesis/valhalla/build/src/midgard/CMakeFiles/valhalla-midgard.dir/DependInfo.cmake "--color="
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+cd /home/jj/thesis/valhalla/build && /snap/cmake/1379/bin/cmake -E cmake_depends "Unix Makefiles" /home/jj/thesis/valhalla /home/jj/thesis/valhalla/src/model /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build/src/model /home/jj/thesis/valhalla/build/src/model/CMakeFiles/model_lib.dir/DependInfo.cmake "--color="
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+cd /home/jj/thesis/valhalla/build && /snap/cmake/1379/bin/cmake -E cmake_depends "Unix Makefiles" /home/jj/thesis/valhalla /home/jj/thesis/valhalla/proto /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build/src/valhalla/proto /home/jj/thesis/valhalla/build/src/valhalla/proto/CMakeFiles/valhalla-proto.dir/DependInfo.cmake "--color="
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+cd /home/jj/thesis/valhalla/build && /snap/cmake/1379/bin/cmake -E cmake_depends "Unix Makefiles" /home/jj/thesis/valhalla /home/jj/thesis/valhalla/third_party/googletest/googletest /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build/googletest/googletest /home/jj/thesis/valhalla/build/googletest/googletest/CMakeFiles/gtest.dir/DependInfo.cmake "--color="
+Dependencies file "src/midgard/CMakeFiles/valhalla-midgard.dir/aabb2.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/midgard/CMakeFiles/valhalla-midgard.dir/compiler_depend.internal".
+Dependencies file "src/model/CMakeFiles/model_lib.dir/model.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/model/CMakeFiles/model_lib.dir/compiler_depend.internal".
+Dependencies file "googletest/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/googletest/googletest/CMakeFiles/gtest.dir/compiler_depend.internal".
+Dependencies file "src/midgard/CMakeFiles/valhalla-midgard.dir/ellipse.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/midgard/CMakeFiles/valhalla-midgard.dir/compiler_depend.internal".
+Dependencies file "src/valhalla/proto/CMakeFiles/valhalla-proto.dir/api.pb.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/valhalla/proto/CMakeFiles/valhalla-proto.dir/compiler_depend.internal".
+Dependencies file "src/midgard/CMakeFiles/valhalla-midgard.dir/linesegment2.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/midgard/CMakeFiles/valhalla-midgard.dir/compiler_depend.internal".
+Dependencies file "src/valhalla/proto/CMakeFiles/valhalla-proto.dir/common.pb.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/valhalla/proto/CMakeFiles/valhalla-proto.dir/compiler_depend.internal".
+Dependencies file "src/midgard/CMakeFiles/valhalla-midgard.dir/logging.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/midgard/CMakeFiles/valhalla-midgard.dir/compiler_depend.internal".
+Dependencies file "src/valhalla/proto/CMakeFiles/valhalla-proto.dir/directions.pb.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/valhalla/proto/CMakeFiles/valhalla-proto.dir/compiler_depend.internal".
+Dependencies file "src/midgard/CMakeFiles/valhalla-midgard.dir/obb2.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/midgard/CMakeFiles/valhalla-midgard.dir/compiler_depend.internal".
+Dependencies file "src/valhalla/proto/CMakeFiles/valhalla-proto.dir/fileformat.pb.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/valhalla/proto/CMakeFiles/valhalla-proto.dir/compiler_depend.internal".
+Dependencies file "src/midgard/CMakeFiles/valhalla-midgard.dir/point2.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/midgard/CMakeFiles/valhalla-midgard.dir/compiler_depend.internal".
+Dependencies file "src/valhalla/proto/CMakeFiles/valhalla-proto.dir/incidents.pb.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/valhalla/proto/CMakeFiles/valhalla-proto.dir/compiler_depend.internal".
+Dependencies file "src/midgard/CMakeFiles/valhalla-midgard.dir/point_tile_index.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/midgard/CMakeFiles/valhalla-midgard.dir/compiler_depend.internal".
+Dependencies file "src/valhalla/proto/CMakeFiles/valhalla-proto.dir/info.pb.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/valhalla/proto/CMakeFiles/valhalla-proto.dir/compiler_depend.internal".
+Dependencies file "src/midgard/CMakeFiles/valhalla-midgard.dir/pointll.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/midgard/CMakeFiles/valhalla-midgard.dir/compiler_depend.internal".
+Dependencies file "src/midgard/CMakeFiles/valhalla-midgard.dir/polyline2.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/midgard/CMakeFiles/valhalla-midgard.dir/compiler_depend.internal".
+Dependencies file "src/valhalla/proto/CMakeFiles/valhalla-proto.dir/isochrone.pb.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/valhalla/proto/CMakeFiles/valhalla-proto.dir/compiler_depend.internal".
+Dependencies file "src/midgard/CMakeFiles/valhalla-midgard.dir/tiles.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/midgard/CMakeFiles/valhalla-midgard.dir/compiler_depend.internal".
+Dependencies file "src/valhalla/proto/CMakeFiles/valhalla-proto.dir/matrix.pb.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/valhalla/proto/CMakeFiles/valhalla-proto.dir/compiler_depend.internal".
+Dependencies file "src/midgard/CMakeFiles/valhalla-midgard.dir/util.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/midgard/CMakeFiles/valhalla-midgard.dir/compiler_depend.internal".
+Consolidate compiler generated dependencies of target gtest
+Dependencies file "src/valhalla/proto/CMakeFiles/valhalla-proto.dir/options.pb.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/valhalla/proto/CMakeFiles/valhalla-proto.dir/compiler_depend.internal".
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+Dependencies file "src/valhalla/proto/CMakeFiles/valhalla-proto.dir/osmformat.pb.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/valhalla/proto/CMakeFiles/valhalla-proto.dir/compiler_depend.internal".
+make  -f googletest/googletest/CMakeFiles/gtest.dir/build.make googletest/googletest/CMakeFiles/gtest.dir/build
+Dependencies file "src/valhalla/proto/CMakeFiles/valhalla-proto.dir/sign.pb.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/valhalla/proto/CMakeFiles/valhalla-proto.dir/compiler_depend.internal".
+Dependencies file "src/valhalla/proto/CMakeFiles/valhalla-proto.dir/status.pb.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/valhalla/proto/CMakeFiles/valhalla-proto.dir/compiler_depend.internal".
+Dependencies file "src/valhalla/proto/CMakeFiles/valhalla-proto.dir/transit.pb.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/valhalla/proto/CMakeFiles/valhalla-proto.dir/compiler_depend.internal".
+Dependencies file "src/valhalla/proto/CMakeFiles/valhalla-proto.dir/transit_fetch.pb.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/valhalla/proto/CMakeFiles/valhalla-proto.dir/compiler_depend.internal".
+Dependencies file "src/valhalla/proto/CMakeFiles/valhalla-proto.dir/trip.pb.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/valhalla/proto/CMakeFiles/valhalla-proto.dir/compiler_depend.internal".
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+make[2]: Nothing to be done for 'googletest/googletest/CMakeFiles/gtest.dir/build'.
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+[  0%] Built target gtest
+make  -f googletest/googletest/CMakeFiles/gtest_main.dir/build.make googletest/googletest/CMakeFiles/gtest_main.dir/depend
+make  -f googletest/googlemock/CMakeFiles/gmock.dir/build.make googletest/googlemock/CMakeFiles/gmock.dir/depend
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+cd /home/jj/thesis/valhalla/build && /snap/cmake/1379/bin/cmake -E cmake_depends "Unix Makefiles" /home/jj/thesis/valhalla /home/jj/thesis/valhalla/third_party/googletest/googletest /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build/googletest/googletest /home/jj/thesis/valhalla/build/googletest/googletest/CMakeFiles/gtest_main.dir/DependInfo.cmake "--color="
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+cd /home/jj/thesis/valhalla/build && /snap/cmake/1379/bin/cmake -E cmake_depends "Unix Makefiles" /home/jj/thesis/valhalla /home/jj/thesis/valhalla/third_party/googletest/googlemock /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build/googletest/googlemock /home/jj/thesis/valhalla/build/googletest/googlemock/CMakeFiles/gmock.dir/DependInfo.cmake "--color="
+Dependencies file "googletest/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/googletest/googletest/CMakeFiles/gtest_main.dir/compiler_depend.internal".
+Dependencies file "googletest/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/googletest/googlemock/CMakeFiles/gmock.dir/compiler_depend.internal".
+Consolidate compiler generated dependencies of target gtest_main
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make  -f googletest/googletest/CMakeFiles/gtest_main.dir/build.make googletest/googletest/CMakeFiles/gtest_main.dir/build
+Consolidate compiler generated dependencies of target gmock
+Consolidate compiler generated dependencies of target valhalla-midgard
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+make[2]: Nothing to be done for 'googletest/googletest/CMakeFiles/gtest_main.dir/build'.
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make  -f googletest/googlemock/CMakeFiles/gmock.dir/build.make googletest/googlemock/CMakeFiles/gmock.dir/build
+make  -f src/midgard/CMakeFiles/valhalla-midgard.dir/build.make src/midgard/CMakeFiles/valhalla-midgard.dir/build
+[  0%] Built target gtest_main
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+make[2]: Nothing to be done for 'googletest/googlemock/CMakeFiles/gmock.dir/build'.
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+[  0%] Built target gmock
+make  -f googletest/googlemock/CMakeFiles/gmock_main.dir/build.make googletest/googlemock/CMakeFiles/gmock_main.dir/depend
+Consolidate compiler generated dependencies of target valhalla-proto
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make  -f src/valhalla/proto/CMakeFiles/valhalla-proto.dir/build.make src/valhalla/proto/CMakeFiles/valhalla-proto.dir/build
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+cd /home/jj/thesis/valhalla/build && /snap/cmake/1379/bin/cmake -E cmake_depends "Unix Makefiles" /home/jj/thesis/valhalla /home/jj/thesis/valhalla/third_party/googletest/googlemock /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build/googletest/googlemock /home/jj/thesis/valhalla/build/googletest/googlemock/CMakeFiles/gmock_main.dir/DependInfo.cmake "--color="
+Dependencies file "googletest/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/googletest/googlemock/CMakeFiles/gmock_main.dir/compiler_depend.internal".
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+make[2]: Nothing to be done for 'src/midgard/CMakeFiles/valhalla-midgard.dir/build'.
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+Consolidate compiler generated dependencies of target gmock_main
+[  3%] Built target valhalla-midgard
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+make[2]: Nothing to be done for 'src/valhalla/proto/CMakeFiles/valhalla-proto.dir/build'.
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make  -f googletest/googlemock/CMakeFiles/gmock_main.dir/build.make googletest/googlemock/CMakeFiles/gmock_main.dir/build
+[ 15%] Built target valhalla-proto
+make  -f src/baldr/CMakeFiles/valhalla-baldr.dir/build.make src/baldr/CMakeFiles/valhalla-baldr.dir/depend
+make  -f src/odin/CMakeFiles/valhalla-odin.dir/build.make src/odin/CMakeFiles/valhalla-odin.dir/depend
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+make[2]: Nothing to be done for 'googletest/googlemock/CMakeFiles/gmock_main.dir/build'.
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+cd /home/jj/thesis/valhalla/build && /snap/cmake/1379/bin/cmake -E cmake_depends "Unix Makefiles" /home/jj/thesis/valhalla /home/jj/thesis/valhalla/src/odin /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build/src/odin /home/jj/thesis/valhalla/build/src/odin/CMakeFiles/valhalla-odin.dir/DependInfo.cmake "--color="
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+cd /home/jj/thesis/valhalla/build && /snap/cmake/1379/bin/cmake -E cmake_depends "Unix Makefiles" /home/jj/thesis/valhalla /home/jj/thesis/valhalla/src/baldr /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build/src/baldr /home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/DependInfo.cmake "--color="
+[ 15%] Built target gmock_main
+Dependencies file "src/odin/CMakeFiles/valhalla-odin.dir/directionsbuilder.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/odin/CMakeFiles/valhalla-odin.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/accessrestriction.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/admin.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/attributes_controller.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/compression_utils.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/connectivity_map.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/odin/CMakeFiles/valhalla-odin.dir/enhancedtrippath.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/odin/CMakeFiles/valhalla-odin.dir/compiler_depend.internal".
+Dependencies file "src/odin/CMakeFiles/valhalla-odin.dir/maneuver.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/odin/CMakeFiles/valhalla-odin.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/curler.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/datetime.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/odin/CMakeFiles/valhalla-odin.dir/maneuversbuilder.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/odin/CMakeFiles/valhalla-odin.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/directededge.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/edgeinfo.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/odin/CMakeFiles/valhalla-odin.dir/markup_formatter.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/odin/CMakeFiles/valhalla-odin.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/edgetracker.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/odin/CMakeFiles/valhalla-odin.dir/narrative_builder_factory.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/odin/CMakeFiles/valhalla-odin.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/graphid.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/graphreader.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/odin/CMakeFiles/valhalla-odin.dir/narrative_dictionary.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/odin/CMakeFiles/valhalla-odin.dir/compiler_depend.internal".
+Dependencies file "src/odin/CMakeFiles/valhalla-odin.dir/narrativebuilder.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/odin/CMakeFiles/valhalla-odin.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/graphtile.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/graphtileheader.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/odin/CMakeFiles/valhalla-odin.dir/sign.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/odin/CMakeFiles/valhalla-odin.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/laneconnectivity.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/location.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/odin/CMakeFiles/valhalla-odin.dir/signs.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/odin/CMakeFiles/valhalla-odin.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/merge.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/odin/CMakeFiles/valhalla-odin.dir/transitrouteinfo.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/odin/CMakeFiles/valhalla-odin.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/nodeinfo.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/odin/CMakeFiles/valhalla-odin.dir/util.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/odin/CMakeFiles/valhalla-odin.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/pathlocation.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/odin/CMakeFiles/valhalla-odin.dir/worker.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/odin/CMakeFiles/valhalla-odin.dir/compiler_depend.internal".
+Consolidate compiler generated dependencies of target model_lib
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/predictedspeeds.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+make  -f src/model/CMakeFiles/model_lib.dir/build.make src/model/CMakeFiles/model_lib.dir/build
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/streetname.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/streetname_us.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/streetnames.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/streetnames_factory.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/streetnames_us.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/tilehierarchy.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/transitdeparture.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/transitroute.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/transitschedule.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/transittransfer.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/turn.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/tz_alt.cpp.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/verbal_text_formatter.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/verbal_text_formatter_factory.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/verbal_text_formatter_us.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/verbal_text_formatter_us_co.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+Dependencies file "src/baldr/CMakeFiles/valhalla-baldr.dir/verbal_text_formatter_us_tx.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/baldr/CMakeFiles/valhalla-baldr.dir/compiler_depend.internal".
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+[ 15%] Building CXX object src/model/CMakeFiles/model_lib.dir/model.cc.o
+cd /home/jj/thesis/valhalla/build/src/model && ccache /usr/bin/c++ -DBOOST_ALLOW_DEPRECATED_HEADERS -DBOOST_BIND_GLOBAL_PLACEHOLDERS -DBOOST_NO_CXX11_SCOPED_ENUMS -DDATA_TOOLS -DENABLE_GDAL -DUSE_C10D_GLOO -DUSE_C10D_NCCL -DUSE_DISTRIBUTED -DUSE_RPC -DUSE_TENSORPIPE -isystem /home/jj/thesis/libtorch/include -isystem /home/jj/thesis/libtorch/include/torch/csrc/api/include -isystem /usr/local/cuda-12.4/include -O3 -DNDEBUG -std=gnu++17 -D_GLIBCXX_USE_CXX11_ABI=1 -MD -MT src/model/CMakeFiles/model_lib.dir/model.cc.o -MF CMakeFiles/model_lib.dir/model.cc.o.d -o CMakeFiles/model_lib.dir/model.cc.o -c /home/jj/thesis/valhalla/src/model/model.cc
+Consolidate compiler generated dependencies of target valhalla-odin
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make  -f src/odin/CMakeFiles/valhalla-odin.dir/build.make src/odin/CMakeFiles/valhalla-odin.dir/build
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+make[2]: Nothing to be done for 'src/odin/CMakeFiles/valhalla-odin.dir/build'.
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+[ 19%] Built target valhalla-odin
+Consolidate compiler generated dependencies of target valhalla-baldr
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make  -f src/baldr/CMakeFiles/valhalla-baldr.dir/build.make src/baldr/CMakeFiles/valhalla-baldr.dir/build
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+make[2]: Nothing to be done for 'src/baldr/CMakeFiles/valhalla-baldr.dir/build'.
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+[ 38%] Built target valhalla-baldr
+make  -f src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/build.make src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/depend
+make  -f src/skadi/CMakeFiles/valhalla-skadi.dir/build.make src/skadi/CMakeFiles/valhalla-skadi.dir/depend
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+cd /home/jj/thesis/valhalla/build && /snap/cmake/1379/bin/cmake -E cmake_depends "Unix Makefiles" /home/jj/thesis/valhalla /home/jj/thesis/valhalla/src/skadi /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build/src/skadi /home/jj/thesis/valhalla/build/src/skadi/CMakeFiles/valhalla-skadi.dir/DependInfo.cmake "--color="
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+cd /home/jj/thesis/valhalla/build && /snap/cmake/1379/bin/cmake -E cmake_depends "Unix Makefiles" /home/jj/thesis/valhalla /home/jj/thesis/valhalla/src/mjolnir /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build/src/mjolnir /home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/DependInfo.cmake "--color="
+Dependencies file "src/skadi/CMakeFiles/valhalla-skadi.dir/sample.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/skadi/CMakeFiles/valhalla-skadi.dir/compiler_depend.internal".
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/admin.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Dependencies file "src/skadi/CMakeFiles/valhalla-skadi.dir/util.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/skadi/CMakeFiles/valhalla-skadi.dir/compiler_depend.internal".
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/adminbuilder.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/bssbuilder.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/complexrestrictionbuilder.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/convert_transit.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Consolidate compiler generated dependencies of target valhalla-skadi
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make  -f src/skadi/CMakeFiles/valhalla-skadi.dir/build.make src/skadi/CMakeFiles/valhalla-skadi.dir/build
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/countryaccess.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/dataquality.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/directededgebuilder.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/edgeinfobuilder.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/elevationbuilder.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+make[2]: Nothing to be done for 'src/skadi/CMakeFiles/valhalla-skadi.dir/build'.
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/ferry_connections.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/graphbuilder.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+[ 38%] Built target valhalla-skadi
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/graphenhancer.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/graphfilter.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/graphtilebuilder.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/graphvalidator.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/hierarchybuilder.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/ingest_transit.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/landmarks.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/linkclassification.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/luatagtransform.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/node_expander.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/osmaccessrestriction.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/osmdata.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/osmpbfparser.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/osmrestriction.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/osmway.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/pbfadminparser.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/pbfgraphparser.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/restrictionbuilder.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/servicedays.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/shortcutbuilder.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/timeparsing.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/transitbuilder.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/util.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Dependencies file "src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/validatetransit.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/compiler_depend.internal".
+Consolidate compiler generated dependencies of target valhalla-mjolnir
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make  -f src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/build.make src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/build
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+make[2]: Nothing to be done for 'src/mjolnir/CMakeFiles/valhalla-mjolnir.dir/build'.
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+[ 53%] Built target valhalla-mjolnir
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+[ 53%] Built target model_lib
+make  -f src/sif/CMakeFiles/valhalla-sif.dir/build.make src/sif/CMakeFiles/valhalla-sif.dir/depend
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+cd /home/jj/thesis/valhalla/build && /snap/cmake/1379/bin/cmake -E cmake_depends "Unix Makefiles" /home/jj/thesis/valhalla /home/jj/thesis/valhalla/src/sif /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build/src/sif /home/jj/thesis/valhalla/build/src/sif/CMakeFiles/valhalla-sif.dir/DependInfo.cmake "--color="
+Dependencies file "src/sif/CMakeFiles/valhalla-sif.dir/autocost.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/sif/CMakeFiles/valhalla-sif.dir/compiler_depend.internal".
+Dependencies file "src/sif/CMakeFiles/valhalla-sif.dir/bicyclecost.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/sif/CMakeFiles/valhalla-sif.dir/compiler_depend.internal".
+Dependencies file "src/sif/CMakeFiles/valhalla-sif.dir/dynamiccost.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/sif/CMakeFiles/valhalla-sif.dir/compiler_depend.internal".
+Dependencies file "src/sif/CMakeFiles/valhalla-sif.dir/hierarchylimits.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/sif/CMakeFiles/valhalla-sif.dir/compiler_depend.internal".
+Dependencies file "src/sif/CMakeFiles/valhalla-sif.dir/motorcyclecost.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/sif/CMakeFiles/valhalla-sif.dir/compiler_depend.internal".
+Dependencies file "src/sif/CMakeFiles/valhalla-sif.dir/motorscootercost.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/sif/CMakeFiles/valhalla-sif.dir/compiler_depend.internal".
+Dependencies file "src/sif/CMakeFiles/valhalla-sif.dir/nocost.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/sif/CMakeFiles/valhalla-sif.dir/compiler_depend.internal".
+Dependencies file "src/sif/CMakeFiles/valhalla-sif.dir/pedestriancost.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/sif/CMakeFiles/valhalla-sif.dir/compiler_depend.internal".
+Dependencies file "src/sif/CMakeFiles/valhalla-sif.dir/recost.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/sif/CMakeFiles/valhalla-sif.dir/compiler_depend.internal".
+Dependencies file "src/sif/CMakeFiles/valhalla-sif.dir/transitcost.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/sif/CMakeFiles/valhalla-sif.dir/compiler_depend.internal".
+Dependencies file "src/sif/CMakeFiles/valhalla-sif.dir/truckcost.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/sif/CMakeFiles/valhalla-sif.dir/compiler_depend.internal".
+Consolidate compiler generated dependencies of target valhalla-sif
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make  -f src/sif/CMakeFiles/valhalla-sif.dir/build.make src/sif/CMakeFiles/valhalla-sif.dir/build
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+[ 53%] Building CXX object src/sif/CMakeFiles/valhalla-sif.dir/autocost.cc.o
+cd /home/jj/thesis/valhalla/build/src/sif && ccache /usr/bin/c++ -DAUTO_DOWNLOAD=0 -DBOOST_ALLOW_DEPRECATED_HEADERS -DBOOST_ALL_NO_LIB -DBOOST_BIND_GLOBAL_PLACEHOLDERS -DBOOST_NO_CXX11_SCOPED_ENUMS -DDATA_TOOLS -DENABLE_GDAL -DHAS_REMOTE_API=0 -DUSE_C10D_GLOO -DUSE_C10D_NCCL -DUSE_DISTRIBUTED -DUSE_RPC -DUSE_TENSORPIPE -I/home/jj/thesis/valhalla -I/home/jj/thesis/valhalla/valhalla -I/home/jj/thesis/valhalla/src/model -I/home/jj/thesis/valhalla/build/src -I/home/jj/thesis/valhalla/build/src/valhalla -isystem /home/jj/thesis/valhalla/third_party/date/include -isystem /home/jj/thesis/valhalla/third_party/rapidjson/include -isystem /home/jj/thesis/libtorch/include -isystem /home/jj/thesis/libtorch/include/torch/csrc/api/include -isystem /usr/local/cuda-12.4/include -O3 -DNDEBUG -std=gnu++17 -fPIC -mfpmath=sse -msse2 -D_GLIBCXX_USE_CXX11_ABI=1 -Werror -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -MD -MT src/sif/CMakeFiles/valhalla-sif.dir/autocost.cc.o -MF CMakeFiles/valhalla-sif.dir/autocost.cc.o.d -o CMakeFiles/valhalla-sif.dir/autocost.cc.o -c /home/jj/thesis/valhalla/src/sif/autocost.cc
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+[ 57%] Built target valhalla-sif
+make  -f src/loki/CMakeFiles/valhalla-loki.dir/build.make src/loki/CMakeFiles/valhalla-loki.dir/depend
+make  -f src/meili/CMakeFiles/valhalla-meili.dir/build.make src/meili/CMakeFiles/valhalla-meili.dir/depend
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+cd /home/jj/thesis/valhalla/build && /snap/cmake/1379/bin/cmake -E cmake_depends "Unix Makefiles" /home/jj/thesis/valhalla /home/jj/thesis/valhalla/src/loki /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build/src/loki /home/jj/thesis/valhalla/build/src/loki/CMakeFiles/valhalla-loki.dir/DependInfo.cmake "--color="
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+cd /home/jj/thesis/valhalla/build && /snap/cmake/1379/bin/cmake -E cmake_depends "Unix Makefiles" /home/jj/thesis/valhalla /home/jj/thesis/valhalla/src/meili /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build/src/meili /home/jj/thesis/valhalla/build/src/meili/CMakeFiles/valhalla-meili.dir/DependInfo.cmake "--color="
+Dependencies file "src/loki/CMakeFiles/valhalla-loki.dir/height_action.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/loki/CMakeFiles/valhalla-loki.dir/compiler_depend.internal".
+Dependencies file "src/meili/CMakeFiles/valhalla-meili.dir/candidate_search.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/meili/CMakeFiles/valhalla-meili.dir/compiler_depend.internal".
+Dependencies file "src/loki/CMakeFiles/valhalla-loki.dir/isochrone_action.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/loki/CMakeFiles/valhalla-loki.dir/compiler_depend.internal".
+Dependencies file "src/meili/CMakeFiles/valhalla-meili.dir/config.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/meili/CMakeFiles/valhalla-meili.dir/compiler_depend.internal".
+Dependencies file "src/meili/CMakeFiles/valhalla-meili.dir/geometry_helpers.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/meili/CMakeFiles/valhalla-meili.dir/compiler_depend.internal".
+Dependencies file "src/meili/CMakeFiles/valhalla-meili.dir/map_matcher.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/meili/CMakeFiles/valhalla-meili.dir/compiler_depend.internal".
+Dependencies file "src/loki/CMakeFiles/valhalla-loki.dir/locate_action.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/loki/CMakeFiles/valhalla-loki.dir/compiler_depend.internal".
+Dependencies file "src/meili/CMakeFiles/valhalla-meili.dir/map_matcher_factory.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/meili/CMakeFiles/valhalla-meili.dir/compiler_depend.internal".
+Dependencies file "src/loki/CMakeFiles/valhalla-loki.dir/matrix_action.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/loki/CMakeFiles/valhalla-loki.dir/compiler_depend.internal".
+Dependencies file "src/meili/CMakeFiles/valhalla-meili.dir/match_route.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/meili/CMakeFiles/valhalla-meili.dir/compiler_depend.internal".
+Dependencies file "src/loki/CMakeFiles/valhalla-loki.dir/node_search.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/loki/CMakeFiles/valhalla-loki.dir/compiler_depend.internal".
+Dependencies file "src/loki/CMakeFiles/valhalla-loki.dir/polygon_search.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/loki/CMakeFiles/valhalla-loki.dir/compiler_depend.internal".
+Dependencies file "src/meili/CMakeFiles/valhalla-meili.dir/routing.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/meili/CMakeFiles/valhalla-meili.dir/compiler_depend.internal".
+Dependencies file "src/meili/CMakeFiles/valhalla-meili.dir/topk_search.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/meili/CMakeFiles/valhalla-meili.dir/compiler_depend.internal".
+Dependencies file "src/meili/CMakeFiles/valhalla-meili.dir/transition_cost_model.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/meili/CMakeFiles/valhalla-meili.dir/compiler_depend.internal".
+Dependencies file "src/loki/CMakeFiles/valhalla-loki.dir/reach.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/loki/CMakeFiles/valhalla-loki.dir/compiler_depend.internal".
+Dependencies file "src/meili/CMakeFiles/valhalla-meili.dir/viterbi_search.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/meili/CMakeFiles/valhalla-meili.dir/compiler_depend.internal".
+Dependencies file "src/loki/CMakeFiles/valhalla-loki.dir/route_action.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/loki/CMakeFiles/valhalla-loki.dir/compiler_depend.internal".
+Dependencies file "src/loki/CMakeFiles/valhalla-loki.dir/search.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/loki/CMakeFiles/valhalla-loki.dir/compiler_depend.internal".
+Dependencies file "src/loki/CMakeFiles/valhalla-loki.dir/status_action.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/loki/CMakeFiles/valhalla-loki.dir/compiler_depend.internal".
+Dependencies file "src/loki/CMakeFiles/valhalla-loki.dir/trace_route_action.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/loki/CMakeFiles/valhalla-loki.dir/compiler_depend.internal".
+Dependencies file "src/loki/CMakeFiles/valhalla-loki.dir/transit_available_action.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/loki/CMakeFiles/valhalla-loki.dir/compiler_depend.internal".
+Dependencies file "src/loki/CMakeFiles/valhalla-loki.dir/worker.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/loki/CMakeFiles/valhalla-loki.dir/compiler_depend.internal".
+Consolidate compiler generated dependencies of target valhalla-meili
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make  -f src/meili/CMakeFiles/valhalla-meili.dir/build.make src/meili/CMakeFiles/valhalla-meili.dir/build
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+make[2]: Nothing to be done for 'src/meili/CMakeFiles/valhalla-meili.dir/build'.
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+[ 61%] Built target valhalla-meili
+make  -f src/thor/CMakeFiles/valhalla-thor.dir/build.make src/thor/CMakeFiles/valhalla-thor.dir/depend
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+cd /home/jj/thesis/valhalla/build && /snap/cmake/1379/bin/cmake -E cmake_depends "Unix Makefiles" /home/jj/thesis/valhalla /home/jj/thesis/valhalla/src/thor /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build/src/thor /home/jj/thesis/valhalla/build/src/thor/CMakeFiles/valhalla-thor.dir/DependInfo.cmake "--color="
+Dependencies file "src/thor/CMakeFiles/valhalla-thor.dir/alternates.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/thor/CMakeFiles/valhalla-thor.dir/compiler_depend.internal".
+Dependencies file "src/thor/CMakeFiles/valhalla-thor.dir/astar_bss.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/thor/CMakeFiles/valhalla-thor.dir/compiler_depend.internal".
+Dependencies file "src/thor/CMakeFiles/valhalla-thor.dir/bidirectional_astar.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/thor/CMakeFiles/valhalla-thor.dir/compiler_depend.internal".
+Dependencies file "src/thor/CMakeFiles/valhalla-thor.dir/centroid.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/thor/CMakeFiles/valhalla-thor.dir/compiler_depend.internal".
+Dependencies file "src/thor/CMakeFiles/valhalla-thor.dir/costmatrix.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/thor/CMakeFiles/valhalla-thor.dir/compiler_depend.internal".
+Dependencies file "src/thor/CMakeFiles/valhalla-thor.dir/dijkstras.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/thor/CMakeFiles/valhalla-thor.dir/compiler_depend.internal".
+Dependencies file "src/thor/CMakeFiles/valhalla-thor.dir/expansion_action.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/thor/CMakeFiles/valhalla-thor.dir/compiler_depend.internal".
+Consolidate compiler generated dependencies of target valhalla-loki
+Dependencies file "src/thor/CMakeFiles/valhalla-thor.dir/isochrone.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/thor/CMakeFiles/valhalla-thor.dir/compiler_depend.internal".
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make  -f src/loki/CMakeFiles/valhalla-loki.dir/build.make src/loki/CMakeFiles/valhalla-loki.dir/build
+Dependencies file "src/thor/CMakeFiles/valhalla-thor.dir/isochrone_action.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/thor/CMakeFiles/valhalla-thor.dir/compiler_depend.internal".
+Dependencies file "src/thor/CMakeFiles/valhalla-thor.dir/map_matcher.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/thor/CMakeFiles/valhalla-thor.dir/compiler_depend.internal".
+Dependencies file "src/thor/CMakeFiles/valhalla-thor.dir/matrix_action.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/thor/CMakeFiles/valhalla-thor.dir/compiler_depend.internal".
+Dependencies file "src/thor/CMakeFiles/valhalla-thor.dir/multimodal.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/thor/CMakeFiles/valhalla-thor.dir/compiler_depend.internal".
+Dependencies file "src/thor/CMakeFiles/valhalla-thor.dir/optimized_route_action.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/thor/CMakeFiles/valhalla-thor.dir/compiler_depend.internal".
+Dependencies file "src/thor/CMakeFiles/valhalla-thor.dir/optimizer.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/thor/CMakeFiles/valhalla-thor.dir/compiler_depend.internal".
+Dependencies file "src/thor/CMakeFiles/valhalla-thor.dir/route_action.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/thor/CMakeFiles/valhalla-thor.dir/compiler_depend.internal".
+Dependencies file "src/thor/CMakeFiles/valhalla-thor.dir/route_matcher.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/thor/CMakeFiles/valhalla-thor.dir/compiler_depend.internal".
+Dependencies file "src/thor/CMakeFiles/valhalla-thor.dir/status_action.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/thor/CMakeFiles/valhalla-thor.dir/compiler_depend.internal".
+Dependencies file "src/thor/CMakeFiles/valhalla-thor.dir/timedistancebssmatrix.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/thor/CMakeFiles/valhalla-thor.dir/compiler_depend.internal".
+Dependencies file "src/thor/CMakeFiles/valhalla-thor.dir/timedistancematrix.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/thor/CMakeFiles/valhalla-thor.dir/compiler_depend.internal".
+Dependencies file "src/thor/CMakeFiles/valhalla-thor.dir/trace_attributes_action.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/thor/CMakeFiles/valhalla-thor.dir/compiler_depend.internal".
+Dependencies file "src/thor/CMakeFiles/valhalla-thor.dir/trace_route_action.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/thor/CMakeFiles/valhalla-thor.dir/compiler_depend.internal".
+Dependencies file "src/thor/CMakeFiles/valhalla-thor.dir/triplegbuilder.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/thor/CMakeFiles/valhalla-thor.dir/compiler_depend.internal".
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+make[2]: Nothing to be done for 'src/loki/CMakeFiles/valhalla-loki.dir/build'.
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+Dependencies file "src/thor/CMakeFiles/valhalla-thor.dir/unidirectional_astar.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/thor/CMakeFiles/valhalla-thor.dir/compiler_depend.internal".
+[ 65%] Built target valhalla-loki
+Dependencies file "src/thor/CMakeFiles/valhalla-thor.dir/worker.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/thor/CMakeFiles/valhalla-thor.dir/compiler_depend.internal".
+Consolidate compiler generated dependencies of target valhalla-thor
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make  -f src/thor/CMakeFiles/valhalla-thor.dir/build.make src/thor/CMakeFiles/valhalla-thor.dir/build
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+make[2]: Nothing to be done for 'src/thor/CMakeFiles/valhalla-thor.dir/build'.
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+[ 73%] Built target valhalla-thor
+make  -f src/tyr/CMakeFiles/valhalla-tyr.dir/build.make src/tyr/CMakeFiles/valhalla-tyr.dir/depend
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+cd /home/jj/thesis/valhalla/build && /snap/cmake/1379/bin/cmake -E cmake_depends "Unix Makefiles" /home/jj/thesis/valhalla /home/jj/thesis/valhalla/src/tyr /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build/src/tyr /home/jj/thesis/valhalla/build/src/tyr/CMakeFiles/valhalla-tyr.dir/DependInfo.cmake "--color="
+Dependencies file "src/tyr/CMakeFiles/valhalla-tyr.dir/actor.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/tyr/CMakeFiles/valhalla-tyr.dir/compiler_depend.internal".
+Dependencies file "src/tyr/CMakeFiles/valhalla-tyr.dir/height_serializer.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/tyr/CMakeFiles/valhalla-tyr.dir/compiler_depend.internal".
+Dependencies file "src/tyr/CMakeFiles/valhalla-tyr.dir/isochrone_serializer.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/tyr/CMakeFiles/valhalla-tyr.dir/compiler_depend.internal".
+Dependencies file "src/tyr/CMakeFiles/valhalla-tyr.dir/locate_serializer.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/tyr/CMakeFiles/valhalla-tyr.dir/compiler_depend.internal".
+Dependencies file "src/tyr/CMakeFiles/valhalla-tyr.dir/matrix_serializer.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/tyr/CMakeFiles/valhalla-tyr.dir/compiler_depend.internal".
+Dependencies file "src/tyr/CMakeFiles/valhalla-tyr.dir/route_serializer.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/tyr/CMakeFiles/valhalla-tyr.dir/compiler_depend.internal".
+Dependencies file "src/tyr/CMakeFiles/valhalla-tyr.dir/route_serializer_osrm.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/tyr/CMakeFiles/valhalla-tyr.dir/compiler_depend.internal".
+Dependencies file "src/tyr/CMakeFiles/valhalla-tyr.dir/route_serializer_valhalla.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/tyr/CMakeFiles/valhalla-tyr.dir/compiler_depend.internal".
+Dependencies file "src/tyr/CMakeFiles/valhalla-tyr.dir/route_summary_cache.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/tyr/CMakeFiles/valhalla-tyr.dir/compiler_depend.internal".
+Dependencies file "src/tyr/CMakeFiles/valhalla-tyr.dir/serializers.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/tyr/CMakeFiles/valhalla-tyr.dir/compiler_depend.internal".
+Dependencies file "src/tyr/CMakeFiles/valhalla-tyr.dir/trace_serializer.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/tyr/CMakeFiles/valhalla-tyr.dir/compiler_depend.internal".
+Dependencies file "src/tyr/CMakeFiles/valhalla-tyr.dir/transit_available_serializer.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/tyr/CMakeFiles/valhalla-tyr.dir/compiler_depend.internal".
+Consolidate compiler generated dependencies of target valhalla-tyr
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make  -f src/tyr/CMakeFiles/valhalla-tyr.dir/build.make src/tyr/CMakeFiles/valhalla-tyr.dir/build
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+make[2]: Nothing to be done for 'src/tyr/CMakeFiles/valhalla-tyr.dir/build'.
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+[ 76%] Built target valhalla-tyr
+make  -f src/CMakeFiles/valhalla.dir/build.make src/CMakeFiles/valhalla.dir/depend
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+cd /home/jj/thesis/valhalla/build && /snap/cmake/1379/bin/cmake -E cmake_depends "Unix Makefiles" /home/jj/thesis/valhalla /home/jj/thesis/valhalla/src /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build/src /home/jj/thesis/valhalla/build/src/CMakeFiles/valhalla.dir/DependInfo.cmake "--color="
+Dependencies file "src/CMakeFiles/valhalla.dir/config.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/CMakeFiles/valhalla.dir/compiler_depend.internal".
+Dependencies file "src/CMakeFiles/valhalla.dir/filesystem.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/CMakeFiles/valhalla.dir/compiler_depend.internal".
+Dependencies file "src/CMakeFiles/valhalla.dir/proto_conversions.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/CMakeFiles/valhalla.dir/compiler_depend.internal".
+Dependencies file "src/CMakeFiles/valhalla.dir/tile_server.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/CMakeFiles/valhalla.dir/compiler_depend.internal".
+Dependencies file "src/CMakeFiles/valhalla.dir/worker.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/src/CMakeFiles/valhalla.dir/compiler_depend.internal".
+Consolidate compiler generated dependencies of target valhalla
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make  -f src/CMakeFiles/valhalla.dir/build.make src/CMakeFiles/valhalla.dir/build
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+[ 76%] Linking CXX static library libvalhalla.a
+cd /home/jj/thesis/valhalla/build/src && /snap/cmake/1379/bin/cmake -P CMakeFiles/valhalla.dir/cmake_clean_target.cmake
+cd /home/jj/thesis/valhalla/build/src && /snap/cmake/1379/bin/cmake -E cmake_link_script CMakeFiles/valhalla.dir/link.txt --verbose=1
+ccache /usr/bin/ar qc libvalhalla.a CMakeFiles/valhalla.dir/config.cc.o CMakeFiles/valhalla.dir/worker.cc.o CMakeFiles/valhalla.dir/filesystem.cc.o CMakeFiles/valhalla.dir/proto_conversions.cc.o CMakeFiles/valhalla.dir/tile_server.cc.o "valhalla/proto/CMakeFiles/valhalla-proto.dir/api.pb.cc.o" "valhalla/proto/CMakeFiles/valhalla-proto.dir/common.pb.cc.o" "valhalla/proto/CMakeFiles/valhalla-proto.dir/directions.pb.cc.o" "valhalla/proto/CMakeFiles/valhalla-proto.dir/info.pb.cc.o" "valhalla/proto/CMakeFiles/valhalla-proto.dir/options.pb.cc.o" "valhalla/proto/CMakeFiles/valhalla-proto.dir/sign.pb.cc.o" "valhalla/proto/CMakeFiles/valhalla-proto.dir/trip.pb.cc.o" "valhalla/proto/CMakeFiles/valhalla-proto.dir/transit.pb.cc.o" "valhalla/proto/CMakeFiles/valhalla-proto.dir/transit_fetch.pb.cc.o" "valhalla/proto/CMakeFiles/valhalla-proto.dir/incidents.pb.cc.o" "valhalla/proto/CMakeFiles/valhalla-proto.dir/status.pb.cc.o" "valhalla/proto/CMakeFiles/valhalla-proto.dir/matrix.pb.cc.o" "valhalla/proto/CMakeFiles/valhalla-proto.dir/isochrone.pb.cc.o" "valhalla/proto/CMakeFiles/valhalla-proto.dir/fileformat.pb.cc.o" "valhalla/proto/CMakeFiles/valhalla-proto.dir/osmformat.pb.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/accessrestriction.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/admin.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/attributes_controller.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/compression_utils.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/connectivity_map.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/curler.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/datetime.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/directededge.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/edgeinfo.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/graphid.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/graphreader.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/graphtile.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/graphtileheader.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/edgetracker.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/nodeinfo.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/location.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/merge.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/pathlocation.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/predictedspeeds.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/tilehierarchy.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/turn.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/streetname.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/streetnames.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/streetnames_factory.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/streetname_us.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/streetnames_us.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/transitdeparture.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/transitroute.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/transitschedule.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/transittransfer.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/tz_alt.cpp.o" "baldr/CMakeFiles/valhalla-baldr.dir/laneconnectivity.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/verbal_text_formatter.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/verbal_text_formatter_us.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/verbal_text_formatter_us_co.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/verbal_text_formatter_us_tx.cc.o" "baldr/CMakeFiles/valhalla-baldr.dir/verbal_text_formatter_factory.cc.o" "loki/CMakeFiles/valhalla-loki.dir/worker.cc.o" "loki/CMakeFiles/valhalla-loki.dir/height_action.cc.o" "loki/CMakeFiles/valhalla-loki.dir/reach.cc.o" "loki/CMakeFiles/valhalla-loki.dir/matrix_action.cc.o" "loki/CMakeFiles/valhalla-loki.dir/status_action.cc.o" "loki/CMakeFiles/valhalla-loki.dir/transit_available_action.cc.o" "loki/CMakeFiles/valhalla-loki.dir/polygon_search.cc.o" "loki/CMakeFiles/valhalla-loki.dir/isochrone_action.cc.o" "loki/CMakeFiles/valhalla-loki.dir/locate_action.cc.o" "loki/CMakeFiles/valhalla-loki.dir/node_search.cc.o" "loki/CMakeFiles/valhalla-loki.dir/route_action.cc.o" "loki/CMakeFiles/valhalla-loki.dir/search.cc.o" "loki/CMakeFiles/valhalla-loki.dir/trace_route_action.cc.o" "meili/CMakeFiles/valhalla-meili.dir/topk_search.cc.o" "meili/CMakeFiles/valhalla-meili.dir/routing.cc.o" "meili/CMakeFiles/valhalla-meili.dir/geometry_helpers.cc.o" "meili/CMakeFiles/valhalla-meili.dir/map_matcher_factory.cc.o" "meili/CMakeFiles/valhalla-meili.dir/config.cc.o" "meili/CMakeFiles/valhalla-meili.dir/candidate_search.cc.o" "meili/CMakeFiles/valhalla-meili.dir/map_matcher.cc.o" "meili/CMakeFiles/valhalla-meili.dir/match_route.cc.o" "meili/CMakeFiles/valhalla-meili.dir/transition_cost_model.cc.o" "meili/CMakeFiles/valhalla-meili.dir/viterbi_search.cc.o" "midgard/CMakeFiles/valhalla-midgard.dir/linesegment2.cc.o" "midgard/CMakeFiles/valhalla-midgard.dir/tiles.cc.o" "midgard/CMakeFiles/valhalla-midgard.dir/polyline2.cc.o" "midgard/CMakeFiles/valhalla-midgard.dir/obb2.cc.o" "midgard/CMakeFiles/valhalla-midgard.dir/pointll.cc.o" "midgard/CMakeFiles/valhalla-midgard.dir/point_tile_index.cc.o" "midgard/CMakeFiles/valhalla-midgard.dir/aabb2.cc.o" "midgard/CMakeFiles/valhalla-midgard.dir/point2.cc.o" "midgard/CMakeFiles/valhalla-midgard.dir/util.cc.o" "midgard/CMakeFiles/valhalla-midgard.dir/ellipse.cc.o" "midgard/CMakeFiles/valhalla-midgard.dir/logging.cc.o" "odin/CMakeFiles/valhalla-odin.dir/markup_formatter.cc.o" "odin/CMakeFiles/valhalla-odin.dir/narrative_dictionary.cc.o" "odin/CMakeFiles/valhalla-odin.dir/sign.cc.o" "odin/CMakeFiles/valhalla-odin.dir/signs.cc.o" "odin/CMakeFiles/valhalla-odin.dir/transitrouteinfo.cc.o" "odin/CMakeFiles/valhalla-odin.dir/worker.cc.o" "odin/CMakeFiles/valhalla-odin.dir/directionsbuilder.cc.o" "odin/CMakeFiles/valhalla-odin.dir/enhancedtrippath.cc.o" "odin/CMakeFiles/valhalla-odin.dir/maneuver.cc.o" "odin/CMakeFiles/valhalla-odin.dir/maneuversbuilder.cc.o" "odin/CMakeFiles/valhalla-odin.dir/narrative_builder_factory.cc.o" "odin/CMakeFiles/valhalla-odin.dir/narrativebuilder.cc.o" "odin/CMakeFiles/valhalla-odin.dir/util.cc.o" "sif/CMakeFiles/valhalla-sif.dir/autocost.cc.o" "sif/CMakeFiles/valhalla-sif.dir/bicyclecost.cc.o" "sif/CMakeFiles/valhalla-sif.dir/hierarchylimits.cc.o" "sif/CMakeFiles/valhalla-sif.dir/motorcyclecost.cc.o" "sif/CMakeFiles/valhalla-sif.dir/motorscootercost.cc.o" "sif/CMakeFiles/valhalla-sif.dir/nocost.cc.o" "sif/CMakeFiles/valhalla-sif.dir/pedestriancost.cc.o" "sif/CMakeFiles/valhalla-sif.dir/transitcost.cc.o" "sif/CMakeFiles/valhalla-sif.dir/truckcost.cc.o" "sif/CMakeFiles/valhalla-sif.dir/dynamiccost.cc.o" "sif/CMakeFiles/valhalla-sif.dir/recost.cc.o" "skadi/CMakeFiles/valhalla-skadi.dir/sample.cc.o" "skadi/CMakeFiles/valhalla-skadi.dir/util.cc.o" "thor/CMakeFiles/valhalla-thor.dir/astar_bss.cc.o" "thor/CMakeFiles/valhalla-thor.dir/alternates.cc.o" "thor/CMakeFiles/valhalla-thor.dir/bidirectional_astar.cc.o" "thor/CMakeFiles/valhalla-thor.dir/costmatrix.cc.o" "thor/CMakeFiles/valhalla-thor.dir/dijkstras.cc.o" "thor/CMakeFiles/valhalla-thor.dir/matrix_action.cc.o" "thor/CMakeFiles/valhalla-thor.dir/multimodal.cc.o" "thor/CMakeFiles/valhalla-thor.dir/route_action.cc.o" "thor/CMakeFiles/valhalla-thor.dir/timedistancebssmatrix.cc.o" "thor/CMakeFiles/valhalla-thor.dir/timedistancematrix.cc.o" "thor/CMakeFiles/valhalla-thor.dir/triplegbuilder.cc.o" "thor/CMakeFiles/valhalla-thor.dir/unidirectional_astar.cc.o" "thor/CMakeFiles/valhalla-thor.dir/worker.cc.o" "thor/CMakeFiles/valhalla-thor.dir/centroid.cc.o" "thor/CMakeFiles/valhalla-thor.dir/expansion_action.cc.o" "thor/CMakeFiles/valhalla-thor.dir/isochrone_action.cc.o" "thor/CMakeFiles/valhalla-thor.dir/isochrone.cc.o" "thor/CMakeFiles/valhalla-thor.dir/map_matcher.cc.o" "thor/CMakeFiles/valhalla-thor.dir/optimized_route_action.cc.o" "thor/CMakeFiles/valhalla-thor.dir/optimizer.cc.o" "thor/CMakeFiles/valhalla-thor.dir/route_matcher.cc.o" "thor/CMakeFiles/valhalla-thor.dir/status_action.cc.o" "thor/CMakeFiles/valhalla-thor.dir/trace_attributes_action.cc.o" "thor/CMakeFiles/valhalla-thor.dir/trace_route_action.cc.o" "tyr/CMakeFiles/valhalla-tyr.dir/actor.cc.o" "tyr/CMakeFiles/valhalla-tyr.dir/height_serializer.cc.o" "tyr/CMakeFiles/valhalla-tyr.dir/isochrone_serializer.cc.o" "tyr/CMakeFiles/valhalla-tyr.dir/matrix_serializer.cc.o" "tyr/CMakeFiles/valhalla-tyr.dir/route_serializer_osrm.cc.o" "tyr/CMakeFiles/valhalla-tyr.dir/route_summary_cache.cc.o" "tyr/CMakeFiles/valhalla-tyr.dir/serializers.cc.o" "tyr/CMakeFiles/valhalla-tyr.dir/transit_available_serializer.cc.o" "tyr/CMakeFiles/valhalla-tyr.dir/locate_serializer.cc.o" "tyr/CMakeFiles/valhalla-tyr.dir/route_serializer.cc.o" "tyr/CMakeFiles/valhalla-tyr.dir/route_serializer_valhalla.cc.o" "tyr/CMakeFiles/valhalla-tyr.dir/trace_serializer.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/admin.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/adminbuilder.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/bssbuilder.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/complexrestrictionbuilder.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/convert_transit.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/countryaccess.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/dataquality.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/directededgebuilder.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/edgeinfobuilder.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/elevationbuilder.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/ferry_connections.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/graphbuilder.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/graphenhancer.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/graphfilter.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/graphtilebuilder.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/graphvalidator.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/hierarchybuilder.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/ingest_transit.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/landmarks.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/linkclassification.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/luatagtransform.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/node_expander.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/osmdata.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/osmpbfparser.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/osmaccessrestriction.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/osmrestriction.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/osmway.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/pbfadminparser.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/pbfgraphparser.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/restrictionbuilder.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/servicedays.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/shortcutbuilder.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/timeparsing.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/transitbuilder.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/util.cc.o" "mjolnir/CMakeFiles/valhalla-mjolnir.dir/validatetransit.cc.o"
+ccache /usr/bin/ranlib libvalhalla.a
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+[ 76%] Built target valhalla
+make  -f CMakeFiles/valhalla_run_map_match.dir/build.make CMakeFiles/valhalla_run_map_match.dir/depend
+make  -f CMakeFiles/valhalla_benchmark_loki.dir/build.make CMakeFiles/valhalla_benchmark_loki.dir/depend
+make  -f CMakeFiles/valhalla_benchmark_skadi.dir/build.make CMakeFiles/valhalla_benchmark_skadi.dir/depend
+make  -f CMakeFiles/valhalla_run_isochrone.dir/build.make CMakeFiles/valhalla_run_isochrone.dir/depend
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+cd /home/jj/thesis/valhalla/build && /snap/cmake/1379/bin/cmake -E cmake_depends "Unix Makefiles" /home/jj/thesis/valhalla /home/jj/thesis/valhalla /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build/CMakeFiles/valhalla_run_map_match.dir/DependInfo.cmake "--color="
+make  -f CMakeFiles/valhalla_run_route.dir/build.make CMakeFiles/valhalla_run_route.dir/depend
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+cd /home/jj/thesis/valhalla/build && /snap/cmake/1379/bin/cmake -E cmake_depends "Unix Makefiles" /home/jj/thesis/valhalla /home/jj/thesis/valhalla /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build/CMakeFiles/valhalla_benchmark_loki.dir/DependInfo.cmake "--color="
+make  -f CMakeFiles/valhalla_benchmark_adjacency_list.dir/build.make CMakeFiles/valhalla_benchmark_adjacency_list.dir/depend
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+cd /home/jj/thesis/valhalla/build && /snap/cmake/1379/bin/cmake -E cmake_depends "Unix Makefiles" /home/jj/thesis/valhalla /home/jj/thesis/valhalla /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build/CMakeFiles/valhalla_benchmark_skadi.dir/DependInfo.cmake "--color="
+make  -f CMakeFiles/valhalla_run_matrix.dir/build.make CMakeFiles/valhalla_run_matrix.dir/depend
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+cd /home/jj/thesis/valhalla/build && /snap/cmake/1379/bin/cmake -E cmake_depends "Unix Makefiles" /home/jj/thesis/valhalla /home/jj/thesis/valhalla /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build/CMakeFiles/valhalla_run_isochrone.dir/DependInfo.cmake "--color="
+make  -f CMakeFiles/valhalla_path_comparison.dir/build.make CMakeFiles/valhalla_path_comparison.dir/depend
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+cd /home/jj/thesis/valhalla/build && /snap/cmake/1379/bin/cmake -E cmake_depends "Unix Makefiles" /home/jj/thesis/valhalla /home/jj/thesis/valhalla /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build/CMakeFiles/valhalla_run_route.dir/DependInfo.cmake "--color="
+make  -f CMakeFiles/valhalla_export_edges.dir/build.make CMakeFiles/valhalla_export_edges.dir/depend
+make  -f CMakeFiles/valhalla_expand_bounding_box.dir/build.make CMakeFiles/valhalla_expand_bounding_box.dir/depend
+Dependencies file "CMakeFiles/valhalla_run_map_match.dir/src/meili/valhalla_run_map_match.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/CMakeFiles/valhalla_run_map_match.dir/compiler_depend.internal".
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+cd /home/jj/thesis/valhalla/build && /snap/cmake/1379/bin/cmake -E cmake_depends "Unix Makefiles" /home/jj/thesis/valhalla /home/jj/thesis/valhalla /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build/CMakeFiles/valhalla_benchmark_adjacency_list.dir/DependInfo.cmake "--color="
+Dependencies file "CMakeFiles/valhalla_benchmark_loki.dir/src/valhalla_benchmark_loki.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/CMakeFiles/valhalla_benchmark_loki.dir/compiler_depend.internal".
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+cd /home/jj/thesis/valhalla/build && /snap/cmake/1379/bin/cmake -E cmake_depends "Unix Makefiles" /home/jj/thesis/valhalla /home/jj/thesis/valhalla /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build/CMakeFiles/valhalla_run_matrix.dir/DependInfo.cmake "--color="
+cd /home/jj/thesis/valhalla/build && /snap/cmake/1379/bin/cmake -E cmake_depends "Unix Makefiles" /home/jj/thesis/valhalla /home/jj/thesis/valhalla /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build/CMakeFiles/valhalla_path_comparison.dir/DependInfo.cmake "--color="
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+cd /home/jj/thesis/valhalla/build && /snap/cmake/1379/bin/cmake -E cmake_depends "Unix Makefiles" /home/jj/thesis/valhalla /home/jj/thesis/valhalla /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build/CMakeFiles/valhalla_export_edges.dir/DependInfo.cmake "--color="
+make  -f CMakeFiles/valhalla_service.dir/build.make CMakeFiles/valhalla_service.dir/depend
+Dependencies file "CMakeFiles/valhalla_benchmark_skadi.dir/src/valhalla_benchmark_skadi.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/CMakeFiles/valhalla_benchmark_skadi.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/valhalla_run_route.dir/src/valhalla_run_route.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/CMakeFiles/valhalla_run_route.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/valhalla_run_isochrone.dir/src/valhalla_run_isochrone.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/CMakeFiles/valhalla_run_isochrone.dir/compiler_depend.internal".
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+cd /home/jj/thesis/valhalla/build && /snap/cmake/1379/bin/cmake -E cmake_depends "Unix Makefiles" /home/jj/thesis/valhalla /home/jj/thesis/valhalla /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build/CMakeFiles/valhalla_expand_bounding_box.dir/DependInfo.cmake "--color="
+Dependencies file "CMakeFiles/valhalla_benchmark_adjacency_list.dir/src/valhalla_benchmark_adjacency_list.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/CMakeFiles/valhalla_benchmark_adjacency_list.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/valhalla_run_matrix.dir/src/valhalla_run_matrix.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/CMakeFiles/valhalla_run_matrix.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/valhalla_export_edges.dir/src/valhalla_export_edges.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/CMakeFiles/valhalla_export_edges.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/valhalla_expand_bounding_box.dir/src/valhalla_expand_bounding_box.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/CMakeFiles/valhalla_expand_bounding_box.dir/compiler_depend.internal".
+make  -f CMakeFiles/valhalla_build_statistics.dir/build.make CMakeFiles/valhalla_build_statistics.dir/depend
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+cd /home/jj/thesis/valhalla/build && /snap/cmake/1379/bin/cmake -E cmake_depends "Unix Makefiles" /home/jj/thesis/valhalla /home/jj/thesis/valhalla /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build/CMakeFiles/valhalla_service.dir/DependInfo.cmake "--color="
+Consolidate compiler generated dependencies of target valhalla_benchmark_skadi
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make  -f CMakeFiles/valhalla_benchmark_skadi.dir/build.make CMakeFiles/valhalla_benchmark_skadi.dir/build
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+cd /home/jj/thesis/valhalla/build && /snap/cmake/1379/bin/cmake -E cmake_depends "Unix Makefiles" /home/jj/thesis/valhalla /home/jj/thesis/valhalla /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build/CMakeFiles/valhalla_build_statistics.dir/DependInfo.cmake "--color="
+Consolidate compiler generated dependencies of target valhalla_run_map_match
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make  -f CMakeFiles/valhalla_run_map_match.dir/build.make CMakeFiles/valhalla_run_map_match.dir/build
+Dependencies file "CMakeFiles/valhalla_path_comparison.dir/src/valhalla_path_comparison.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/CMakeFiles/valhalla_path_comparison.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/valhalla_build_statistics.dir/src/mjolnir/statistics.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/CMakeFiles/valhalla_build_statistics.dir/compiler_depend.internal".
+Consolidate compiler generated dependencies of target valhalla_benchmark_loki
+Consolidate compiler generated dependencies of target valhalla_benchmark_adjacency_list
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+Consolidate compiler generated dependencies of target valhalla_run_isochrone
+Dependencies file "CMakeFiles/valhalla_build_statistics.dir/src/mjolnir/statistics_database.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/CMakeFiles/valhalla_build_statistics.dir/compiler_depend.internal".
+make  -f CMakeFiles/valhalla_benchmark_loki.dir/build.make CMakeFiles/valhalla_benchmark_loki.dir/build
+make  -f CMakeFiles/valhalla_benchmark_adjacency_list.dir/build.make CMakeFiles/valhalla_benchmark_adjacency_list.dir/build
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+Dependencies file "CMakeFiles/valhalla_service.dir/src/valhalla_service.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/CMakeFiles/valhalla_service.dir/compiler_depend.internal".
+Consolidate compiler generated dependencies of target valhalla_run_route
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make  -f CMakeFiles/valhalla_run_isochrone.dir/build.make CMakeFiles/valhalla_run_isochrone.dir/build
+Consolidate compiler generated dependencies of target valhalla_export_edges
+Dependencies file "CMakeFiles/valhalla_build_statistics.dir/src/mjolnir/valhalla_build_statistics.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/CMakeFiles/valhalla_build_statistics.dir/compiler_depend.internal".
+Consolidate compiler generated dependencies of target valhalla_run_matrix
+[ 76%] Linking CXX executable valhalla_benchmark_skadi
+Consolidate compiler generated dependencies of target valhalla_expand_bounding_box
+/snap/cmake/1379/bin/cmake -E cmake_link_script CMakeFiles/valhalla_benchmark_skadi.dir/link.txt --verbose=1
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make  -f CMakeFiles/valhalla_run_route.dir/build.make CMakeFiles/valhalla_run_route.dir/build
+ccache /usr/bin/c++ -O3 -DNDEBUG CMakeFiles/valhalla_benchmark_skadi.dir/src/valhalla_benchmark_skadi.cc.o -o valhalla_benchmark_skadi  -Wl,-rpath,/usr/local/lib: src/libvalhalla.a /usr/lib/x86_64-linux-gnu/libprotobuf-lite.so /usr/lib/x86_64-linux-gnu/libcurl.so /usr/lib/x86_64-linux-gnu/libz.so /usr/local/lib/libprime_server.so /usr/lib/x86_64-linux-gnu/liblz4.so /usr/lib/libgdal.so /usr/lib/x86_64-linux-gnu/libspatialite.so /usr/lib/x86_64-linux-gnu/libsqlite3.so /usr/lib/x86_64-linux-gnu/libluajit-5.1.so -lpthread
+make  -f CMakeFiles/valhalla_run_matrix.dir/build.make CMakeFiles/valhalla_run_matrix.dir/build
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+make  -f CMakeFiles/valhalla_export_edges.dir/build.make CMakeFiles/valhalla_export_edges.dir/build
+[ 76%] Linking CXX executable valhalla_benchmark_loki
+[ 76%] Linking CXX executable valhalla_benchmark_adjacency_list
+[ 76%] Linking CXX executable valhalla_run_map_match
+/snap/cmake/1379/bin/cmake -E cmake_link_script CMakeFiles/valhalla_run_map_match.dir/link.txt --verbose=1
+/snap/cmake/1379/bin/cmake -E cmake_link_script CMakeFiles/valhalla_benchmark_loki.dir/link.txt --verbose=1
+/snap/cmake/1379/bin/cmake -E cmake_link_script CMakeFiles/valhalla_benchmark_adjacency_list.dir/link.txt --verbose=1
+ccache /usr/bin/c++ -O3 -DNDEBUG CMakeFiles/valhalla_benchmark_loki.dir/src/valhalla_benchmark_loki.cc.o -o valhalla_benchmark_loki  -Wl,-rpath,/usr/local/lib: src/libvalhalla.a /usr/lib/x86_64-linux-gnu/libprotobuf-lite.so /usr/lib/x86_64-linux-gnu/libcurl.so /usr/lib/x86_64-linux-gnu/libz.so /usr/local/lib/libprime_server.so /usr/lib/x86_64-linux-gnu/liblz4.so /usr/lib/libgdal.so /usr/lib/x86_64-linux-gnu/libspatialite.so /usr/lib/x86_64-linux-gnu/libsqlite3.so /usr/lib/x86_64-linux-gnu/libluajit-5.1.so -lpthread
+ccache /usr/bin/c++ -O3 -DNDEBUG CMakeFiles/valhalla_benchmark_adjacency_list.dir/src/valhalla_benchmark_adjacency_list.cc.o -o valhalla_benchmark_adjacency_list  -Wl,-rpath,/usr/local/lib: src/libvalhalla.a /usr/lib/x86_64-linux-gnu/libprotobuf-lite.so /usr/lib/x86_64-linux-gnu/libcurl.so /usr/lib/x86_64-linux-gnu/libz.so /usr/local/lib/libprime_server.so /usr/lib/x86_64-linux-gnu/liblz4.so /usr/lib/libgdal.so /usr/lib/x86_64-linux-gnu/libspatialite.so /usr/lib/x86_64-linux-gnu/libsqlite3.so /usr/lib/x86_64-linux-gnu/libluajit-5.1.so -lpthread
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+Consolidate compiler generated dependencies of target valhalla_path_comparison
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+[ 76%] Linking CXX executable valhalla_run_isochrone
+/snap/cmake/1379/bin/cmake -E cmake_link_script CMakeFiles/valhalla_run_isochrone.dir/link.txt --verbose=1
+[ 76%] Linking CXX executable valhalla_run_route
+/snap/cmake/1379/bin/cmake -E cmake_link_script CMakeFiles/valhalla_run_route.dir/link.txt --verbose=1
+ccache /usr/bin/c++ -O3 -DNDEBUG CMakeFiles/valhalla_run_isochrone.dir/src/valhalla_run_isochrone.cc.o -o valhalla_run_isochrone  -Wl,-rpath,/usr/local/lib: src/libvalhalla.a /usr/lib/x86_64-linux-gnu/libprotobuf-lite.so /usr/lib/x86_64-linux-gnu/libcurl.so /usr/lib/x86_64-linux-gnu/libz.so /usr/local/lib/libprime_server.so /usr/lib/x86_64-linux-gnu/liblz4.so /usr/lib/libgdal.so /usr/lib/x86_64-linux-gnu/libspatialite.so /usr/lib/x86_64-linux-gnu/libsqlite3.so /usr/lib/x86_64-linux-gnu/libluajit-5.1.so -lpthread
+ccache /usr/bin/c++ -O3 -DNDEBUG CMakeFiles/valhalla_run_route.dir/src/valhalla_run_route.cc.o -o valhalla_run_route  -Wl,-rpath,/usr/local/lib: src/libvalhalla.a /usr/lib/x86_64-linux-gnu/libprotobuf-lite.so /usr/lib/x86_64-linux-gnu/libcurl.so /usr/lib/x86_64-linux-gnu/libz.so /usr/local/lib/libprime_server.so /usr/lib/x86_64-linux-gnu/liblz4.so /usr/lib/libgdal.so /usr/lib/x86_64-linux-gnu/libspatialite.so /usr/lib/x86_64-linux-gnu/libsqlite3.so /usr/lib/x86_64-linux-gnu/libluajit-5.1.so -lpthread
+Consolidate compiler generated dependencies of target valhalla_service
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+make  -f CMakeFiles/valhalla_path_comparison.dir/build.make CMakeFiles/valhalla_path_comparison.dir/build
+ccache /usr/bin/c++ -O3 -DNDEBUG CMakeFiles/valhalla_run_map_match.dir/src/meili/valhalla_run_map_match.cc.o -o valhalla_run_map_match  -Wl,-rpath,/usr/local/lib: src/libvalhalla.a /usr/lib/x86_64-linux-gnu/libprotobuf-lite.so /usr/lib/x86_64-linux-gnu/libcurl.so /usr/lib/x86_64-linux-gnu/libz.so /usr/local/lib/libprime_server.so /usr/lib/x86_64-linux-gnu/liblz4.so /usr/lib/libgdal.so /usr/lib/x86_64-linux-gnu/libspatialite.so /usr/lib/x86_64-linux-gnu/libsqlite3.so /usr/lib/x86_64-linux-gnu/libluajit-5.1.so -lpthread
+[ 76%] Linking CXX executable valhalla_run_matrix
+/snap/cmake/1379/bin/cmake -E cmake_link_script CMakeFiles/valhalla_run_matrix.dir/link.txt --verbose=1
+ccache /usr/bin/c++ -O3 -DNDEBUG CMakeFiles/valhalla_run_matrix.dir/src/valhalla_run_matrix.cc.o -o valhalla_run_matrix  -Wl,-rpath,/usr/local/lib: src/libvalhalla.a /usr/lib/x86_64-linux-gnu/libprotobuf-lite.so /usr/lib/x86_64-linux-gnu/libcurl.so /usr/lib/x86_64-linux-gnu/libz.so /usr/local/lib/libprime_server.so /usr/lib/x86_64-linux-gnu/liblz4.so /usr/lib/libgdal.so /usr/lib/x86_64-linux-gnu/libspatialite.so /usr/lib/x86_64-linux-gnu/libsqlite3.so /usr/lib/x86_64-linux-gnu/libluajit-5.1.so -lpthread
+make  -f CMakeFiles/valhalla_expand_bounding_box.dir/build.make CMakeFiles/valhalla_expand_bounding_box.dir/build
+Consolidate compiler generated dependencies of target valhalla_build_statistics
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+make  -f CMakeFiles/valhalla_service.dir/build.make CMakeFiles/valhalla_service.dir/build
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+make  -f CMakeFiles/valhalla_build_statistics.dir/build.make CMakeFiles/valhalla_build_statistics.dir/build
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+[ 76%] Linking CXX executable valhalla_path_comparison
+/snap/cmake/1379/bin/cmake -E cmake_link_script CMakeFiles/valhalla_path_comparison.dir/link.txt --verbose=1
+ccache /usr/bin/c++ -O3 -DNDEBUG CMakeFiles/valhalla_path_comparison.dir/src/valhalla_path_comparison.cc.o -o valhalla_path_comparison  -Wl,-rpath,/usr/local/lib: src/libvalhalla.a /usr/lib/x86_64-linux-gnu/libprotobuf-lite.so /usr/lib/x86_64-linux-gnu/libcurl.so /usr/lib/x86_64-linux-gnu/libz.so /usr/local/lib/libprime_server.so /usr/lib/x86_64-linux-gnu/liblz4.so /usr/lib/libgdal.so /usr/lib/x86_64-linux-gnu/libspatialite.so /usr/lib/x86_64-linux-gnu/libsqlite3.so /usr/lib/x86_64-linux-gnu/libluajit-5.1.so -lpthread
+[ 76%] Linking CXX executable valhalla_export_edges
+/snap/cmake/1379/bin/cmake -E cmake_link_script CMakeFiles/valhalla_export_edges.dir/link.txt --verbose=1
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+[ 76%] Linking CXX executable valhalla_expand_bounding_box
+/snap/cmake/1379/bin/cmake -E cmake_link_script CMakeFiles/valhalla_expand_bounding_box.dir/link.txt --verbose=1
+ccache /usr/bin/c++ -O3 -DNDEBUG CMakeFiles/valhalla_export_edges.dir/src/valhalla_export_edges.cc.o -o valhalla_export_edges  -Wl,-rpath,/usr/local/lib: src/libvalhalla.a /usr/lib/x86_64-linux-gnu/libprotobuf-lite.so /usr/lib/x86_64-linux-gnu/libcurl.so /usr/lib/x86_64-linux-gnu/libz.so /usr/local/lib/libprime_server.so /usr/lib/x86_64-linux-gnu/liblz4.so /usr/lib/libgdal.so /usr/lib/x86_64-linux-gnu/libspatialite.so /usr/lib/x86_64-linux-gnu/libsqlite3.so /usr/lib/x86_64-linux-gnu/libluajit-5.1.so -lpthread
+ccache /usr/bin/c++ -O3 -DNDEBUG CMakeFiles/valhalla_expand_bounding_box.dir/src/valhalla_expand_bounding_box.cc.o -o valhalla_expand_bounding_box  -Wl,-rpath,/usr/local/lib: src/libvalhalla.a /usr/lib/x86_64-linux-gnu/libprotobuf-lite.so /usr/lib/x86_64-linux-gnu/libcurl.so /usr/lib/x86_64-linux-gnu/libz.so /usr/local/lib/libprime_server.so /usr/lib/x86_64-linux-gnu/liblz4.so /usr/lib/libgdal.so /usr/lib/x86_64-linux-gnu/libspatialite.so /usr/lib/x86_64-linux-gnu/libsqlite3.so /usr/lib/x86_64-linux-gnu/libluajit-5.1.so -lpthread
+[ 76%] Linking CXX executable valhalla_service
+/snap/cmake/1379/bin/cmake -E cmake_link_script CMakeFiles/valhalla_service.dir/link.txt --verbose=1
+[ 76%] Linking CXX executable valhalla_build_statistics
+/snap/cmake/1379/bin/cmake -E cmake_link_script CMakeFiles/valhalla_build_statistics.dir/link.txt --verbose=1
+ccache /usr/bin/c++ -O3 -DNDEBUG CMakeFiles/valhalla_service.dir/src/valhalla_service.cc.o -o valhalla_service  -Wl,-rpath,/usr/local/lib: src/libvalhalla.a /usr/lib/x86_64-linux-gnu/libprotobuf-lite.so /usr/lib/x86_64-linux-gnu/libcurl.so /usr/lib/x86_64-linux-gnu/libz.so /usr/local/lib/libprime_server.so /usr/lib/x86_64-linux-gnu/liblz4.so /usr/lib/libgdal.so /usr/lib/x86_64-linux-gnu/libspatialite.so /usr/lib/x86_64-linux-gnu/libsqlite3.so /usr/lib/x86_64-linux-gnu/libluajit-5.1.so -lpthread
+ccache /usr/bin/c++ -O3 -DNDEBUG CMakeFiles/valhalla_build_statistics.dir/src/mjolnir/valhalla_build_statistics.cc.o CMakeFiles/valhalla_build_statistics.dir/src/mjolnir/statistics.cc.o CMakeFiles/valhalla_build_statistics.dir/src/mjolnir/statistics_database.cc.o -o valhalla_build_statistics  -Wl,-rpath,/usr/local/lib: src/libvalhalla.a /usr/lib/x86_64-linux-gnu/libprotobuf-lite.so /usr/lib/x86_64-linux-gnu/libcurl.so /usr/lib/x86_64-linux-gnu/libz.so /usr/local/lib/libprime_server.so /usr/lib/x86_64-linux-gnu/liblz4.so /usr/lib/libgdal.so /usr/lib/x86_64-linux-gnu/libspatialite.so /usr/lib/x86_64-linux-gnu/libsqlite3.so /usr/lib/x86_64-linux-gnu/libluajit-5.1.so -lpthread
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+[ 76%] Built target valhalla_benchmark_adjacency_list
+make  -f CMakeFiles/valhalla_ways_to_edges.dir/build.make CMakeFiles/valhalla_ways_to_edges.dir/depend
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+cd /home/jj/thesis/valhalla/build && /snap/cmake/1379/bin/cmake -E cmake_depends "Unix Makefiles" /home/jj/thesis/valhalla /home/jj/thesis/valhalla /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build/CMakeFiles/valhalla_ways_to_edges.dir/DependInfo.cmake "--color="
+Dependencies file "CMakeFiles/valhalla_ways_to_edges.dir/src/mjolnir/valhalla_ways_to_edges.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/CMakeFiles/valhalla_ways_to_edges.dir/compiler_depend.internal".
+Consolidate compiler generated dependencies of target valhalla_ways_to_edges
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make  -f CMakeFiles/valhalla_ways_to_edges.dir/build.make CMakeFiles/valhalla_ways_to_edges.dir/build
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+[ 76%] Linking CXX executable valhalla_ways_to_edges
+/snap/cmake/1379/bin/cmake -E cmake_link_script CMakeFiles/valhalla_ways_to_edges.dir/link.txt --verbose=1
+ccache /usr/bin/c++ -O3 -DNDEBUG CMakeFiles/valhalla_ways_to_edges.dir/src/mjolnir/valhalla_ways_to_edges.cc.o -o valhalla_ways_to_edges  -Wl,-rpath,/usr/local/lib: src/libvalhalla.a /usr/lib/x86_64-linux-gnu/libprotobuf-lite.so /usr/lib/x86_64-linux-gnu/libcurl.so /usr/lib/x86_64-linux-gnu/libz.so /usr/local/lib/libprime_server.so /usr/lib/x86_64-linux-gnu/liblz4.so /usr/lib/libgdal.so /usr/lib/x86_64-linux-gnu/libspatialite.so /usr/lib/x86_64-linux-gnu/libsqlite3.so /usr/lib/x86_64-linux-gnu/libluajit-5.1.so -lpthread
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+[ 80%] Built target valhalla_benchmark_skadi
+make  -f CMakeFiles/valhalla_validate_transit.dir/build.make CMakeFiles/valhalla_validate_transit.dir/depend
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+cd /home/jj/thesis/valhalla/build && /snap/cmake/1379/bin/cmake -E cmake_depends "Unix Makefiles" /home/jj/thesis/valhalla /home/jj/thesis/valhalla /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build/CMakeFiles/valhalla_validate_transit.dir/DependInfo.cmake "--color="
+Dependencies file "CMakeFiles/valhalla_validate_transit.dir/src/mjolnir/valhalla_validate_transit.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/CMakeFiles/valhalla_validate_transit.dir/compiler_depend.internal".
+Consolidate compiler generated dependencies of target valhalla_validate_transit
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make  -f CMakeFiles/valhalla_validate_transit.dir/build.make CMakeFiles/valhalla_validate_transit.dir/build
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+[ 80%] Linking CXX executable valhalla_validate_transit
+/snap/cmake/1379/bin/cmake -E cmake_link_script CMakeFiles/valhalla_validate_transit.dir/link.txt --verbose=1
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+[ 80%] Built target valhalla_export_edges
+make  -f CMakeFiles/valhalla_benchmark_admins.dir/build.make CMakeFiles/valhalla_benchmark_admins.dir/depend
+ccache /usr/bin/c++ -O3 -DNDEBUG CMakeFiles/valhalla_validate_transit.dir/src/mjolnir/valhalla_validate_transit.cc.o -o valhalla_validate_transit  -Wl,-rpath,/usr/local/lib: src/libvalhalla.a /usr/lib/x86_64-linux-gnu/libprotobuf-lite.so /usr/lib/x86_64-linux-gnu/libcurl.so /usr/lib/x86_64-linux-gnu/libz.so /usr/local/lib/libprime_server.so /usr/lib/x86_64-linux-gnu/liblz4.so /usr/lib/libgdal.so /usr/lib/x86_64-linux-gnu/libspatialite.so /usr/lib/x86_64-linux-gnu/libsqlite3.so /usr/lib/x86_64-linux-gnu/libluajit-5.1.so -lpthread
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+cd /home/jj/thesis/valhalla/build && /snap/cmake/1379/bin/cmake -E cmake_depends "Unix Makefiles" /home/jj/thesis/valhalla /home/jj/thesis/valhalla /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build /home/jj/thesis/valhalla/build/CMakeFiles/valhalla_benchmark_admins.dir/DependInfo.cmake "--color="
+Dependencies file "CMakeFiles/valhalla_benchmark_admins.dir/src/mjolnir/valhalla_benchmark_admins.cc.o.d" is newer than depends file "/home/jj/thesis/valhalla/build/CMakeFiles/valhalla_benchmark_admins.dir/compiler_depend.internal".
+Consolidate compiler generated dependencies of target valhalla_benchmark_admins
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make  -f CMakeFiles/valhalla_benchmark_admins.dir/build.make CMakeFiles/valhalla_benchmark_admins.dir/build
+make[2]: Entering directory '/home/jj/thesis/valhalla/build'
+[ 80%] Linking CXX executable valhalla_benchmark_admins
+/snap/cmake/1379/bin/cmake -E cmake_link_script CMakeFiles/valhalla_benchmark_admins.dir/link.txt --verbose=1
+/usr/bin/ld: src/libvalhalla.a(autocost.cc.o): in function `valhalla::sif::AutoCost::AutoCost(valhalla::Costing const&, unsigned int)':
+autocost.cc:(.text+0x463c): undefined reference to `train_model(unsigned int, unsigned int, unsigned int)'
+collect2: error: ld returned 1 exit status
+make[2]: *** [CMakeFiles/valhalla_run_map_match.dir/build.make:107: valhalla_run_map_match] Error 1
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make[1]: *** [CMakeFiles/Makefile2:1045: CMakeFiles/valhalla_run_map_match.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
+ccache /usr/bin/c++ -O3 -DNDEBUG CMakeFiles/valhalla_benchmark_admins.dir/src/mjolnir/valhalla_benchmark_admins.cc.o -o valhalla_benchmark_admins  -Wl,-rpath,/usr/local/lib: src/libvalhalla.a /usr/lib/x86_64-linux-gnu/libprotobuf-lite.so /usr/lib/x86_64-linux-gnu/libcurl.so /usr/lib/x86_64-linux-gnu/libz.so /usr/local/lib/libprime_server.so /usr/lib/x86_64-linux-gnu/liblz4.so /usr/lib/libgdal.so /usr/lib/x86_64-linux-gnu/libspatialite.so /usr/lib/x86_64-linux-gnu/libsqlite3.so /usr/lib/x86_64-linux-gnu/libluajit-5.1.so -lpthread
+/usr/bin/ld: src/libvalhalla.a(autocost.cc.o): in function `valhalla::sif::AutoCost::AutoCost(valhalla::Costing const&, unsigned int)':
+autocost.cc:(.text+0x463c): undefined reference to `train_model(unsigned int, unsigned int, unsigned int)'
+collect2: error: ld returned 1 exit status
+make[2]: *** [CMakeFiles/valhalla_benchmark_loki.dir/build.make:107: valhalla_benchmark_loki] Error 1
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make[1]: *** [CMakeFiles/Makefile2:1071: CMakeFiles/valhalla_benchmark_loki.dir/all] Error 2
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+[ 80%] Built target valhalla_expand_bounding_box
+/usr/bin/ld: src/libvalhalla.a(autocost.cc.o): in function `valhalla::sif::AutoCost::AutoCost(valhalla::Costing const&, unsigned int)':
+autocost.cc:(.text+0x463c): undefined reference to `train_model(unsigned int, unsigned int, unsigned int)'
+collect2: error: ld returned 1 exit status
+make[2]: *** [CMakeFiles/valhalla_path_comparison.dir/build.make:107: valhalla_path_comparison] Error 1
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make[1]: *** [CMakeFiles/Makefile2:1227: CMakeFiles/valhalla_path_comparison.dir/all] Error 2
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+[ 80%] Built target valhalla_ways_to_edges
+/usr/bin/ld: src/libvalhalla.a(autocost.cc.o): in function `valhalla::sif::AutoCost::AutoCost(valhalla::Costing const&, unsigned int)':
+autocost.cc:(.text+0x463c): undefined reference to `train_model(unsigned int, unsigned int, unsigned int)'
+collect2: error: ld returned 1 exit status
+make[2]: *** [CMakeFiles/valhalla_run_matrix.dir/build.make:107: valhalla_run_matrix] Error 1
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make[1]: *** [CMakeFiles/Makefile2:1201: CMakeFiles/valhalla_run_matrix.dir/all] Error 2
+/usr/bin/ld: src/libvalhalla.a(autocost.cc.o): in function `valhalla::sif::AutoCost::AutoCost(valhalla::Costing const&, unsigned int)':
+autocost.cc:(.text+0x463c): undefined reference to `train_model(unsigned int, unsigned int, unsigned int)'
+collect2: error: ld returned 1 exit status
+make[2]: *** [CMakeFiles/valhalla_run_isochrone.dir/build.make:107: valhalla_run_isochrone] Error 1
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make[1]: *** [CMakeFiles/Makefile2:1123: CMakeFiles/valhalla_run_isochrone.dir/all] Error 2
+/usr/bin/ld: src/libvalhalla.a(autocost.cc.o): in function `valhalla::sif::AutoCost::AutoCost(valhalla::Costing const&, unsigned int)':
+autocost.cc:(.text+0x463c): undefined reference to `train_model(unsigned int, unsigned int, unsigned int)'
+collect2: error: ld returned 1 exit status
+make[2]: *** [CMakeFiles/valhalla_run_route.dir/build.make:107: valhalla_run_route] Error 1
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make[1]: *** [CMakeFiles/Makefile2:1149: CMakeFiles/valhalla_run_route.dir/all] Error 2
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+[ 84%] Built target valhalla_build_statistics
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+[ 84%] Built target valhalla_benchmark_admins
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+[ 84%] Built target valhalla_validate_transit
+/usr/bin/ld: src/libvalhalla.a(autocost.cc.o): in function `valhalla::sif::AutoCost::AutoCost(valhalla::Costing const&, unsigned int)':
+autocost.cc:(.text+0x463c): undefined reference to `train_model(unsigned int, unsigned int, unsigned int)'
+collect2: error: ld returned 1 exit status
+make[2]: *** [CMakeFiles/valhalla_service.dir/build.make:107: valhalla_service] Error 1
+make[2]: Leaving directory '/home/jj/thesis/valhalla/build'
+make[1]: *** [CMakeFiles/Makefile2:1305: CMakeFiles/valhalla_service.dir/all] Error 2
+make[1]: Leaving directory '/home/jj/thesis/valhalla/build'
+make: *** [Makefile:156: all] Error 2
+make: Leaving directory '/home/jj/thesis/valhalla/build'

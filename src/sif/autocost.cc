@@ -12,8 +12,7 @@
 #include <cassert>
 #include <iostream>
 #include <cmath>
-#include <torch/torch.h>
-#include "cost_model/model.h"
+#include "model.h"
 
 #ifdef INLINE_TEST
 #include "test.h"
@@ -427,7 +426,7 @@ AutoCost::AutoCost(const Costing& costing, uint32_t access_mask)
     uint32_t b_c = static_cast<uint32_t>(costing_options.b_c());
     uint32_t a_b = static_cast<uint32_t>(costing_options.a_b());
 
-    train_model(a_c, b_c, a_b); // train model 
+    train_model(a_c, b_c, a_b); // train model
   }
 }
 

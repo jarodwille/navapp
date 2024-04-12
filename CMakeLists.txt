@@ -17,10 +17,16 @@ set(VALHALLA_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(VALHALLA_BUILD_DIR ${CMAKE_CURRENT_BINARY_DIR})
 list(INSERT CMAKE_MODULE_PATH 0 ${VALHALLA_SOURCE_DIR}/cmake)
 
-set(Torch_DIR "${VALHALLA_SOURCE_DIR}/../libtorch/share/cmake/Torch")
-set(CMAKE_CUDA_COMPILER "/usr/local/cuda-12.4/bin/nvcc")
-set(CUDA_NVCC_EXECUTABLE "/usr/local/cuda-12.4/bin/nvcc")
-find_package(Torch REQUIRED)
+# set(Torch_DIR "${VALHALLA_SOURCE_DIR}/../libtorch/share/cmake/Torch")
+# set(CMAKE_CUDA_COMPILER "/usr/local/cuda-12.4/bin/nvcc")
+# set(CUDA_NVCC_EXECUTABLE "/usr/local/cuda-12.4/bin/nvcc")
+
+# find_package(Torch REQUIRED)
+# message(STATUS "HERE IS TORCH LIB")
+# foreach(LIB ${TORCH_LIBRARIES})
+#     message(STATUS "${LIB}")
+# endforeach()
+
 
 set(CMAKE_CXX_STANDARD 17 CACHE STRING "C++ language version to use (default is 17)")
 option(ENABLE_TOOLS "Enable Valhalla tools" ON)

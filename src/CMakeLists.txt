@@ -116,10 +116,8 @@ function(valhalla_module)
   endif()
   # Link against additional libraries if specified
   if(MODULE_LINK_LIBRARIES) # NOTE: NEW
+    message ("TORCH_LIBRARIES: ${TORCH_LIBRARIES}")
     target_link_libraries(${library} ${MODULE_LINK_LIBRARIES})
-  endif()
-  if(MODULE_COMPILE_DEFINITIONS) # NOTE: NEW
-    target_compile_definitions(${library} ${MODULE_COMPILE_DEFINITIONS})
   endif()
 endfunction()
 
@@ -129,6 +127,7 @@ add_subdirectory(loki)
 add_subdirectory(meili)
 add_subdirectory(midgard)
 add_subdirectory(odin)
+add_subdirectory(model)
 add_subdirectory(sif)
 add_subdirectory(skadi)
 add_subdirectory(thor)

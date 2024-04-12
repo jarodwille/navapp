@@ -1,0 +1,7 @@
+-- Caffe2: CUDA detected: 12.4
+-- Caffe2: CUDA nvcc is: /usr/local/cuda-12.4/bin/nvcc
+-- Caffe2: CUDA toolkit directory: /usr/local/cuda-12.4
+-- Caffe2: Header version is: 12.4
+-- /usr/local/cuda-12.4/lib64/libnvrtc.so shorthash is 6d168ef8
+-- USE_CUDNN is set to 0. Compiling without cuDNN support
+-- USE_CUSPARSELT is set to 0. Compiling without cuSPARSELt support

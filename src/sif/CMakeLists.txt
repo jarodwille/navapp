@@ -25,6 +25,7 @@ valhalla_module(NAME sif
     PUBLIC
       ${VALHALLA_SOURCE_DIR}
       ${VALHALLA_SOURCE_DIR}/valhalla
+      ${VALHALLA_SOURCE_DIR}/src/model
   SYSTEM_INCLUDE_DIRECTORIES
     PUBLIC
       ${system_includes}
@@ -34,4 +35,4 @@ valhalla_module(NAME sif
     ${valhalla_protobuf_targets}
     Boost::boost
   LINK_LIBRARIES
-    ${TORCH_LIBRARIES})
+    model_lib)
