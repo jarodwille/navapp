@@ -426,7 +426,7 @@ AutoCost::AutoCost(const Costing& costing, uint32_t access_mask)
     uint32_t b_c = static_cast<uint32_t>(costing_options.b_c());
     uint32_t a_b = static_cast<uint32_t>(costing_options.a_b());
 
-    train_model(a_c, b_c, a_b); // train model
+    train_models_a(a_c, b_c, a_b); // train model
   }
 }
 
@@ -1008,26 +1008,112 @@ public:
 
   virtual ~AutoModifiedBCost() {}
 
-  // virtual Cost EdgeCost(const baldr::DirectedEdge* edge,
-  //                       const graph_tile_ptr& tile,
-  //                       const baldr::TimeInfo& time_info,
-  //                       uint8_t& flow_sources) const override {}
+  virtual Cost EdgeCost(const baldr::DirectedEdge* edge,
+                        const graph_tile_ptr& tile,
+                        const baldr::TimeInfo& time_info,
+                        uint8_t& flow_sources) const override {
+    // either the computed edge speed or optional top_speed
+    auto edge_speed = fixed_speed_ == baldr::kDisableFixedSpeed
+                          ? tile->GetSpeed(edge, flow_mask_, time_info.second_of_week, false,
+                                          &flow_sources, time_info.seconds_from_now)
+                          : fixed_speed_;
 
-  // // Returns the time (in seconds) to make the transition from the predecessor
-  // virtual Cost TransitionCost(const baldr::DirectedEdge* edge,
-  //                               const baldr::NodeInfo* node,
-  //                               const EdgeLabel& pred) const override {}
+    auto final_speed = std::min(edge_speed, top_speed_);
 
-  // // Returns the cost to make the transition from the predecessor edge
-  // // when using a reverse search (from destination towards the origin).
-  // // pred is the opposing current edge in the reverse tree
-  // // edge is the opposing predecessor in the reverse tree
-  // virtual Cost TransitionCostReverse(const uint32_t idx,
-  //                                     const baldr::NodeInfo* node,
-  //                                     const baldr::DirectedEdge* pred,
-  //                                     const baldr::DirectedEdge* edge,
-  //                                     const bool has_measured_speed,
-  //                                     const InternalTurn internal_turn) const override {}
+    float sec = edge->length() * speedfactor_[final_speed];
+
+    if (shortest_) {
+      return Cost(edge->length(), sec);
+    }
+
+    // base factor is either ferry, rail ferry or density based
+    float factor = 1;
+    switch (edge->use()) {
+      case Use::kFerry:
+        factor = ferry_factor_;
+        break;
+      case Use::kRailFerry:
+        factor = rail_ferry_factor_;
+        break;
+      default:
+        factor = density_factor_[edge->density()];
+        break;
+    }
+
+    factor += highway_factor_ * kHighwayFactor[static_cast<uint32_t>(edge->classification())] +
+              surface_factor_ * kSurfaceFactor[static_cast<uint32_t>(edge->surface())] +
+              SpeedPenalty(edge, tile, time_info, flow_sources, edge_speed) +
+              edge->toll() * toll_factor_;
+
+    switch (edge->use()) {
+      case Use::kAlley:
+        factor *= alley_factor_;
+        break;
+      case Use::kTrack:
+        factor *= track_factor_;
+        break;
+      case Use::kLivingStreet:
+        factor *= living_street_factor_;
+        break;
+      case Use::kServiceRoad:
+        factor *= service_factor_;
+        break;
+      case Use::kTurnChannel:
+        if (flow_sources & kDefaultFlowMask) {
+          // boost only historic & live speeds
+          factor *= kTurnChannelFactor;
+        }
+        break;
+      default:
+        break;
+    }
+
+    if (IsClosed(edge, tile)) {
+      // Add a penalty for traversing a closed edge
+      factor *= closure_factor_;
+    }
+    // base cost before the factor is a linear combination of time vs distance, depending on which
+    // one the user thinks is more important to them
+    return Cost(e_net_b_forward(), sec);
+    }
+
+  // Returns the time (in seconds) to make the transition from the predecessor
+  virtual Cost TransitionCost(const baldr::DirectedEdge* edge,
+                                const baldr::NodeInfo* node,
+                                const EdgeLabel& pred) const override {
+    // Get the transition cost for country crossing, ferry, gate, toll booth,
+    // destination only, alley, maneuver penalty
+    uint32_t idx = pred.opp_local_idx();
+    Cost c = base_transition_cost(node, edge, &pred, idx);
+    c.secs += OSRMCarTurnDuration(edge, node, pred.opp_local_idx());
+
+    
+    // Call NN for cost
+    c.cost = t_net_b_forward();
+
+    return c;
+  }
+
+  // Returns the cost to make the transition from the predecessor edge
+  // when using a reverse search (from destination towards the origin).
+  // pred is the opposing current edge in the reverse tree
+  // edge is the opposing predecessor in the reverse tree
+  virtual Cost TransitionCostReverse(const uint32_t idx,
+                                      const baldr::NodeInfo* node,
+                                      const baldr::DirectedEdge* pred,
+                                      const baldr::DirectedEdge* edge,
+                                      const bool has_measured_speed,
+                                      const InternalTurn internal_turn) const override {
+    // Get the transition cost for country crossing, ferry, gate, toll booth,
+    // destination only, alley, maneuver penalty
+    Cost c = base_transition_cost(node, edge, pred, idx);
+    c.secs += OSRMCarTurnDuration(edge, node, pred->opp_local_idx());
+
+    // Call NN for cost
+    c.cost = t_net_b_forward();
+
+    return c;
+  }
 };
 
 
