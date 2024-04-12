@@ -12,6 +12,11 @@
 #include "proto/options.pb.h"
 #include "worker.h"
 
+#include <fstream>
+#include <iostream>
+#include <vector>
+#include <sstream>
+
 namespace {
 // Minimum edge length to verify heading (~3 feet)
 constexpr auto kMinEdgeLength = 0.001f;
@@ -92,70 +97,43 @@ void DirectionsBuilder::Build(Api& api, const MarkupFormatter& markup_formatter)
   }
 }
 
-// Helper function to split strings by delimiter
+// Function to split string by delimiter
 std::vector<std::string> split(const std::string &s, char delimiter) {
-    std::cout << "test11" << std::endl;
     std::vector<std::string> tokens;
     std::string token;
     std::istringstream tokenStream(s);
     while (getline(tokenStream, token, delimiter)) {
         tokens.push_back(token);
     }
-    std::cout << "test12" << std::endl;
     return tokens;
 }
 
+// Function to write edges data into a file
 void write_to_file(EnhancedTripLeg* etp, std::string costing_str) {
-  std::cout << "test1" << std::endl;
-  std::string filepath = "edges_data.txt";
+    std::string filepath = "edges_data.txt";
+    std::ofstream fout(filepath, std::ios::app); // Open in append mode
 
-  // Open the file in read mode to extract existing content
-  std::ifstream fin(filepath);
-  std::string contents, line;
-  while (getline(fin, line)) {
-      contents += line + "\n";
-  }
-  fin.close();
-  std::cout << "test2" << std::endl;
-  // Prepare to write new content
-  std::ofstream fout(filepath, std::ios::trunc); // Open in trunc mode to overwrite
-  if (!fout) {
+    if (!fout) {
         std::cout << "Error opening file for writing." << std::endl;
         return;
-  }
+    }
 
-  bool in_section = false;
-  for (const auto& line : split(contents, '\n')) { //TODO: FAILS HERE. OPENS SPLIT, NEVER DOES TEST3
-    std::cout << "test3" << std::endl;
-      if (line == costing_str + ":") {
-        std::cout << "test4" << std::endl;
-          in_section = true;
-          fout << line << std::endl; // Write the section header
-          // Assuming `edges()` returns a list of edges and each edge has `id()`, `length()`, `name()`
-          for (size_t x = 0; x < etp->node_size(); ++x) {
-              auto prev_edge = etp->GetPrevEdge(x);
-              auto curr_edge = etp->GetCurrEdge(x);
-              auto next_edge = etp->GetNextEdge(x);
-              fout << "  - length_km: " << curr_edge->length_km() << std::endl;
-              fout << "    speed: " << curr_edge->speed() << std::endl;
-              fout << "    begin_heading: " << curr_edge->begin_heading() << std::endl;
-              std::cout << "test5" << std::endl;
-          }
-          continue;
-      }
-      if (in_section && line.find('-') == 0) { // Skip writing old edges under the active section
-        std::cout << "test6" << std::endl;
-        continue;
-      }
-      if (line.find(':') != std::string::npos) { // Reset on new section
-        std::cout << "test7" << std::endl;
-        in_section = false;
-      }
-      fout << line << std::endl; // Write other lines normally
-  }
-  std::cout << "test8" << std::endl;
-  fout.close();
-  std::cout << "test9" << std::endl;
+    // Write the section header based on costing_str
+    fout << costing_str << ":" << std::endl;
+
+    // Assuming `edges()` returns a list of edges and each edge has `id()`, `length()`, `name()`
+    for (size_t x = 0; x < etp->node_size(); ++x) {
+        auto prev_edge = etp->GetPrevEdge(x);
+        auto curr_edge = etp->GetCurrEdge(x);
+        auto next_edge = etp->GetNextEdge(x);
+
+        fout << "  - length_km: " << curr_edge->length_km() << std::endl;
+        fout << "    speed: " << curr_edge->speed() << std::endl;
+        fout << "    begin_heading: " << curr_edge->begin_heading() << std::endl;
+    }
+    
+    fout.close();
+    std::cout << "Data written successfully under the section " << costing_str << std::endl;
 }
 
 // Update the heading of ~0 length edges.
@@ -182,10 +160,10 @@ void DirectionsBuilder::UpdateHeading(EnhancedTripLeg* etp, std::string costing_
     }
   }
 
-  // Write to file
-  write_to_file(etp, costing_str);
-  // print number of nodes NOTE: NEW
-  std::cout << "Wrote to file. costing was: " << costing_str << "Number of nodes: " << etp->node_size() << std::endl;
+  // // Write to file
+  // write_to_file(etp, costing_str);
+  // // print number of nodes NOTE: NEW
+  // std::cout << "Wrote to file. costing was: " << costing_str << "Number of nodes: " << etp->node_size() << std::endl;
 }
 
 // Returns the trip directions based on the specified directions options,

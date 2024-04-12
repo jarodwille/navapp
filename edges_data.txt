@@ -1,0 +1,373 @@
+auto:
+  - length_km: 0.0173031
+    speed: 40
+    begin_heading: 292
+  - length_km: 0.007
+    speed: 40
+    begin_heading: 292
+  - length_km: 0.006
+    speed: 40
+    begin_heading: 21
+  - length_km: 0.126
+    speed: 40
+    begin_heading: 21
+  - length_km: 0.006
+    speed: 40
+    begin_heading: 20
+  - length_km: 0.005
+    speed: 40
+    begin_heading: 21
+  - length_km: 0.126
+    speed: 40
+    begin_heading: 21
+  - length_km: 0.009
+    speed: 40
+    begin_heading: 18
+  - length_km: 0.008
+    speed: 40
+    begin_heading: 109
+  - length_km: 0.029
+    speed: 40
+    begin_heading: 111
+  - length_km: 0.041
+    speed: 40
+    begin_heading: 111
+  - length_km: 0.036
+    speed: 40
+    begin_heading: 112
+  - length_km: 0.014
+    speed: 40
+    begin_heading: 113
+  - length_km: 0.01
+    speed: 40
+    begin_heading: 112
+  - length_km: 0.011
+    speed: 40
+    begin_heading: 205
+  - length_km: 0.052
+    speed: 40
+    begin_heading: 194
+  - length_km: 0.072
+    speed: 40
+    begin_heading: 198
+  - length_km: 0.007
+    speed: 40
+    begin_heading: 198
+  - length_km: 0.005
+    speed: 40
+    begin_heading: 200
+  - length_km: 0.091
+    speed: 40
+    begin_heading: 200
+  - length_km: 0.034
+    speed: 40
+    begin_heading: 202
+  - length_km: 0.007
+    speed: 40
+    begin_heading: 201
+  - length_km: 0.005
+    speed: 40
+    begin_heading: 201
+  - length_km: 0.09
+    speed: 40
+    begin_heading: 201
+  - length_km: 0.035
+    speed: 40
+    begin_heading: 201
+  - length_km: 0.002
+    speed: 40
+    begin_heading: 201
+  - length_km: 0.012
+    speed: 40
+    begin_heading: 201
+  - length_km: 0.007
+    speed: 40
+    begin_heading: 294
+  - length_km: 0.058
+    speed: 40
+    begin_heading: 292
+  - length_km: 0.006
+    speed: 40
+    begin_heading: 291
+  - length_km: 0.006
+    speed: 40
+    begin_heading: 292
+  - length_km: 0.064
+    speed: 40
+    begin_heading: 292
+  - length_km: 0.008
+    speed: 40
+    begin_heading: 293
+  - length_km: 0.006
+    speed: 40
+    begin_heading: 291
+  - length_km: 0.013
+    speed: 40
+    begin_heading: 292
+  - length_km: 0.036
+    speed: 40
+    begin_heading: 292
+  - length_km: 0.015
+    speed: 40
+    begin_heading: 292
+  - length_km: 0.01
+    speed: 40
+    begin_heading: 292
+  - length_km: 0.025
+    speed: 40
+    begin_heading: 293
+  - length_km: 0.055
+    speed: 40
+    begin_heading: 291
+  - length_km: 0.009
+    speed: 40
+    begin_heading: 256
+  - length_km: 0.01
+    speed: 40
+    begin_heading: 294
+  - length_km: 0.012
+    speed: 40
+    begin_heading: 196
+  - length_km: 0.036
+    speed: 40
+    begin_heading: 195
+  - length_km: 0.047
+    speed: 40
+    begin_heading: 198
+  - length_km: 0.008
+    speed: 40
+    begin_heading: 197
+  - length_km: 0.006
+    speed: 40
+    begin_heading: 198
+  - length_km: 0.101
+    speed: 40
+    begin_heading: 197
+  - length_km: 0.008
+    speed: 40
+    begin_heading: 198
+  - length_km: 0.009
+    speed: 40
+    begin_heading: 200
+  - length_km: 0.126
+    speed: 40
+    begin_heading: 202
+  - length_km: 0.007
+    speed: 40
+    begin_heading: 204
+  - length_km: 0.007
+    speed: 40
+    begin_heading: 204
+  - length_km: 0.073
+    speed: 40
+    begin_heading: 205
+  - length_km: 0.002
+    speed: 40
+    begin_heading: 205
+  - length_km: 0.035
+    speed: 40
+    begin_heading: 205
+  - length_km: 0.008
+    speed: 40
+    begin_heading: 206
+  - length_km: 0.015
+    speed: 40
+    begin_heading: 205
+  - length_km: 0.017
+    speed: 56
+    begin_heading: 151
+  - length_km: 0.055
+    speed: 56
+    begin_heading: 152
+  - length_km: 0.117
+    speed: 56
+    begin_heading: 148
+  - length_km: 1.858
+    speed: 56
+    begin_heading: 158
+  - length_km: 0.132
+    speed: 113
+    begin_heading: 168
+  - length_km: 0.003
+    speed: 113
+    begin_heading: 331
+  - length_km: 0.002
+    speed: 113
+    begin_heading: 338
+  - length_km: 0.03
+    speed: 94
+    begin_heading: 353
+  - length_km: 0.026
+    speed: 40
+    begin_heading: 4
+  - length_km: 0.039
+    speed: 40
+    begin_heading: 3
+  - length_km: 0.032
+    speed: 40
+    begin_heading: 2
+  - length_km: 0.01
+    speed: 40
+    begin_heading: 352
+  - length_km: 0.004
+    speed: 40
+    begin_heading: 93
+  - length_km: 0.036
+    speed: 40
+    begin_heading: 94
+  - length_km: 0.007
+    speed: 40
+    begin_heading: 93
+  - length_km: 0.003
+    speed: 57
+    begin_heading: 93
+  - length_km: 0.017
+    speed: 40
+    begin_heading: 93
+  - length_km: 0.141
+    speed: 84
+    begin_heading: 107
+  - length_km: 0.011
+    speed: 84
+    begin_heading: 130
+  - length_km: 0.112
+    speed: 84
+    begin_heading: 132
+  - length_km: 0.034
+    speed: 84
+    begin_heading: 129
+  - length_km: 0.154
+    speed: 72
+    begin_heading: 141
+  - length_km: 0.022
+    speed: 72
+    begin_heading: 139
+  - length_km: 0.008
+    speed: 72
+    begin_heading: 140
+  - length_km: 0.08
+    speed: 72
+    begin_heading: 139
+  - length_km: 0.009
+    speed: 72
+    begin_heading: 122
+  - length_km: 0.169
+    speed: 72
+    begin_heading: 119
+  - length_km: 1.191
+    speed: 72
+    begin_heading: 93
+  - length_km: 0.114
+    speed: 84
+    begin_heading: 93
+  - length_km: 0.177
+    speed: 84
+    begin_heading: 55
+  - length_km: 0.064
+    speed: 84
+    begin_heading: 30
+  - length_km: 0.04
+    speed: 84
+    begin_heading: 8
+  - length_km: 0.012
+    speed: 84
+    begin_heading: 19
+  - length_km: 0.009
+    speed: 40
+    begin_heading: 77
+  - length_km: 0.059
+    speed: 40
+    begin_heading: 79
+  - length_km: 0.006
+    speed: 40
+    begin_heading: 78
+  - length_km: 0.005
+    speed: 40
+    begin_heading: 78
+  - length_km: 0.061
+    speed: 40
+    begin_heading: 78
+  - length_km: 0.008
+    speed: 40
+    begin_heading: 78
+  - length_km: 0.008
+    speed: 40
+    begin_heading: 78
+  - length_km: 0.101
+    speed: 40
+    begin_heading: 78
+  - length_km: 0.007
+    speed: 40
+    begin_heading: 77
+  - length_km: 0.007
+    speed: 40
+    begin_heading: 78
+  - length_km: 0.064
+    speed: 40
+    begin_heading: 78
+  - length_km: 0.006
+    speed: 40
+    begin_heading: 78
+  - length_km: 0.006
+    speed: 40
+    begin_heading: 78
+  - length_km: 0.026
+    speed: 40
+    begin_heading: 78
+  - length_km: 0.039
+    speed: 40
+    begin_heading: 77
+  - length_km: 0.01
+    speed: 40
+    begin_heading: 78
+  - length_km: 0.009
+    speed: 40
+    begin_heading: 81
+  - length_km: 0.072
+    speed: 40
+    begin_heading: 81
+  - length_km: 0.071
+    speed: 40
+    begin_heading: 81
+  - length_km: 0.006
+    speed: 40
+    begin_heading: 82
+  - length_km: 0.004
+    speed: 40
+    begin_heading: 80
+  - length_km: 0.066
+    speed: 40
+    begin_heading: 81
+  - length_km: 0.006
+    speed: 40
+    begin_heading: 82
+  - length_km: 0.004
+    speed: 40
+    begin_heading: 81
+  - length_km: 0.067
+    speed: 40
+    begin_heading: 81
+  - length_km: 0.008
+    speed: 40
+    begin_heading: 81
+  - length_km: 0.009
+    speed: 40
+    begin_heading: 171
+  - length_km: 0.229
+    speed: 40
+    begin_heading: 171
+  - length_km: 0.01
+    speed: 40
+    begin_heading: 171
+  - length_km: 0.008
+    speed: 40
+    begin_heading: 171
+  - length_km: 0.081
+    speed: 40
+    begin_heading: 171
+  - length_km: 0.091
+    speed: 40
+    begin_heading: 171
+  - length_km: 0.0324227
+    speed: 40
+    begin_heading: 171

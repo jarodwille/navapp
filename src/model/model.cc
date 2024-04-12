@@ -3,17 +3,29 @@
 
 // Define your neural network class
 struct EdgeCostModel : torch::nn::Module {
-    torch::nn::Sequential model{
-        torch::nn::Linear(torch::nn::LinearOptions(5, 5)),
+    // e.g., dimension = {8, 16, ...
+    torch::nn::Sequential model1{
+        torch::nn::Linear(torch::nn::LinearOptions(2, dimension1)),
         torch::nn::ReLU(),
-        torch::nn::Linear(torch::nn::LinearOptions(5, 5)),
+        torch::nn::Linear(torch::nn::LinearOptions(dimension1, 1))
+        // torch::nn::Linear(torch::nn::LinearOptions(5, dimension)),
+        // torch::nn::ReLU(),
+        // torch::nn::Linear(torch::nn::LinearOptions(5, 1)),
+    };
+    torch::nn::Sequential model2{
+        torch::nn::Linear(torch::nn::LinearOptions(5, dimension2)),
         torch::nn::ReLU(),
-        torch::nn::Linear(torch::nn::LinearOptions(5, 1)),
+        torch::nn::Linear(torch::nn::LinearOptions(dimension2, dimension2)),
+        torch::nn::ReLU(),
+        torch::nn::Linear(torch::nn::LinearOptions(dimension2, 1))
     };
 
     torch::Tensor forward(torch::Tensor x) {
-        return x = model->forward(x);
+        h1 = model1(x[0:2])
+        h2 = model2(x)
+        return max(h1 + h2, 0);
     }
+
 };
 
 struct TransitionCostModel : torch::nn::Module {
@@ -62,9 +74,11 @@ void train_models_a(const uint32_t a_c, const uint32_t b_c, const uint32_t a_b) 
     t_net_a->to(torch::kCUDA); // Move the model to GPU
 
     // Set your neural network to training mode
-    // e_net_a->train();
+    e_net_a->train();
     // t_net_a->train();
     std::cout << "Training models..." << std::endl;
+
+
 
     // Your training logic here...
 }
