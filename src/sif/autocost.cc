@@ -420,13 +420,14 @@ AutoCost::AutoCost(const Costing& costing, uint32_t access_mask)
   }
 
   // NOTE: NEW 
-  // Submit user rankings to model for learning
-  if (costing_options.hf_data() && costing_options.a_c() && costing_options.b_c() && costing_options.a_b()) {
-    uint32_t a_c = static_cast<uint32_t>(costing_options.a_c());
-    uint32_t b_c = static_cast<uint32_t>(costing_options.b_c());
-    uint32_t a_b = static_cast<uint32_t>(costing_options.a_b());
+  // Submit user rankings to model for learning  
 
-    train_models_a(a_c, b_c, a_b); // train model
+  if (costing_options.hf_data() && costing_options.a_c() && costing_options.b_c() && costing_options.a_b()) {
+  uint32_t a_c = static_cast<uint32_t>(costing_options.a_c());
+  uint32_t b_c = static_cast<uint32_t>(costing_options.b_c());
+  uint32_t a_b = static_cast<uint32_t>(costing_options.a_b());
+  
+  train_models_a(a_c, b_c, a_b); // train model
   }
 }
 

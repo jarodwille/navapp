@@ -55,7 +55,6 @@ export const makeRequest = () => (dispatch, getState) => {
       activeWaypoints,
       settings,
       dateTime,
-      hf_data: false,
     })
 
     profile = 'auto_modified'
@@ -64,7 +63,6 @@ export const makeRequest = () => (dispatch, getState) => {
       activeWaypoints,
       settings,
       dateTime,
-      hf_data: false,
     })
 
     profile = 'auto_modified_b'
@@ -73,7 +71,6 @@ export const makeRequest = () => (dispatch, getState) => {
       activeWaypoints,
       settings,
       dateTime,
-      hf_data: false,
     })
 
     dispatch(fetchValhallaDirections(valhallaOriginalRequest))
@@ -453,7 +450,6 @@ export const submitRankings = (rankings) => (dispatch, getState) => {
       activeWaypoints,
       settings,
       dateTime,
-      hf_data: false,
     })
 
     profile = 'auto_modified_b'
@@ -462,7 +458,6 @@ export const submitRankings = (rankings) => (dispatch, getState) => {
       activeWaypoints,
       settings,
       dateTime,
-      hf_data: false,
     })
 
     dispatch(fetchValhallaDirections(valhallaPostHFRequest)) // injecting POST into here

@@ -60,7 +60,6 @@ void DirectionsBuilder::Build(Api& api, const MarkupFormatter& markup_formatter)
   const auto& options = api.options();
   auto costing = options.costing_type();
   auto costing_str = Costing_Enum_Name(costing);
-
   for (auto& trip_route : *api.mutable_trip()->mutable_routes()) {
     auto& directions_route = *api.mutable_directions()->mutable_routes()->Add();
     for (auto& trip_path : *trip_route.mutable_legs()) {
@@ -97,43 +96,62 @@ void DirectionsBuilder::Build(Api& api, const MarkupFormatter& markup_formatter)
   }
 }
 
-// Function to split string by delimiter
-std::vector<std::string> split(const std::string &s, char delimiter) {
-    std::vector<std::string> tokens;
-    std::string token;
-    std::istringstream tokenStream(s);
-    while (getline(tokenStream, token, delimiter)) {
-        tokens.push_back(token);
-    }
-    return tokens;
-}
-
 // Function to write edges data into a file
 void write_to_file(EnhancedTripLeg* etp, std::string costing_str) {
-    std::string filepath = "edges_data.txt";
-    std::ofstream fout(filepath, std::ios::app); // Open in append mode
+    std::string name = "";
+    if (costing_str == "auto_modified") {
+        name = "a";
+    } else if (costing_str == "auto_modified_b") {
+        name = "b";
+    } else if (costing_str == "auto"){
+        name = "c";
+    } else {
+      name = "none";
+    }
 
-    if (!fout) {
+    // write edgecost features of the route
+    std::string filepath_e = "/home/jj/thesis/valhalla/src/model/data/route_" + name + "_e.txt";
+    std::ofstream fout_e(filepath_e, std::ios::trunc); // Open in append mode
+
+    if (!fout_e) {
         std::cout << "Error opening file for writing." << std::endl;
         return;
     }
-
-    // Write the section header based on costing_str
-    fout << costing_str << ":" << std::endl;
-
     // Assuming `edges()` returns a list of edges and each edge has `id()`, `length()`, `name()`
     for (size_t x = 0; x < etp->node_size(); ++x) {
         auto prev_edge = etp->GetPrevEdge(x);
         auto curr_edge = etp->GetCurrEdge(x);
         auto next_edge = etp->GetNextEdge(x);
-
-        fout << "  - length_km: " << curr_edge->length_km() << std::endl;
-        fout << "    speed: " << curr_edge->speed() << std::endl;
-        fout << "    begin_heading: " << curr_edge->begin_heading() << std::endl;
+        if (curr_edge) {
+          fout_e << curr_edge->length_km() << ","
+                << curr_edge->speed() << ","
+                << curr_edge->begin_heading() << std::endl;
+        }
     }
-    
-    fout.close();
-    std::cout << "Data written successfully under the section " << costing_str << std::endl;
+    fout_e.close();
+    std::cout << "Most recent route written to: " << filepath_e << std::endl;
+
+    // write transitioncost features of the route
+    std::string filepath_t = "/home/jj/thesis/valhalla/src/model/data/route_" + name + "_t.txt";
+    std::ofstream fout_t(filepath_t, std::ios::trunc); // Open in append mode
+
+    if (!fout_t) {
+        std::cout << "Error opening file for writing." << std::endl;
+        return;
+    }
+    // Assuming `edges()` returns a list of edges and each edge has `id()`, `length()`, `name()`
+    for (size_t x = 0; x < etp->node_size(); ++x) {
+        auto prev_edge = etp->GetPrevEdge(x);
+        auto curr_edge = etp->GetCurrEdge(x);
+        auto next_edge = etp->GetNextEdge(x);
+        if (curr_edge) {
+          fout_t << curr_edge->length_km() << ","
+                << curr_edge->speed() << ","
+                << curr_edge->begin_heading() << std::endl;
+        }
+    }
+    fout_t.close();
+    std::cout << "Most recent route written to: " << filepath_t << std::endl;
 }
 
 // Update the heading of ~0 length edges.
@@ -160,10 +178,9 @@ void DirectionsBuilder::UpdateHeading(EnhancedTripLeg* etp, std::string costing_
     }
   }
 
-  // // Write to file
-  // write_to_file(etp, costing_str);
-  // // print number of nodes NOTE: NEW
-  // std::cout << "Wrote to file. costing was: " << costing_str << "Number of nodes: " << etp->node_size() << std::endl;
+  std::cout << "Number of nodes: " << etp->node_size() << std::endl;
+  // Write to file
+  write_to_file(etp, costing_str);
 }
 
 // Returns the trip directions based on the specified directions options,

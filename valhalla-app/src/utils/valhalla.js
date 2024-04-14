@@ -30,7 +30,7 @@ export const buildDirectionsRequest = ({
   activeWaypoints,
   settings,
   dateTime,
-  hf_data,
+  hf_data = false,
   rankings,
 }) => {
   let valhalla_profile = profile
@@ -62,7 +62,7 @@ export const buildDirectionsRequest = ({
       exclude_polygons: settings.exclude_polygons,
       locations: makeLocations(activeWaypoints),
       directions_options: {
-        units: 'kilometers',
+        units: 'miles',
       },
       id: 'valhalla_directions',
     },
