@@ -129,7 +129,8 @@ std::array<float, 5> getTurnArray(uint32_t fromHeading, uint32_t toHeading) {
       turnArr = {1.0, 0.0, 1.0, 0.0, 0.0};
       break;
     }
-    default: { // straight (turnArr defaults to all zeros)
+    default: {
+      turnArr = {1.0, 0.0, 1.0, 0.0, 0.0}; // straight
       break;
     }
   }
@@ -199,7 +200,7 @@ void writeToFile(EnhancedTripLeg* etp, std::string costing_str) {
         if (curr_edge && next_edge) {
           auto fromHeading = curr_edge->end_heading();
           auto toHeading = next_edge->begin_heading();
-          auto turnArr = getTurnArray(fromHeading, toHeading);
+          std::array<float, 5> turnArr = getTurnArray(fromHeading, toHeading);
           float roundabout = curr_edge->roundabout() ? 1.0 : 0.0;
           float toll = curr_edge->toll() ? 1.0 : 0.0;
           // send six transition features to file

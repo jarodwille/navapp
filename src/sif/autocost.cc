@@ -418,16 +418,17 @@ AutoCost::AutoCost(const Costing& costing, uint32_t access_mask)
   for (uint32_t d = 0; d < 16; d++) {
     density_factor_[d] = 0.85f + (d * 0.025f);
   }
-
   // NOTE: NEW 
+  // Initialize models (if already initialized, won't do anything)
+  initialize_models(); 
+
   // Submit user rankings to model for learning  
 
   if (costing_options.hf_data() && costing_options.a_c() && costing_options.b_c() && costing_options.a_b()) {
-  uint32_t a_c = static_cast<uint32_t>(costing_options.a_c());
-  uint32_t b_c = static_cast<uint32_t>(costing_options.b_c());
-  uint32_t a_b = static_cast<uint32_t>(costing_options.a_b());
-
-  train_models_a(a_c, b_c, a_b); // train model
+    uint32_t a_c = static_cast<uint32_t>(costing_options.a_c());
+    uint32_t b_c = static_cast<uint32_t>(costing_options.b_c());
+    uint32_t a_b = static_cast<uint32_t>(costing_options.a_b());
+    train_models(a_c, b_c, a_b); // train model a and update model b with past value of model a
   }
 }
 
@@ -732,44 +733,9 @@ public:
    * Construct auto modified costing. Pass in cost type and costing_options using protocol buffer(pbf).
    * @param  costing_options pbf with request costing_options.
    */
-  AutoModifiedCost(const Costing& costing) :  AutoCost(costing) {
-    
-    const auto& costing_options = costing.options();
-
-    float epsilon = std::pow(10, -9);
-
-    // new calculations / factors
-    float use_distance = costing_options.use_new_distance() + epsilon;
-    float use_time = costing_options.use_time() + epsilon;
-    float sum = use_distance + use_time ;
-    distance_factor_ = use_distance / sum * kInvMedianSpeed;
-    inv_distance_factor_ = use_time / sum;
-
-    std::cout << "distance_factor_:" << distance_factor_ << std::endl;
-    std::cout << "inv_factor_:" << inv_distance_factor_ << std::endl;
-    
-    
-    float left_tf = 2*(1 - costing_options.take_left_turns()) + epsilon;
-    float right_tf = 2*(1 - costing_options.take_right_turns()) + epsilon;
-    float sharp_tf = 2*(1 - costing_options.take_sharp_turns()) + epsilon;
-    // std::cout << "take_left_turns_factor_:" << left_tf << std::endl;
-    // std::cout << "take_right_turns_factor_:" << right_tf << std::endl;
-    // std::cout << "take_sharp_turns_factor_:" << sharp_tf << std::endl;
-
-    // NOTE: CW. this implementation assumes rightside driving
-    kModTurnCosts[0] = kTCStraight;
-    kModTurnCosts[1] = kTCSlight*right_tf;
-    kModTurnCosts[2] = kTCFavorable*right_tf;
-    kModTurnCosts[3] = kTCFavorableSharp*right_tf*sharp_tf;
-    kModTurnCosts[4] = kTCReverse;
-    kModTurnCosts[5] = kTCUnfavorableSharp*left_tf*sharp_tf;
-    kModTurnCosts[6] = kTCUnfavorable*left_tf;
-    kModTurnCosts[7] = kTCSlight*left_tf;
-  }
+  AutoModifiedCost(const Costing& costing) :  AutoCost(costing) {}
   
-
-  virtual ~AutoModifiedCost() {
-  }
+  virtual ~AutoModifiedCost() {}
 
   virtual Cost EdgeCost(const baldr::DirectedEdge* edge,
                         const graph_tile_ptr& tile,
@@ -783,130 +749,53 @@ public:
 
     auto final_speed = std::min(edge_speed, top_speed_);
 
-    float sec = edge->length() * speedfactor_[final_speed];
+    float sec = edge->length() * speedfactor_[final_speed]; // speedfactor converts to sec/meter
     
-    // edge->lanecount();
-    valhalla::baldr::RoadClass roadClass = edge->classification();
-    uint8_t classAsUint = static_cast<uint8_t>(roadClass);  // Explicit casting to uint8_t
-    std::cout << "Road Class: " << classAsUint << std::endl;
-     
-    if (shortest_) {
-      return Cost(edge->length(), sec);
-    }
+    // NOTE: NEW logic for feeding to NN
+    
+    float length_km = static_cast<float>(edge->length() / 1000.0f);
+    float speed_kph = static_cast<float>(final_speed);
+    float lane_count = static_cast<float>(edge->lanecount());
+    uint8_t road_class_uint = static_cast<uint8_t>(edge->classification());
+    float toll = edge->toll() ? 1.0f : 0.0f;
+    float road_type = static_cast<float>(road_class_uint);
 
-    // base factor is either ferry, rail ferry or density based
-    float factor = 1;
-    switch (edge->use()) {
-      case Use::kFerry:
-        factor = ferry_factor_;
-        break;
-      case Use::kRailFerry:
-        factor = rail_ferry_factor_;
-        break;
-      default:
-        factor = density_factor_[edge->density()];
-        break;
-    }
+    float cost = e_net_a_forward(length_km, speed_kph, sec, lane_count, toll, road_type);
 
-    factor += highway_factor_ * kHighwayFactor[static_cast<uint32_t>(edge->classification())] +
-              surface_factor_ * kSurfaceFactor[static_cast<uint32_t>(edge->surface())] +
-              SpeedPenalty(edge, tile, time_info, flow_sources, edge_speed) +
-              edge->toll() * toll_factor_;
-
-    switch (edge->use()) {
-      case Use::kAlley:
-        factor *= alley_factor_;
-        break;
-      case Use::kTrack:
-        factor *= track_factor_;
-        break;
-      case Use::kLivingStreet:
-        factor *= living_street_factor_;
-        break;
-      case Use::kServiceRoad:
-        factor *= service_factor_;
-        break;
-      case Use::kTurnChannel:
-        if (flow_sources & kDefaultFlowMask) {
-          // boost only historic & live speeds
-          factor *= kTurnChannelFactor;
-        }
-        break;
-      default:
-        break;
-    }
-
-    if (IsClosed(edge, tile)) {
-      // Add a penalty for traversing a closed edge
-      factor *= closure_factor_;
-    }
-    // base cost before the factor is a linear combination of time vs distance, depending on which
-    // one the user thinks is more important to them
-    return Cost((sec * inv_distance_factor_ + edge->length() * distance_factor_) * factor, sec);
+    return Cost(cost, sec);
   }
 
   // Returns the time (in seconds) to make the transition from the predecessor
   virtual Cost TransitionCost(const baldr::DirectedEdge* edge,
                                 const baldr::NodeInfo* node,
                                 const EdgeLabel& pred) const override {
-    // Get the transition cost for country crossing, ferry, gate, toll booth,
-    // destination only, alley, maneuver penalty
     uint32_t idx = pred.opp_local_idx();
-    Cost c = base_transition_cost(node, edge, &pred, idx);
+    Cost c = base_transition_cost(node, edge, &pred, idx); // legacy. only using secs field for eta
     c.secs += OSRMCarTurnDuration(edge, node, pred.opp_local_idx());
 
-    // Transition time = turncost * stopimpact * densityfactor
-    if (edge->stopimpact(idx) > 0 && !shortest_) {
-      float turn_cost;
-      if (edge->edge_to_right(idx) && edge->edge_to_left(idx)) {
-        turn_cost = kTCCrossing;
-      } else {
-        turn_cost = kModTurnCosts[static_cast<uint32_t>(edge->turntype(idx))]; // only right. broken rn
-      }
-      // std::cout << "Drive on right?:" << node->drive_on_right() << std::endl;
-      // std::cout << "[NOTE] PRINT RIGHT TURNS FACTOR VIA ARRAY:" << kModTurnCosts[2] << std::endl;
-      // std::cout << "[NOTE] PRINT TURN COST:" << turn_cost << std::endl;
+    float has_left = edge->turntype(idx) == baldr::Turn::Type::kSlightLeft ||
+                    edge->turntype(idx) == baldr::Turn::Type::kLeft ||
+                    edge->turntype(idx) == baldr::Turn::Type::kSharpLeft ? 1.0f : 0.0f;
 
-      if ((edge->use() != Use::kRamp && pred.use() == Use::kRamp) ||
-          (edge->use() == Use::kRamp && pred.use() != Use::kRamp)) {
-        turn_cost += 1.5f;
-        if (edge->roundabout())
-          turn_cost += 0.5f;
-      }
+    float has_right = edge->turntype(idx) == baldr::Turn::Type::kSlightRight ||
+                      edge->turntype(idx) == baldr::Turn::Type::kRight ||
+                      edge->turntype(idx) == baldr::Turn::Type::kSharpRight ? 1.0f : 0.0f;
+                    
+    float has_slight = edge->turntype(idx) == baldr::Turn::Type::kSlightLeft ||
+                      edge->turntype(idx) == baldr::Turn::Type::kSlightRight ? 1.0f : 0.0f;
 
-      float seconds = turn_cost;
-      bool is_turn = false;
-      bool has_left = (edge->turntype(idx) == baldr::Turn::Type::kLeft ||
-                      edge->turntype(idx) == baldr::Turn::Type::kSharpLeft);
-      bool has_right = (edge->turntype(idx) == baldr::Turn::Type::kRight ||
-                        edge->turntype(idx) == baldr::Turn::Type::kSharpRight);
-      bool has_reverse = edge->turntype(idx) == baldr::Turn::Type::kReverse;
+    float has_sharp = edge->turntype(idx) == baldr::Turn::Type::kSharpLeft ||
+                      edge->turntype(idx) == baldr::Turn::Type::kSharpRight ? 1.0f : 0.0f;
 
-      // Separate time and penalty when traffic is present. With traffic, edge speeds account for
-      // much of the intersection transition time (TODO - evaluate different elapsed time settings).
-      // Still want to add a penalty so routes avoid high cost intersections.
-      if (has_left || has_right || has_reverse) {
-        seconds *= edge->stopimpact(idx);
-        is_turn = true;
-      }
+    float has_uturn= edge->turntype(idx) == baldr::Turn::Type::kReverse ? 1.0f : 0.0f;
 
-      AddUturnPenalty(idx, node, edge, has_reverse, has_left, has_right, true, pred.internal_turn(),
-                      seconds);
+    float has_roundabout = edge->roundabout() ? 1.0f : 0.0f;
 
-      // Apply density factor and stop impact penalty if there isn't traffic on this edge or you're not
-      // using traffic
-      if (!pred.has_measured_speed()) {
-        if (!is_turn)
-          seconds *= edge->stopimpact(idx);
-        seconds *= trans_density_factor_[node->density()];
-      }
-      c.cost += seconds;
-    }
+    float has_toll = edge->toll() ? 1.0f : 0.0f;
 
-    // Account for the user preferring distance
-    c.cost *= inv_distance_factor_;
+    float nn_cost = t_net_a_forward(has_left, has_right, has_slight, has_sharp, has_uturn, has_roundabout, has_toll);
 
-    return c;
+    return Cost(nn_cost, c.secs);
   }
 
   // Returns the cost to make the transition from the predecessor edge
@@ -919,63 +808,31 @@ public:
                                       const baldr::DirectedEdge* edge,
                                       const bool has_measured_speed,
                                       const InternalTurn internal_turn) const override {
-    // Get the transition cost for country crossing, ferry, gate, toll booth,
-    // destination only, alley, maneuver penalty
-    Cost c = base_transition_cost(node, edge, pred, idx);
+    Cost c = base_transition_cost(node, edge, pred, idx); // legacy
     c.secs += OSRMCarTurnDuration(edge, node, pred->opp_local_idx());
 
-    // Transition time = turncost * stopimpact * densityfactor
-    if (edge->stopimpact(idx) > 0 && !shortest_) {
-      float turn_cost;
-      if (edge->edge_to_right(idx) && edge->edge_to_left(idx)) {
-        turn_cost = kTCCrossing;
-      } else {
-        turn_cost = kModTurnCosts[static_cast<uint32_t>(edge->turntype(idx))]; // only right. broken rn
-      }
+    float has_left = edge->turntype(idx) == baldr::Turn::Type::kSlightLeft ||
+                    edge->turntype(idx) == baldr::Turn::Type::kLeft ||
+                    edge->turntype(idx) == baldr::Turn::Type::kSharpLeft ? 1.0f : 0.0f;
 
-      // std::cout << "Drive on right?:" << node->drive_on_right() << std::endl;
-      // std::cout << "[NOTE] PRINT RIGHT TURNS FACTOR VIA ARRAY (reverse):" << kModTurnCosts[2]  << std::endl;
-      // std::cout << "[NOTE] PRINT TURN COST (reverse):" << turn_cost << std::endl;
+    float has_right = edge->turntype(idx) == baldr::Turn::Type::kSlightRight ||
+                      edge->turntype(idx) == baldr::Turn::Type::kRight ||
+                      edge->turntype(idx) == baldr::Turn::Type::kSharpRight ? 1.0f : 0.0f;
+                    
+    float has_slight = edge->turntype(idx) == baldr::Turn::Type::kSlightLeft ||
+                      edge->turntype(idx) == baldr::Turn::Type::kSlightRight ? 1.0f : 0.0f;
 
-      if ((edge->use() != Use::kRamp && pred->use() == Use::kRamp) ||
-          (edge->use() == Use::kRamp && pred->use() != Use::kRamp)) {
-        turn_cost += 1.5f;
-        if (edge->roundabout())
-          turn_cost += 0.5f;
-      }
+    float has_sharp = edge->turntype(idx) == baldr::Turn::Type::kSharpLeft ||
+                      edge->turntype(idx) == baldr::Turn::Type::kSharpRight ? 1.0f : 0.0f;
 
-      float seconds = turn_cost;
-      bool is_turn = false;
-      bool has_left = (edge->turntype(idx) == baldr::Turn::Type::kLeft ||
-                      edge->turntype(idx) == baldr::Turn::Type::kSharpLeft);
-      bool has_right = (edge->turntype(idx) == baldr::Turn::Type::kRight ||
-                        edge->turntype(idx) == baldr::Turn::Type::kSharpRight);
-      bool has_reverse = edge->turntype(idx) == baldr::Turn::Type::kReverse;
+    float has_uturn= edge->turntype(idx) == baldr::Turn::Type::kReverse ? 1.0f : 0.0f;
 
-      // Separate time and penalty when traffic is present. With traffic, edge speeds account for
-      // much of the intersection transition time (TODO - evaluate different elapsed time settings).
-      // Still want to add a penalty so routes avoid high cost intersections.
-      if (has_left || has_right || has_reverse) {
-        seconds *= edge->stopimpact(idx);
-        is_turn = true;
-      }
+    float has_roundabout = edge->roundabout() ? 1.0f : 0.0f;
 
-      AddUturnPenalty(idx, node, edge, has_reverse, has_left, has_right, true, internal_turn, seconds);
+    float has_toll = edge->toll() ? 1.0f : 0.0f;
 
-      // Apply density factor and stop impact penalty if there isn't traffic on this edge or you're not
-      // using traffic
-      if (!has_measured_speed) {
-        if (!is_turn)
-          seconds *= edge->stopimpact(idx);
-        seconds *= trans_density_factor_[node->density()];
-      }
-      c.cost += seconds;
-    }
-
-    // Account for the user preferring distance
-    c.cost *= inv_distance_factor_;
-
-    return c;
+    float nn_cost = t_net_a_forward(has_left, has_right, has_slight, has_sharp, has_uturn, has_roundabout, has_toll);
+    return Cost(nn_cost, c.secs);
   }
 };
 
@@ -1028,76 +885,51 @@ public:
 
     float sec = edge->length() * speedfactor_[final_speed];
 
-    if (shortest_) {
-      return Cost(edge->length(), sec);
-    }
+    // NOTE: NEW logic for feeding to NN
+    
+    float length_km = static_cast<float>(edge->length() / 1000.0f);
+    float speed_kph = static_cast<float>(final_speed);
+    float lane_count = static_cast<float>(edge->lanecount());
+    uint8_t road_class_uint = static_cast<uint8_t>(edge->classification());
+    float toll = edge->toll() ? 1.0f : 0.0f;
+    float road_type = static_cast<float>(road_class_uint);
 
-    // base factor is either ferry, rail ferry or density based
-    float factor = 1;
-    switch (edge->use()) {
-      case Use::kFerry:
-        factor = ferry_factor_;
-        break;
-      case Use::kRailFerry:
-        factor = rail_ferry_factor_;
-        break;
-      default:
-        factor = density_factor_[edge->density()];
-        break;
-    }
+    float cost = e_net_b_forward(length_km, speed_kph, sec, lane_count, toll, road_type);
 
-    factor += highway_factor_ * kHighwayFactor[static_cast<uint32_t>(edge->classification())] +
-              surface_factor_ * kSurfaceFactor[static_cast<uint32_t>(edge->surface())] +
-              SpeedPenalty(edge, tile, time_info, flow_sources, edge_speed) +
-              edge->toll() * toll_factor_;
-
-    switch (edge->use()) {
-      case Use::kAlley:
-        factor *= alley_factor_;
-        break;
-      case Use::kTrack:
-        factor *= track_factor_;
-        break;
-      case Use::kLivingStreet:
-        factor *= living_street_factor_;
-        break;
-      case Use::kServiceRoad:
-        factor *= service_factor_;
-        break;
-      case Use::kTurnChannel:
-        if (flow_sources & kDefaultFlowMask) {
-          // boost only historic & live speeds
-          factor *= kTurnChannelFactor;
-        }
-        break;
-      default:
-        break;
-    }
-
-    if (IsClosed(edge, tile)) {
-      // Add a penalty for traversing a closed edge
-      factor *= closure_factor_;
-    }
-    // base cost before the factor is a linear combination of time vs distance, depending on which
-    // one the user thinks is more important to them
-    return Cost(e_net_b_forward(), sec);
+    return Cost(cost, sec);
     }
 
   // Returns the time (in seconds) to make the transition from the predecessor
   virtual Cost TransitionCost(const baldr::DirectedEdge* edge,
                                 const baldr::NodeInfo* node,
                                 const EdgeLabel& pred) const override {
-    // Get the transition cost for country crossing, ferry, gate, toll booth,
-    // destination only, alley, maneuver penalty
     uint32_t idx = pred.opp_local_idx();
-    Cost c = base_transition_cost(node, edge, &pred, idx);
+    Cost c = base_transition_cost(node, edge, &pred, idx); // legacy. only using secs field for eta
     c.secs += OSRMCarTurnDuration(edge, node, pred.opp_local_idx());
 
-    
-    // Call NN for cost
-    c.cost = t_net_b_forward();
+    float has_left = edge->turntype(idx) == baldr::Turn::Type::kSlightLeft ||
+                    edge->turntype(idx) == baldr::Turn::Type::kLeft ||
+                    edge->turntype(idx) == baldr::Turn::Type::kSharpLeft ? 1.0f : 0.0f;
 
-    return c;
+    float has_right = edge->turntype(idx) == baldr::Turn::Type::kSlightRight ||
+                      edge->turntype(idx) == baldr::Turn::Type::kRight ||
+                      edge->turntype(idx) == baldr::Turn::Type::kSharpRight ? 1.0f : 0.0f;
+                    
+    float has_slight = edge->turntype(idx) == baldr::Turn::Type::kSlightLeft ||
+                      edge->turntype(idx) == baldr::Turn::Type::kSlightRight ? 1.0f : 0.0f;
+
+    float has_sharp = edge->turntype(idx) == baldr::Turn::Type::kSharpLeft ||
+                      edge->turntype(idx) == baldr::Turn::Type::kSharpRight ? 1.0f : 0.0f;
+
+    float has_uturn= edge->turntype(idx) == baldr::Turn::Type::kReverse ? 1.0f : 0.0f;
+
+    float has_roundabout = edge->roundabout() ? 1.0f : 0.0f;
+
+    float has_toll = edge->toll() ? 1.0f : 0.0f;
+
+    float nn_cost = t_net_b_forward(has_left, has_right, has_slight, has_sharp, has_uturn, has_roundabout, has_toll);
+
+    return Cost(nn_cost, c.secs);
   }
 
   // Returns the cost to make the transition from the predecessor edge
@@ -1110,15 +942,32 @@ public:
                                       const baldr::DirectedEdge* edge,
                                       const bool has_measured_speed,
                                       const InternalTurn internal_turn) const override {
-    // Get the transition cost for country crossing, ferry, gate, toll booth,
-    // destination only, alley, maneuver penalty
-    Cost c = base_transition_cost(node, edge, pred, idx);
+    Cost c = base_transition_cost(node, edge, pred, idx); // legacy
     c.secs += OSRMCarTurnDuration(edge, node, pred->opp_local_idx());
 
-    // Call NN for cost
-    c.cost = t_net_b_forward();
+    float has_left = edge->turntype(idx) == baldr::Turn::Type::kSlightLeft ||
+                    edge->turntype(idx) == baldr::Turn::Type::kLeft ||
+                    edge->turntype(idx) == baldr::Turn::Type::kSharpLeft ? 1.0f : 0.0f;
 
-    return c;
+    float has_right = edge->turntype(idx) == baldr::Turn::Type::kSlightRight ||
+                      edge->turntype(idx) == baldr::Turn::Type::kRight ||
+                      edge->turntype(idx) == baldr::Turn::Type::kSharpRight ? 1.0f : 0.0f;
+                    
+    float has_slight = edge->turntype(idx) == baldr::Turn::Type::kSlightLeft ||
+                      edge->turntype(idx) == baldr::Turn::Type::kSlightRight ? 1.0f : 0.0f;
+
+    float has_sharp = edge->turntype(idx) == baldr::Turn::Type::kSharpLeft ||
+                      edge->turntype(idx) == baldr::Turn::Type::kSharpRight ? 1.0f : 0.0f;
+
+    float has_uturn= edge->turntype(idx) == baldr::Turn::Type::kReverse ? 1.0f : 0.0f;
+
+    float has_roundabout = edge->roundabout() ? 1.0f : 0.0f;
+
+    float has_toll = edge->toll() ? 1.0f : 0.0f;
+
+    float nn_cost = t_net_b_forward(has_left, has_right, has_slight, has_sharp, has_uturn, has_roundabout, has_toll);
+
+    return Cost(nn_cost, c.secs);
   }
 };
 
