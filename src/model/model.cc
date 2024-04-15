@@ -6,29 +6,82 @@
 #include <string>
 
 // Define your neural network class
+#include <torch/torch.h>
+
 struct EdgeCostModel : torch::nn::Module {
-    torch::nn::Sequential model{
-        torch::nn::Linear(torch::nn::LinearOptions(5, 5)),
-        torch::nn::ReLU(),
-        torch::nn::Linear(torch::nn::LinearOptions(5, 5)),
-        torch::nn::ReLU(),
-        torch::nn::Linear(torch::nn::LinearOptions(5, 1)),
-    };
+    // Embedding layer for road type
+    torch::nn::Embedding embedding{nullptr};  // Using nullptr to emphasize no default constructor
+
+    // Models for edge cost: model1 for time distance by-pass, model2 is the main model 
+    torch::nn::Linear model1{nullptr};
+    torch::nn::Sequential model2{nullptr};
+
+    EdgeCostModel() {
+        // Initialize the embedding layer
+        int route_types = 8;
+        int embedding_dim = 2;
+        embedding = register_module("embedding", torch::nn::Embedding(route_types, embedding_dim));
+        embedding->to(torch::kFloat);
+
+        int num_total_features = 6;
+        int num_other_features = num_total_features - 1;
+        int flattened_size = num_other_features + embedding_dim;
+
+        // Time distance by-pass
+        model1 = register_module("model_1", torch::nn::Linear(2, 1));
+        model1->to(torch::kFloat);
+
+        int dim2 = 8;
+        // Main model for edge cost
+        model2 = register_module("model_2", torch::nn::Sequential(
+            torch::nn::Linear(flattened_size, dim2),
+            torch::nn::ReLU(),
+            torch::nn::Linear(dim2, dim2),
+            torch::nn::ReLU(),
+            torch::nn::Linear(dim2, 1)
+        ));
+        model2->to(torch::kFloat);
+    }
 
     torch::Tensor forward(torch::Tensor x) {
-        return model->forward(x);
+        // route_type is at the last dimension
+        torch::Tensor route_type = x.select(1, x.size(1) - 1); // Extracts the last feature for embedding
+        torch::Tensor x_other = x.slice(1, 0, x.size(1) - 1); // Extracts all but the last feature
+
+        // Pass route_type through the embedding layer
+        torch::Tensor embedded_route_type = embedding(route_type);
+        torch::Tensor embedded_route_type_flat = embedded_route_type.view({-1, embedding->options.num_embeddings()});
+
+        // Concatenate the embedded output with the other features
+        torch::Tensor x_full = torch::cat({x_other, embedded_route_type_flat}, 1);
+
+        // Pass the concatenated features through the rest of the model
+        torch::Tensor x_time_distance = x_full.slice(1, 0, 2);
+        torch::Tensor cost_comp_1 = model1->forward(x_time_distance);
+        torch::Tensor cost_comp_2 = model2->forward(x_full);
+        return cost_comp_1 + cost_comp_2;
     }
 };
 
 struct TransitionCostModel : torch::nn::Module {
-    torch::nn::Sequential model{
-        torch::nn::Linear(torch::nn::LinearOptions(5, 5)),
-        torch::nn::ReLU(),
-        torch::nn::Linear(torch::nn::LinearOptions(5, 5)),
-        torch::nn::ReLU(),
-        torch::nn::Linear(torch::nn::LinearOptions(5, 1)),
-    };
-    
+
+    // transition cost model layers
+    torch::nn::Sequential model{nullptr};
+
+    TransitionCostModel() {
+        int num_total_features = 6;
+        int proj_dim = 8;
+        // main model for transition cost
+        model = register_module("model", torch::nn::Sequential(
+            torch::nn::Linear(num_total_features, proj_dim),
+            torch::nn::ReLU(),
+            torch::nn::Linear(proj_dim, proj_dim),
+            torch::nn::ReLU(),
+            torch::nn::Linear(proj_dim, 1)
+        ));
+        model->to(torch::kFloat);
+    }
+
     torch::Tensor forward(torch::Tensor x) {
         return model->forward(x);
     }
@@ -44,16 +97,6 @@ std::shared_ptr<TransitionCostModel> t_net_a;
 std::shared_ptr<EdgeCostModel> e_net_b;
 std::shared_ptr<TransitionCostModel> t_net_b;
 
-// // historical route submission lists (edgecost) [OUTDATED]
-// std::vector<torch::Tensor> route_a_list_e; 
-// std::vector<torch::Tensor> route_b_list_e; 
-// std::vector<torch::Tensor> route_c_list_e;
-
-// // historical route submission lists (transitioncost) [OUTDATED]
-// std::vector<torch::Tensor> route_a_list_t; 
-// std::vector<torch::Tensor> route_b_list_t; 
-// std::vector<torch::Tensor> route_c_list_t;
-
 // historical route submission lists (edgecost)
 std::vector<torch::Tensor> winner_list_e;
 std::vector<torch::Tensor> loser_list_e;
@@ -66,14 +109,8 @@ std::vector<torch::Tensor> loser_list_t;
 std::vector<torch::Tensor> tie_list_1_t;
 std::vector<torch::Tensor> tie_list_2_t;
 
-
-// // feedback for each submission [outdated?]
-// std::vector<int> a_c_hf;
-// std::vector<int> b_c_hf;
-// std::vector<int> a_b_hf;
-
 // Function to parse the file and create a tensor
-torch::Tensor parseAndCreateTensor(const std::string& filepath) {
+torch::Tensor parseAndCreateTensor(const std::string& filepath, int num_features) {
     std::ifstream file(filepath);
     std::string line;
     std::vector<float> data;
@@ -87,9 +124,6 @@ torch::Tensor parseAndCreateTensor(const std::string& filepath) {
         }
         ++num_edges;
     }
-
-    // Assuming there are always 3 values per edge
-    int num_features = 3; // length_km, speed, begin_heading
 
     // Create a tensor from the parsed data
     torch::Tensor tensor = torch::from_blob(data.data(), {num_edges, num_features});
@@ -131,10 +165,11 @@ void initialize_models() { //TODO:  probably will not be called in train_models_
 }
 
 void update_route_lists_e(const uint32_t a_c, const uint32_t b_c, const uint32_t a_b) {
+    int num_features = 6;
     // {edges, features} tensors of of new routes (edgecost)
-    torch::Tensor new_route_a_e = parseAndCreateTensor("./data/route_a_e.txt");
-    torch::Tensor new_route_b_e = parseAndCreateTensor("./data/route_b_e.txt");
-    torch::Tensor new_route_c_e = parseAndCreateTensor("./data/route_c_e.txt");
+    torch::Tensor new_route_a_e = parseAndCreateTensor("./data/route_a_e.txt", num_features);
+    torch::Tensor new_route_b_e = parseAndCreateTensor("./data/route_b_e.txt", num_features);
+    torch::Tensor new_route_c_e = parseAndCreateTensor("./data/route_c_e.txt", num_features);
 
     // store routes in them in historical submission lists (edgecost)
     if (a_c == 1) { // a > c
@@ -152,10 +187,11 @@ void update_route_lists_e(const uint32_t a_c, const uint32_t b_c, const uint32_t
 }
 
 void update_route_lists_t(const uint32_t a_c, const uint32_t b_c, const uint32_t a_b) {
+    int num_features = 6;
     // {edges, features} tensors of of new routes (transitioncost)
-    torch::Tensor new_route_a_t = parseAndCreateTensor("./data/route_a_t.txt");
-    torch::Tensor new_route_b_t = parseAndCreateTensor("./data/route_b_t.txt");
-    torch::Tensor new_route_c_t = parseAndCreateTensor("./data/route_c_t.txt");
+    torch::Tensor new_route_a_t = parseAndCreateTensor("./data/route_a_t.txt", num_features);
+    torch::Tensor new_route_b_t = parseAndCreateTensor("./data/route_b_t.txt", num_features);
+    torch::Tensor new_route_c_t = parseAndCreateTensor("./data/route_c_t.txt", num_features);
 
     // store routes in them in historical submission lists (transitioncost)
     if (a_c == 1) { // a > c
@@ -234,8 +270,7 @@ void train_models_a(const uint32_t a_c, const uint32_t b_c, const uint32_t a_b) 
     
 }
 
-
-float e_net_a_forward() {
+float e_net_a_forward() { //TODO: UPDATE ARGUMENTS AND UPDATE AUTOCOST.CC CALLS. THEN FIX ENET B TRAINING LOGIC? STORE WEIGHTS SOMEWHERE?
     if (!e_net_a) {
         // Create an instance of your neural network
         e_net_a = std::make_shared<EdgeCostModel>();

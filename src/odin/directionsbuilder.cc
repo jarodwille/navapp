@@ -96,8 +96,49 @@ void DirectionsBuilder::Build(Api& api, const MarkupFormatter& markup_formatter)
   }
 }
 
+std::array<float, 5> getTurnArray(uint32_t fromHeading, uint32_t toHeading) {
+  std::array<float, 5> turnArr; // left, right, slight, sharp, uturn
+
+  // set up turn return array used for tensor input to transition cost model
+  auto turn_degree = (toHeading - fromHeading + 360) % 360;
+  switch(turn_degree) {
+    case 11 ... 44: { // slight right
+      turnArr = {0.0, 1.0, 1.0, 0.0, 0.0};
+      break;
+      }
+    case 45 ... 135: { // right
+      turnArr = {0.0, 1.0, 0.0, 0.0, 0.0};
+    }
+    case 136 ... 159: { // sharp right
+      turnArr = {0.0, 1.0, 0.0, 1.0, 0.0};
+      break;
+    }
+    case 160 ... 200: { // reverse
+      turnArr = {0.0, 0.0, 0.0, 0.0, 1.0};
+      break;
+    }
+    case 201 ... 224: { // sharp left
+      turnArr = {1.0, 0.0, 0.0, 1.0, 0.0};
+      break;
+    }
+    case 225 ... 315: { // left
+      turnArr = {1.0, 0.0, 0.0, 0.0, 0.0};
+      break;
+    }
+    case 316 ... 349: { // slight left
+      turnArr = {1.0, 0.0, 1.0, 0.0, 0.0};
+      break;
+    }
+    default: { // straight (turnArr defaults to all zeros)
+      break;
+    }
+  }
+
+  return turnArr;
+}
+
 // Function to write edges data into a file
-void write_to_file(EnhancedTripLeg* etp, std::string costing_str) {
+void writeToFile(EnhancedTripLeg* etp, std::string costing_str) {
     std::string name = "";
     if (costing_str == "auto_modified") {
         name = "a";
@@ -123,13 +164,24 @@ void write_to_file(EnhancedTripLeg* etp, std::string costing_str) {
         auto curr_edge = etp->GetCurrEdge(x);
         auto next_edge = etp->GetNextEdge(x);
         if (curr_edge) {
-          fout_e << curr_edge->length_km() << ","
-                << curr_edge->speed() << ","
-                << curr_edge->begin_heading() << std::endl;
+          float length = curr_edge->length_km();
+          float speed = curr_edge->speed();
+          float time = length / speed;
+          float lane_count= static_cast<float>(curr_edge->lane_count());
+          float toll = curr_edge->toll() ? 1.0 : 0.0;
+          auto road_type_uint8 = static_cast<uint8_t>(curr_edge->road_class());
+          float road_type = static_cast<float>(road_type_uint8);
+          // send six edge features to file
+          fout_e<< length << ","
+                << speed << ","
+                << time << ","
+                << lane_count << "," // converted int
+                << toll<< "," // converted bool
+                << road_type << std::endl; // converted enum
         }
     }
     fout_e.close();
-    std::cout << "Most recent route written to: " << filepath_e << std::endl;
+    std::cout << "Most recent route edges written to: " << filepath_e << std::endl;
 
     // write transitioncost features of the route
     std::string filepath_t = "/home/jj/thesis/valhalla/src/model/data/route_" + name + "_t.txt";
@@ -144,14 +196,24 @@ void write_to_file(EnhancedTripLeg* etp, std::string costing_str) {
         auto prev_edge = etp->GetPrevEdge(x);
         auto curr_edge = etp->GetCurrEdge(x);
         auto next_edge = etp->GetNextEdge(x);
-        if (curr_edge) {
-          fout_t << curr_edge->length_km() << ","
-                << curr_edge->speed() << ","
-                << curr_edge->begin_heading() << std::endl;
+        if (curr_edge && next_edge) {
+          auto fromHeading = curr_edge->end_heading();
+          auto toHeading = next_edge->begin_heading();
+          auto turnArr = getTurnArray(fromHeading, toHeading);
+          float roundabout = curr_edge->roundabout() ? 1.0 : 0.0;
+          float toll = curr_edge->toll() ? 1.0 : 0.0;
+          // send six transition features to file
+          fout_t<< turnArr[0] << ","
+                << turnArr[1] << ","
+                << turnArr[2] << ","
+                << turnArr[3] << ","
+                << turnArr[4] << ","
+                << roundabout << ","
+                << toll << std::endl;
         }
     }
     fout_t.close();
-    std::cout << "Most recent route written to: " << filepath_t << std::endl;
+    std::cout << "Most recent route transitions written to: " << filepath_t << std::endl;
 }
 
 // Update the heading of ~0 length edges.
@@ -180,7 +242,7 @@ void DirectionsBuilder::UpdateHeading(EnhancedTripLeg* etp, std::string costing_
 
   std::cout << "Number of nodes: " << etp->node_size() << std::endl;
   // Write to file
-  write_to_file(etp, costing_str);
+  writeToFile(etp, costing_str);
 }
 
 // Returns the trip directions based on the specified directions options,
