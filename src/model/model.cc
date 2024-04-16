@@ -163,12 +163,7 @@ void initialize_models() {
         e_net_a = std::make_shared<EdgeCostModel>();
         e_net_a->to(torch::kCUDA); // move model to GPU
         e_net_a->train(); // training mode
-        try {
-            torch::load(e_net_a, "/home/jj/thesis/valhalla/src/model/weights/e_net_start_weights.pt");
-            std::cout << "Weights loaded successfully." << std::endl;
-        } catch (const torch::Error &e) {
-            std::cerr << "Error loading weights: " << e.what() << std::endl;
-        }
+        torch::load(e_net_a, "/home/jj/thesis/valhalla/src/model/weights/e_net_start_weights.pt");
         std::cout << "Instantiated edge cost model A ..." << std::endl;
     }
 
@@ -186,12 +181,8 @@ void initialize_models() {
         e_net_b = std::make_shared<EdgeCostModel>();
         e_net_b->to(torch::kCUDA); // move model to GPU
         e_net_b->train(); // training mode
-        try {
-            torch::load(e_net_b, "/home/jj/thesis/valhalla/src/model/weights/e_net_start_weights.pt");
-            std::cout << "Weights loaded successfully." << std::endl;
-        } catch (const torch::Error &e) {
-            std::cerr << "Error loading weights: " << e.what() << std::endl;
-        }
+        torch::load(e_net_b, "/home/jj/thesis/valhalla/src/model/weights/e_net_start_weights.pt");
+        std::cout << "Weights loaded successfully." << std::endl;
         std::cout << "Instantiated edge cost model B ..." << std::endl;
     }
 
@@ -367,7 +358,7 @@ torch::Tensor calculate_loss() {
 void train_models(const uint32_t a_c, const uint32_t b_c, const uint32_t a_b) {
     update_route_lists_e(a_c, b_c, a_b);
     update_route_lists_t(a_c, b_c, a_b);
-    
+
     // set current model b weights to equal previous model a weights
     torch::save(e_net_a, "/home/jj/thesis/valhalla/src/model/weights/e_net_a_weights.pt");
     torch::save(t_net_a, "/home/jj/thesis/valhalla/src/model/weights/t_net_a_weights.pt");
@@ -378,7 +369,7 @@ void train_models(const uint32_t a_c, const uint32_t b_c, const uint32_t a_b) {
     torch::optim::Adam edgeModelOptimizer(e_net_a->parameters(), torch::optim::AdamOptions(5e-3)); 
     torch::optim::Adam transModelOptimizer(t_net_a->parameters(), torch::optim::AdamOptions(5e-3));
 
-    int epochs = 1000; // number of training epochs
+    int epochs = 500; // number of training epochs
 
     // Training loop
     torch::Tensor loss = calculate_loss();

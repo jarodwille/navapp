@@ -650,16 +650,17 @@ class Map extends React.Component {
       if (profile === 'auto_modified') {
         routeModLineStringLayer.clearLayers()
         L.polyline(coords, {
-          color: 'red',
+          color: 'white',
           weight: 9,
-          opacity: 1,
+          opacity: 0.8,
           pmIgnore: true,
         }).addTo(routeModLineStringLayer)
         L.polyline(coords, {
-          color: 'red',
+          color: '#00A3FF',
           weight: 5,
           opacity: 1,
           pmIgnore: true,
+          dashArray: '10, 7',
         })
           .addTo(routeModLineStringLayer)
           .bindTooltip(this.getRouteToolTip(summary, VALHALLA_OSM_URL), {
@@ -672,16 +673,17 @@ class Map extends React.Component {
       } else if (profile === 'auto_modified_b') {
         routeModBLineStringLayer.clearLayers()
         L.polyline(coords, {
-          color: 'blue',
+          color: 'white',
           weight: 9,
-          opacity: 1,
+          opacity: 0.8,
           pmIgnore: true,
         }).addTo(routeModBLineStringLayer)
         L.polyline(coords, {
-          color: 'blue',
+          color: '#3904BD',
           weight: 5,
-          opacity: 1,
+          opacity: 0.8,
           pmIgnore: true,
+          dashArray: '10, 7',
         })
           .addTo(routeModBLineStringLayer)
           .bindTooltip(this.getRouteToolTip(summary, VALHALLA_OSM_URL), {
@@ -694,14 +696,8 @@ class Map extends React.Component {
       } else {
         routeLineStringLayer.clearLayers()
         L.polyline(coords, {
-          color: 'black',
-          weight: 9,
-          opacity: 1,
-          pmIgnore: true,
-        }).addTo(routeLineStringLayer)
-        L.polyline(coords, {
           color: routeObjects[VALHALLA_OSM_URL].color,
-          weight: 5,
+          weight: 8,
           opacity: 1,
           pmIgnore: true,
         })
