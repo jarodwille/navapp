@@ -182,7 +182,7 @@ void writeToFile(EnhancedTripLeg* etp, std::string costing_str) {
         }
     }
     fout_e.close();
-    std::cout << "Most recent route edges written to: " << filepath_e << std::endl;
+    // std::cout << "Most recent route edges written to: " << filepath_e << std::endl;
 
     // write transitioncost features of the route
     std::string filepath_t = "/home/jj/thesis/valhalla/src/model/data/route_" + name + "_t.txt";
@@ -214,7 +214,7 @@ void writeToFile(EnhancedTripLeg* etp, std::string costing_str) {
         }
     }
     fout_t.close();
-    std::cout << "Most recent route transitions written to: " << filepath_t << std::endl;
+    // std::cout << "Most recent route transitions written to: " << filepath_t << std::endl;
 }
 
 // Update the heading of ~0 length edges.
@@ -241,7 +241,7 @@ void DirectionsBuilder::UpdateHeading(EnhancedTripLeg* etp, std::string costing_
     }
   }
 
-  std::cout << "Number of nodes: " << etp->node_size() << std::endl;
+  // std::cout << "Number of nodes: " << etp->node_size() << std::endl;
   // Write to file
   writeToFile(etp, costing_str);
 }

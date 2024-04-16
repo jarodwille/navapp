@@ -16,12 +16,17 @@ struct EdgeCostModel : torch::nn::Module {
 
     // Models for edge cost: model1 for time distance by-pass, model2 is the main model 
     torch::nn::Linear model1{nullptr};
-    torch::nn::Sequential model2{nullptr};
-    // torch::nn::Linear comb_model{nullptr}; getting rid to speed things up
+    torch::nn::Sequential model2{nullptr}, comb_model{nullptr};
 
     int embedding_dim; // output dim for embedding layer
 
     EdgeCostModel() {
+        // // Setting the manual seed and deterministic behaviors
+        // torch::manual_seed(0);
+        // torch::globalContext().setDeterministicCuDNN(true);
+        // // Enable deterministic algorithms without forcing them when there's a significant slowdown
+        // torch::globalContext().setDeterministicAlgorithms(true, false);
+
         // Initialize the embedding layer
         int route_types = 8;
         embedding_dim = 2;
@@ -47,9 +52,12 @@ struct EdgeCostModel : torch::nn::Module {
         ));
         model2->to(torch::kFloat);
 
-        // // model to combine models 1 and 2
-        // comb_model = register_module("comb_model", torch::nn::Linear(2, 1));
-        // comb_model->to(torch::kFloat); // getting rid of this to speed things up
+        // model to combine models 1 and 2
+        comb_model = register_module("comb_model", torch::nn::Sequential(
+            torch::nn::Linear(2, 1),
+            torch::nn::ReLU()
+        ));
+        comb_model->to(torch::kFloat); // getting rid of this to speed things up
     }
 
     torch::Tensor forward(torch::Tensor x) {
@@ -66,10 +74,11 @@ struct EdgeCostModel : torch::nn::Module {
 
         // Pass the concatenated features through the rest of the model
         torch::Tensor x_time_distance = x_full.slice(1, 0, 2);
-        torch::Tensor comp1 = model1->forward(x_time_distance);
-        torch::Tensor comp2 = model2->forward(x_full);
+        torch::Tensor cost_comp1 = model1->forward(x_time_distance);
+        torch::Tensor cost_comp2 = model2->forward(x_full);
 
-        return comp1 + comp2;
+        torch::Tensor cost = comb_model->forward(torch::cat({cost_comp1, cost_comp2}, 1));
+        return cost;
     }
 };
 
@@ -79,6 +88,12 @@ struct TransitionCostModel : torch::nn::Module {
     torch::nn::Sequential model{nullptr};
 
     TransitionCostModel() {
+        // // Setting the manual seed and deterministic behaviors
+        // torch::manual_seed(0);
+        // torch::globalContext().setDeterministicCuDNN(true);
+        // // Enable deterministic algorithms without forcing them when there's a significant slowdown
+        // torch::globalContext().setDeterministicAlgorithms(true, false);
+
         int num_total_features = 7;
         int proj_dim = 8;
         // main model for transition cost
@@ -87,7 +102,8 @@ struct TransitionCostModel : torch::nn::Module {
             torch::nn::ReLU(),
             torch::nn::Linear(proj_dim, proj_dim),
             torch::nn::ReLU(),
-            torch::nn::Linear(proj_dim, 1)
+            torch::nn::Linear(proj_dim, 1),
+            torch::nn::ReLU()
         ));
         model->to(torch::kFloat);
     }
@@ -134,14 +150,6 @@ torch::Tensor parseAndCreateTensor(const std::string& filepath, int num_features
         }
         ++num_edges;
     }
-    std::cout << "Parsed tensor from" 
-               << filepath 
-               << " with shape: {"
-               << num_edges
-               << ", "
-               << num_features
-               << "}"
-               << std::endl;
 
     // Create a tensor from the parsed data
     torch::Tensor tensor = torch::from_blob(data.data(), {num_edges, num_features}).clone();
@@ -150,12 +158,17 @@ torch::Tensor parseAndCreateTensor(const std::string& filepath, int num_features
 }
 
 void initialize_models() {
-    //TODO: consider loading model_a model_b weights from file
     if (!e_net_a) {
         // Create an instance of your neural network
         e_net_a = std::make_shared<EdgeCostModel>();
         e_net_a->to(torch::kCUDA); // move model to GPU
         e_net_a->train(); // training mode
+        try {
+            torch::load(e_net_a, "/home/jj/thesis/valhalla/src/model/weights/e_net_start_weights.pt");
+            std::cout << "Weights loaded successfully." << std::endl;
+        } catch (const torch::Error &e) {
+            std::cerr << "Error loading weights: " << e.what() << std::endl;
+        }
         std::cout << "Instantiated edge cost model A ..." << std::endl;
     }
 
@@ -164,6 +177,7 @@ void initialize_models() {
         t_net_a = std::make_shared<TransitionCostModel>();
         t_net_a->to(torch::kCUDA); // move model to GPU
         t_net_a->train(); // training mode
+        torch::load(t_net_a, "/home/jj/thesis/valhalla/src/model/weights/t_net_start_weights.pt");
         std::cout << "Instantiated transition cost model A ..." << std::endl;
     }
 
@@ -172,6 +186,12 @@ void initialize_models() {
         e_net_b = std::make_shared<EdgeCostModel>();
         e_net_b->to(torch::kCUDA); // move model to GPU
         e_net_b->train(); // training mode
+        try {
+            torch::load(e_net_b, "/home/jj/thesis/valhalla/src/model/weights/e_net_start_weights.pt");
+            std::cout << "Weights loaded successfully." << std::endl;
+        } catch (const torch::Error &e) {
+            std::cerr << "Error loading weights: " << e.what() << std::endl;
+        }
         std::cout << "Instantiated edge cost model B ..." << std::endl;
     }
 
@@ -180,6 +200,7 @@ void initialize_models() {
         t_net_b = std::make_shared<TransitionCostModel>();
         t_net_b->to(torch::kCUDA); // move model to GPU
         t_net_b->train(); // training mode
+        torch::load(t_net_b, "/home/jj/thesis/valhalla/src/model/weights/t_net_start_weights.pt");
         std::cout << "Instantiated transition cost model B ..." << std::endl;
     }
 }
@@ -230,12 +251,6 @@ void update_route_lists_e(const uint32_t a_c, const uint32_t b_c, const uint32_t
     } else {
         std::cerr << "Invalid human feedback for a_b" << std::endl;
     }
-
-    std::cout << "Updated human feedback for edges!" << std::endl;
-    std::cout << "Winner list size: " << winner_list_e.size() << std::endl;
-    std::cout << "Loser list size: " << loser_list_e.size() << std::endl;
-    std::cout << "Tie 1 list size: " << tie_list_1_e.size() << std::endl;
-    std::cout << "Tie 2 list size: " << tie_list_2_e.size() << std::endl;
 }
 
 void update_route_lists_t(const uint32_t a_c, const uint32_t b_c, const uint32_t a_b) {
@@ -284,8 +299,6 @@ void update_route_lists_t(const uint32_t a_c, const uint32_t b_c, const uint32_t
     } else {
         std::cerr << "Invalid human feedback for a_b" << std::endl;
     }
-
-    std::cout << "Updated human feedback for edges!" << std::endl;
 }
 
 torch::Tensor calculate_route_costs(std::vector<torch::Tensor>& route_list_e, std::vector<torch::Tensor>& route_list_t) {
@@ -306,24 +319,33 @@ torch::Tensor calculate_route_costs(std::vector<torch::Tensor>& route_list_e, st
     return costs;
 }
 
-torch::Tensor calculate_loss(bool print_costs = false) {
+torch::Tensor calculate_loss() {
     // calculate route costs
     torch::Tensor winner_costs = calculate_route_costs(winner_list_e, winner_list_t);
     torch::Tensor loser_costs = calculate_route_costs(loser_list_e, loser_list_t);
     torch::Tensor tie_costs_1 = calculate_route_costs(tie_list_1_e, tie_list_1_t);
     torch::Tensor tie_costs_2 = calculate_route_costs(tie_list_2_e, tie_list_2_t);
-    
+
+    // make all costs btw 0 and 1
+    torch::Tensor all_costs = torch::cat({winner_costs, loser_costs, tie_costs_1, tie_costs_2});
+    auto max_cost = all_costs.max().item<float>();
+    winner_costs /= max_cost;
+    loser_costs /= max_cost;
+    tie_costs_1 /= max_cost;
+    tie_costs_2 /= max_cost;
+
     // calculate win-loss bce loss
     torch::Tensor win_lose_loss;
     if (winner_costs.size(0) == 0) {
         win_lose_loss = torch::zeros({1});
         win_lose_loss.to(torch::kCUDA);
     } else {
-        // negate and combine to be used in softmax
-        torch::Tensor combined_costs = torch::stack({-winner_costs, -loser_costs}, 1);
+        // make costs negative for softmax (boltzman)  
+        torch::Tensor combined_costs = torch::stack({-1.0*winner_costs, -1.0*loser_costs}, 1);
+        
         torch::Tensor probabilities = torch::softmax(combined_costs, 1);
-        torch::Tensor winner_prob = probabilities.select(1, 0);
 
+        torch::Tensor winner_prob = probabilities.select(1, 0);
         torch::nn::BCELoss bce_loss(torch::nn::BCELossOptions().reduction(torch::kMean));
         win_lose_loss = bce_loss(winner_prob, torch::ones_like(winner_prob));
     }
@@ -337,15 +359,6 @@ torch::Tensor calculate_loss(bool print_costs = false) {
         tie_loss = torch::mse_loss(tie_costs_1, tie_costs_2, torch::Reduction::Mean);
     }
 
-    if (print_costs) {
-        std::cout << "Winner costs: " << winner_costs << std::endl;
-        std::cout << "Loser costs: " << loser_costs << std::endl;
-        std::cout << "Tie costs 1: " << tie_costs_1 << std::endl;
-        std::cout << "Tie costs 2: " << tie_costs_2 << std::endl;
-        std::cout << "Win-lose loss: " << win_lose_loss << std::endl;
-        std::cout << "Tie loss: " << tie_loss << std::endl;
-    }
-
     float tie_alpha = 1.0;
     torch::Tensor loss = win_lose_loss + tie_alpha*tie_loss;
     return loss;
@@ -354,25 +367,23 @@ torch::Tensor calculate_loss(bool print_costs = false) {
 void train_models(const uint32_t a_c, const uint32_t b_c, const uint32_t a_b) {
     update_route_lists_e(a_c, b_c, a_b);
     update_route_lists_t(a_c, b_c, a_b);
-
+    
     // set current model b weights to equal previous model a weights
     torch::save(e_net_a, "/home/jj/thesis/valhalla/src/model/weights/e_net_a_weights.pt");
-    torch::load(e_net_b, "/home/jj/thesis/valhalla/src/model/weights/e_net_a_weights.pt");
-
     torch::save(t_net_a, "/home/jj/thesis/valhalla/src/model/weights/t_net_a_weights.pt");
+    torch::load(e_net_b, "/home/jj/thesis/valhalla/src/model/weights/e_net_a_weights.pt");
     torch::load(t_net_b, "/home/jj/thesis/valhalla/src/model/weights/t_net_a_weights.pt");
-
-    std::cout << "assigned old A to B weights!" << std::endl;
 
     // initialize optimizers
     torch::optim::Adam edgeModelOptimizer(e_net_a->parameters(), torch::optim::AdamOptions(5e-3)); 
     torch::optim::Adam transModelOptimizer(t_net_a->parameters(), torch::optim::AdamOptions(5e-3));
 
-    int epochs = 50; // number of training epochs
+    int epochs = 1000; // number of training epochs
 
     // Training loop
-    torch::Tensor loss = calculate_loss(true); // true means prints loss of routes
-    std::cout << "Starting loss" << loss.item().toFloat() << std::endl;
+    torch::Tensor loss = calculate_loss();
+    std::cout << "Training... " << std::endl;
+    std::cout << "Starting loss: " << loss.item().toFloat() << std::endl;
     for (int epoch = 0; epoch < epochs; ++epoch) {
         loss = calculate_loss();
         edgeModelOptimizer.zero_grad();
@@ -385,8 +396,8 @@ void train_models(const uint32_t a_c, const uint32_t b_c, const uint32_t a_b) {
         edgeModelOptimizer.step();
         transModelOptimizer.step();
     }
-    loss = calculate_loss(true); // true means prints loss of routes
-    std::cout << "Final loss loss" << loss.item().toFloat() << std::endl;
+    loss = calculate_loss();
+    std::cout << "Final loss: " << loss.item().toFloat() << std::endl;
 }
 
 float e_net_a_forward(float length_km, float speed_kph, float sec, float lane_count, float toll, float road_type) { //TODO: UPDATE ARGUMENTS AND UPDATE AUTOCOST.CC CALLS. THEN FIX ENET B TRAINING LOGIC? STORE WEIGHTS SOMEWHERE?

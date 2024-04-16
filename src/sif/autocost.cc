@@ -13,6 +13,7 @@
 #include <iostream>
 #include <cmath>
 #include "model.h"
+#include <algorithm>
 
 #ifdef INLINE_TEST
 #include "test.h"

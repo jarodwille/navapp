@@ -2,7 +2,6 @@ import React from 'react'
 
 import Map from './Map/Map'
 import MainControl from './Controls'
-import SettingsPanel from './Controls/settings-panel'
 
 class App extends React.Component {
   render() {
@@ -10,7 +9,6 @@ class App extends React.Component {
       <div>
         <Map />
         <MainControl />
-        <SettingsPanel />
       </div>
     )
   }
