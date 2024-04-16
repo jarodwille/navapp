@@ -25,13 +25,20 @@ class Summary extends React.Component {
     const { provider, results, inclineDeclineTotal } = this.props
 
     const summary = R.path([provider, 'data', 'trip', 'summary'], results)
+    const cost_type = results[provider].data.profile
+    let profile = 'Standard Route'
+    if (cost_type === 'auto_modified') {
+      profile = 'Route A'
+    } else if (cost_type === 'auto_modified_b') {
+      profile = 'Route B'
+    }
 
     return (
       <React.Fragment>
         {summary ? (
           <React.Fragment>
             <div className="flex mb1">
-              <span className="b">Directions</span>
+              <span className="b">Directions for {profile}</span>
               {summary.has_highway && (
                 <div style={{ marginLeft: '1em' }}>
                   <Popup
@@ -99,9 +106,9 @@ class Summary extends React.Component {
                   size={'small'}
                 />
                 <div className={'dib v-mid pa1 b f6'}>
-                  {`${summary.length.toFixed(
+                  {`${(summary.length * 0.621371).toFixed(
                     summary.length > 1000 ? 0 : 1
-                  )} km`}
+                  )} miles`}
                 </div>
               </div>
               <div

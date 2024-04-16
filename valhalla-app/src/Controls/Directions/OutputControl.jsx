@@ -101,7 +101,9 @@ class OutputControl extends React.Component {
               active={this.state.showResults}
               onClick={this.showManeuvers}
             >
-              {this.state.showResults ? 'Hide Maneuvers' : 'Show Maneuvers'}
+              {this.state.showResults
+                ? 'Hide Turn-by-Turn'
+                : 'Show Turn-by-Turn'}
             </Button>
             <div className={'flex'}>
               <div
