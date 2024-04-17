@@ -355,7 +355,13 @@ torch::Tensor calculate_loss() {
     return loss;
 }
 
+uint8_t call_idx = 0;
 void train_models(const uint32_t a_c, const uint32_t b_c, const uint32_t a_b) {
+    call_idx++;
+    // train_models gets called by loki and thor. so, train on thor call.
+    if (call_idx %2 == 1) {
+        return;
+    }
     update_route_lists_e(a_c, b_c, a_b);
     update_route_lists_t(a_c, b_c, a_b);
 

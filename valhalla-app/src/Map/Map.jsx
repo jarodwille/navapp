@@ -16,9 +16,8 @@ import axios from 'axios'
 
 import * as R from 'ramda'
 import ExtraMarkers from './extraMarkers'
-import { Button, Label, Icon, Popup } from 'semantic-ui-react'
+import { Button } from 'semantic-ui-react'
 import { ToastContainer } from 'react-toastify'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
 import {
   fetchReverseGeocode,
   updateInclineDeclineTotal,
@@ -37,20 +36,6 @@ const OSMTiles = L.tileLayer(process.env.REACT_APP_TILE_SERVER_URL, {
   attribution:
     '<a href="https://map.project-osrm.org/about.html" target="_blank">About this service and privacy policy</a> | &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 })
-
-const convertDDToDMS = (decimalDegrees) =>
-  [
-    0 | decimalDegrees,
-    '° ',
-    0 |
-      (((decimalDegrees =
-        (decimalDegrees < 0 ? -decimalDegrees : decimalDegrees) + 1e-4) %
-        1) *
-        60),
-    "' ",
-    0 | (((decimalDegrees * 60) % 1) * 60),
-    '"',
-  ].join('')
 
 // for this app we create two leaflet layer groups to control, one for the isochrone centers and one for the isochrone contours
 const isoCenterLayer = L.featureGroup()
@@ -668,7 +653,7 @@ class Map extends React.Component {
           pmIgnore: true,
         }).addTo(routeModLineStringLayer)
         L.polyline(coords, {
-          color: '#00A3FF', // light blue
+          color: '#3904BD', // purple
           weight: 5,
           opacity: 1,
           pmIgnore: true,
@@ -694,7 +679,7 @@ class Map extends React.Component {
           pmIgnore: true,
         }).addTo(routeModBLineStringLayer)
         L.polyline(coords, {
-          color: '#3904BD', // purple
+          color: '#00A3FF', // light blue
           weight: 5,
           opacity: 0.8,
           pmIgnore: true,
@@ -949,173 +934,7 @@ class Map extends React.Component {
     const MapPopup = (isInfo) => {
       return (
         <React.Fragment>
-          {isInfo ? (
-            <React.Fragment>
-              <div>
-                <Button.Group basic size="tiny">
-                  <Popup
-                    size="tiny"
-                    content="Longitude, Latitude"
-                    trigger={
-                      <Button
-                        compact
-                        content={
-                          this.state.latLng.lng.toFixed(6) +
-                          ', ' +
-                          this.state.latLng.lat.toFixed(6)
-                        }
-                      />
-                    }
-                  />
-                  <CopyToClipboard
-                    text={
-                      this.state.latLng.lng.toFixed(6) +
-                      ',' +
-                      this.state.latLng.lat.toFixed(6)
-                    }
-                    onCopy={this.handleCopy}
-                  >
-                    <Button compact icon="copy" />
-                  </CopyToClipboard>
-                </Button.Group>
-              </div>
-
-              <div className="mt1 flex">
-                <Button.Group basic size="tiny">
-                  <Popup
-                    size="tiny"
-                    content="Latitude, Longitude"
-                    trigger={
-                      <Button
-                        compact
-                        content={
-                          this.state.latLng.lat.toFixed(6) +
-                          ', ' +
-                          this.state.latLng.lng.toFixed(6)
-                        }
-                      />
-                    }
-                  />
-                  <CopyToClipboard
-                    text={
-                      this.state.latLng.lat.toFixed(6) +
-                      ',' +
-                      this.state.latLng.lng.toFixed(6)
-                    }
-                    onCopy={this.handleCopy}
-                  >
-                    <Button compact icon="copy" />
-                  </CopyToClipboard>
-                </Button.Group>
-              </div>
-              <div className="mt1 flex">
-                <Button.Group basic size="tiny">
-                  <Popup
-                    size="tiny"
-                    content="Latitude, Longitude"
-                    trigger={
-                      <Button
-                        compact
-                        content={
-                          convertDDToDMS(this.state.latLng.lat) +
-                          ' N ' +
-                          convertDDToDMS(this.state.latLng.lng) +
-                          ' E'
-                        }
-                      />
-                    }
-                  />
-                  <CopyToClipboard
-                    text={
-                      convertDDToDMS(this.state.latLng.lat) +
-                      ' N ' +
-                      convertDDToDMS(this.state.latLng.lng) +
-                      ' E'
-                    }
-                    onCopy={this.handleCopy}
-                  >
-                    <Button compact icon="copy" />
-                  </CopyToClipboard>
-                </Button.Group>
-              </div>
-
-              <div className="mt1">
-                <Button.Group basic size="tiny">
-                  <Popup
-                    size="tiny"
-                    content="Calls Valhalla's Locate API"
-                    trigger={
-                      <Button
-                        onClick={() => this.getLocate(this.state.latLng)}
-                        compact
-                        loading={this.state.isLocateLoading}
-                        icon="cogs"
-                        content="Locate Point"
-                      />
-                    }
-                  />
-                  <CopyToClipboard
-                    text={JSON.stringify(this.state.locate)}
-                    onCopy={this.handleCopy}
-                  >
-                    <Button
-                      disabled={this.state.locate.length === 0}
-                      compact
-                      icon="copy"
-                    />
-                  </CopyToClipboard>
-                </Button.Group>
-              </div>
-              <div className="mt1">
-                <Button.Group basic size="tiny">
-                  <Popup
-                    size="tiny"
-                    content="Copies a Valhalla location object to clipboard which you can use for your API requests"
-                    trigger={
-                      <Button
-                        compact
-                        icon="map marker alternate"
-                        content="Valhalla Location JSON"
-                      />
-                    }
-                  />
-                  <CopyToClipboard
-                    text={`{
-                        "lon": ${this.state.latLng.lng.toFixed(6)},
-                        "lat": ${this.state.latLng.lat.toFixed(6)}
-                      }`}
-                    onCopy={this.handleCopy}
-                  >
-                    <Button compact icon="copy" />
-                  </CopyToClipboard>
-                </Button.Group>
-              </div>
-              <div className="mt1 flex justify-between">
-                <Popup
-                  size="tiny"
-                  content="Elevation at this point"
-                  trigger={
-                    <Button
-                      basic
-                      compact
-                      size="tiny"
-                      loading={this.state.isHeightLoading}
-                      icon="resize vertical"
-                      content={this.state.elevation}
-                    />
-                  }
-                />
-
-                <div>
-                  {this.state.hasCopied && (
-                    <Label size="mini" basic color="green">
-                      <Icon name="checkmark" /> copied
-                    </Label>
-                  )}
-                </div>
-              </div>
-            </React.Fragment>
-          ) : activeTab === 0 ? (
+          {activeTab === 0 ? (
             <React.Fragment>
               <Button.Group size="small" basic vertical>
                 <Button compact index={0} onClick={this.handleAddWaypoint}>

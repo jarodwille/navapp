@@ -423,8 +423,6 @@ export const showProvider = (provider, show) => ({
 })
 
 // NOTE: NEW
-// Assuming this is URL to backend endpoint for submitting rankings
-
 export const submitRankings = (rankings) => (dispatch, getState) => {
   dispatch(updatePermalink())
   const { waypoints } = getState().directions
@@ -461,7 +459,7 @@ export const submitRankings = (rankings) => (dispatch, getState) => {
     })
 
     dispatch(fetchValhallaDirections(valhallaPostHFRequest)) // injecting POST into here
-    dispatch(fetchValhallaDirections(valhallaModifiedRequest))
     dispatch(fetchValhallaDirections(valhallaModifiedBRequest))
+    dispatch(fetchValhallaDirections(valhallaModifiedRequest)) // route from main NN. should be stacked on top
   }
 }
