@@ -609,18 +609,27 @@ class Map extends React.Component {
     }
   }
 
-  getRouteToolTip = (summary, provider) => {
+  getRouteToolTip = (summary, provider, profile) => {
+    let header = 'Summary'
+    if (profile === 'auto') {
+      header = 'Standard Route Summary'
+    } else if (profile === 'auto_modified') {
+      header = 'Custom Route Summary'
+    }
+    const miles = (summary.length * 0.621371).toFixed(
+      summary.length > 1000 ? 0 : 1
+    )
     return `
     <div class="ui list">
         <div class="item">
           <div class="header">
-              Route Summary
+              ${header}
           </div>
         </div>
         <div class="item">
           <i class="arrows alternate horizontal icon"></i>
           <div class="content">
-            ${summary.length.toFixed(summary.length > 1000 ? 0 : 1)} km
+            ${miles} miles
           </div>
         </div>
         <div class="item">
@@ -646,22 +655,26 @@ class Map extends React.Component {
       if (profile === 'auto_modified') {
         routeModLineStringLayer.clearLayers()
         L.polyline(coords, {
-          color: 'red',
-          weight: 9,
+          color: 'white',
+          weight: 7,
           opacity: 1,
           pmIgnore: true,
         }).addTo(routeModLineStringLayer)
         L.polyline(coords, {
-          color: 'red',
+          color: '#00A3FF', // light blue
           weight: 5,
-          opacity: 1,
+          opacity: 0.8,
           pmIgnore: true,
+          dashArray: '10, 7',
         })
           .addTo(routeModLineStringLayer)
-          .bindTooltip(this.getRouteToolTip(summary, VALHALLA_OSM_URL), {
-            permanent: false,
-            sticky: true,
-          })
+          .bindTooltip(
+            this.getRouteToolTip(summary, VALHALLA_OSM_URL, profile),
+            {
+              permanent: false,
+              sticky: true,
+            }
+          )
         if (this.hg._showState === true) {
           this.hg._expand()
         }
@@ -669,7 +682,7 @@ class Map extends React.Component {
         routeLineStringLayer.clearLayers()
         L.polyline(coords, {
           color: 'black',
-          weight: 9,
+          weight: 7,
           opacity: 1,
           pmIgnore: true,
         }).addTo(routeLineStringLayer)
@@ -680,10 +693,13 @@ class Map extends React.Component {
           pmIgnore: true,
         })
           .addTo(routeLineStringLayer)
-          .bindTooltip(this.getRouteToolTip(summary, VALHALLA_OSM_URL), {
-            permanent: false,
-            sticky: true,
-          })
+          .bindTooltip(
+            this.getRouteToolTip(summary, VALHALLA_OSM_URL, profile),
+            {
+              permanent: false,
+              sticky: true,
+            }
+          )
         if (this.hg._showState === true) {
           this.hg._expand()
         }

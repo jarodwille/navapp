@@ -99,9 +99,9 @@ class Summary extends React.Component {
                   size={'small'}
                 />
                 <div className={'dib v-mid pa1 b f6'}>
-                  {`${summary.length.toFixed(
+                  {`${(summary.length * 0.621371).toFixed(
                     summary.length > 1000 ? 0 : 1
-                  )} km`}
+                  )} miles`}
                 </div>
               </div>
               <div

@@ -154,7 +154,7 @@ const tollBoothPenalty = {
   param: 'toll_booth_penalty',
   description:
     'A penalty applied to the cost when a toll booth is encountered. This penalty can be used to create paths that avoid toll roads. The default toll booth penalty is 0.',
-  unit: '',
+  unit: 'sec',
   settings: {
     min: 0,
     max: 1000,
@@ -653,7 +653,7 @@ const useTime = {
   param: 'use_time',
   description:
     'This value indicates how much you want to prioritize optimizing time (vs distance) in generating a route. This is a range of vaues from 0 to 1, where 0 give no priority to time minimization, and 1 will give maximal priority to time minimization. The default value is 1',
-  unit: 'willingness',
+  unit: 'importance',
   settings: {
     min: 0,
     max: 1,
@@ -666,7 +666,7 @@ const useNewDistance = {
   param: 'use_new_distance',
   description:
     'This value indicates how much you want to prioritize optimizing distance (vs time) in generating a route. This is a range of vaues from 0 to 1, where 0 give no priority to distance minimization, and 1 will give maximal priority to distance minimization. The default value is 0',
-  unit: 'willingness',
+  unit: 'importance',
   settings: {
     min: 0,
     max: 1,
